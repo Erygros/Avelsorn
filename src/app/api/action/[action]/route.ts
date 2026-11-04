@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { after, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { z, ZodError } from "zod";
 import { and, eq, inArray } from "drizzle-orm";
@@ -35,7 +35,12 @@ import {
     cancelOrder,
     recordRefund,
 } from "@/server/finance";
-import { notify, notifyAdmin, queueMail } from "@/server/events";
+import {
+    inquiryPingKey,
+    notify,
+    notifyAdmin,
+    queueMail,
+} from "@/server/events";
 import { onboardingFields } from "@/content/pages";
 import {
     manualTime,
@@ -45,7 +50,7 @@ import {
     respondApproval,
 } from "@/server/projects";
 import { cleanHtml } from "@/server/content";
-import { emailHtml } from "@/server/mail";
+import { emailHtml, sendOutboxBatch } from "@/server/mail";
 import { encrypt } from "@/server/security";
 import { createBackup } from "@/server/backup";
 import {
@@ -300,7 +305,14 @@ async function dispatch(action: string, input: unknown): Promise<unknown> {
     if (action === "package-inquiry") {
         const data = packageInquirySchema.parse(input);
         await limit("package-inquiry:" + data.email, 5, 3600);
-        return requestServicePackage(data);
+        const { inquiryId, message } = await requestServicePackage(data);
+        after(async () => {
+            await sendOutboxBatch(
+                1,
+                inquiryPingKey("package-inquiry:" + inquiryId),
+            );
+        });
+        return { message };
     }
     if (action === "contact") {
         const data = z
@@ -314,14 +326,24 @@ async function dispatch(action: string, input: unknown): Promise<unknown> {
             })
             .parse(input);
         await limit("contact:" + data.email, 5, 3600);
-        const [row] = await db().insert(s.contacts).values(data).returning();
-        await notifyAdmin(
-            "contact",
-            "Neue Kontaktanfrage",
-            `${data.name}: ${data.subject}`,
-            "contact:" + row.id,
-            "/admin/kontakt",
-        );
+        const row = await db().transaction(async (tx) => {
+            const [contact] = await tx
+                .insert(s.contacts)
+                .values(data)
+                .returning();
+            await notifyAdmin(
+                "contact",
+                "Neue Kontaktanfrage",
+                `${data.name}: ${data.subject}`,
+                "contact:" + contact.id,
+                "/admin/kontakt",
+                tx,
+            );
+            return contact;
+        });
+        after(async () => {
+            await sendOutboxBatch(1, inquiryPingKey("contact:" + row.id));
+        });
         return { message: "Deine Anfrage wurde gespeichert." };
     }
     if (action === "withdrawal") {

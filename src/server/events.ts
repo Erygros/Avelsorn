@@ -4,6 +4,8 @@ import { outbox, notifications, users } from "./schema";
 import { encrypt } from "./security";
 import { baseUrl } from "./config";
 
+export const inquiryPingKey = (eventKey: string) => "inquiry-ping:" + eventKey;
+
 export async function queueMail(
     to: string,
     subject: string,
@@ -65,6 +67,30 @@ export async function notifyAdmin(
         .select()
         .from(users)
         .where(eq(users.role, "admin"));
+    const pingTo = type === "contact" && process.env.INQUIRY_NOTIFICATION_EMAIL;
+    if (pingTo) {
+        if (admin)
+            await database
+                .insert(notifications)
+                .values({
+                    userId: admin.id,
+                    type,
+                    title,
+                    body,
+                    eventKey: "admin:" + eventKey,
+                    url,
+                })
+                .onConflictDoNothing({ target: notifications.eventKey });
+        await queueMail(
+            pingTo,
+            "Avelsorn: Neue Anfrage",
+            "Eine neue Anfrage ist eingegangen.",
+            inquiryPingKey(eventKey),
+            {},
+            database,
+        );
+        return;
+    }
     if (admin)
         await notify(
             admin.id,

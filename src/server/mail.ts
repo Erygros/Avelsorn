@@ -32,7 +32,7 @@ export async function emailHtml(
     const values = await business();
     return `<!doctype html><html lang="de"><head><meta charset="utf-8"><title>${escape(subject)}</title></head><body style="margin:0;background:#f5f6f2;color:#22251f;font-family:Arial,sans-serif"><table role="presentation" style="width:100%;padding:36px 15px"><tr><td><table role="presentation" style="width:100%;max-width:600px;margin:auto;background:#fff;border:1px solid #dedfd9;padding:40px"><tr><td><p style="margin:0 0 28px;padding:8px"><img src="${escape(logoSource)}" alt="${BRAND.name}" width="174" height="39" style="display:block;width:174px;max-width:100%;height:auto;border:0"></p><h1 style="font:normal 30px Arial,sans-serif;line-height:1.25">${escape(subject)}</h1><div style="font-size:14px;line-height:1.8;color:#555c4c">${body.startsWith("HTML:") ? cleanHtml(body.slice(5)) : escape(body).replace(/\n/g, "<br>")}</div>${ctaUrl && /^https?:\/\//.test(ctaUrl) ? `<p style="margin:28px 0"><a href="${escape(ctaUrl)}" style="display:inline-block;padding:14px 20px;color:#fff;background:#22251f;text-decoration:none">Im Portal öffnen →</a></p>` : ""}<hr style="border:0;border-top:1px solid #dedfd9;margin-top:32px"><p style="font-size:11px;color:#62665d;line-height:1.8">${escape(values.legal_full_name)}<br>${escape(values.business_street)}<br>${escape(values.business_postcode + " " + values.business_city)}<br>${escape(values.contact_email)}</p></td></tr></table></td></tr></table></body></html>`;
 }
-export async function sendOutboxBatch(max = 15) {
+export async function sendOutboxBatch(max = 15, eventKey?: string) {
     if (
         !process.env.SMTP_HOST ||
         !process.env.SMTP_USERNAME ||
@@ -63,6 +63,7 @@ export async function sendOutboxBatch(max = 15) {
                     and(
                         eq(outbox.status, "queued"),
                         lte(outbox.availableAt, new Date()),
+                        eventKey ? eq(outbox.eventKey, eventKey) : undefined,
                     ),
                 )
                 .for("update", { skipLocked: true })
@@ -106,6 +107,7 @@ export async function sendOutboxBatch(max = 15) {
             const url = row.ctaUrl?.startsWith("enc:")
                 ? decrypt(row.ctaUrl.slice(4))
                 : row.ctaUrl;
+            const ping = row.eventKey.startsWith("inquiry-ping:");
             await transport.sendMail({
                 from: {
                     address: process.env.MAIL_FROM_ADDRESS!,
@@ -117,21 +119,25 @@ export async function sendOutboxBatch(max = 15) {
                     (body.startsWith("HTML:")
                         ? body.slice(5).replace(/<[^>]*>/g, " ")
                         : body) + (url ? "\n\n" + url : ""),
-                html: await emailHtml(
-                    row.subject,
-                    body,
-                    url,
-                    "cid:" + BRAND.mailLogoCid,
-                ),
-                attachments: [
-                    ...attachments,
-                    {
-                        filename: "avelsorn-logo.png",
-                        content: await brandLogoBytes(),
-                        cid: BRAND.mailLogoCid,
-                        contentDisposition: "inline",
-                    },
-                ],
+                html: ping
+                    ? undefined
+                    : await emailHtml(
+                          row.subject,
+                          body,
+                          url,
+                          "cid:" + BRAND.mailLogoCid,
+                      ),
+                attachments: ping
+                    ? undefined
+                    : [
+                          ...attachments,
+                          {
+                              filename: "avelsorn-logo.png",
+                              content: await brandLogoBytes(),
+                              cid: BRAND.mailLogoCid,
+                              contentDisposition: "inline",
+                          },
+                      ],
                 messageId: `<${row.id}@${process.env.MAIL_FROM_ADDRESS!.split("@")[1]}>`,
             });
             await db()

@@ -314,3 +314,21 @@ Abschließender Prüfnachtrag (27.10.2026): `npm run check` vollständig erfolgr
 - Vercel-Konto und Checkdomain-Postfach laut Inhaber vorhanden. Erstgespräche sind im Formular und Kalenderdienst auf Telefon beschränkt. Video für neue Projektgespräche erfordert einen vollständig bezahlten, aktiven Auftrag und einen konfigurierten Videodienst. Der Raumzugang prüft den Auftrag bei Projektbuchungen erneut. Der Telefonbetrieb benötigt keinen Videodienst.
 - TypeScript, ESLint, 42 Funktionstests und Produktionsbuild erfolgreich. Lokale Startseite auf Port 3001 mit HTTP 200 und aktualisiertem Footer geprüft.
 - Inhaber hat den Push auf Erygros/Avelsorn beauftragt. Remote vor dem Erstcommit ohne Branches. Private Konfiguration, Datenbanken und Testausgaben sind aus dem Git-Index ausgeschlossen. Das originale Markenblatt wird bytegetreu als Binärdatei aufgenommen.
+
+## Supabase-CLI und Datenbankschema (04.11.2026)
+
+- Avelsorn-Projekt in West EU (Irland) über bestätigten CLI-Login verbunden. Projektverknüpfung unter ignoriertem data/supabase-avel. SQL-Zugriff geprüft.
+- Sieben vorhandene Drizzle-Migrationen auf die leere Zieldatenbank in einer Transaktion angewendet und mit Originalhashes im Drizzle-Journal erfasst. 37 Anwendungstabellen geprüft. RLS aktiv und keine Tabellenfreigaben für die API-Rollen anon, authenticated und service_role oder PUBLIC festgestellt.
+- Privaten Bucket avelsorn-private angelegt und public=false verifiziert. Region in der ignorierten Vercel-Konfiguration ergänzt. Anwendungslaufzeit, S3-Zugriff, SMTP und Vercel bleiben separat zu konfigurieren und zu prüfen.
+
+## Supabase-Laufzeitverbindung mit TLS geprüft (04.11.2026)
+
+- PostgreSQL-URI für den Transaction Pooler lokal ergänzt. Der Node-Client benötigt die Supabase-CA für die Zertifikatsprüfung. Der Netzwerkadapter unterstützt deshalb DATABASE_CA_CERT_BASE64 als Base64-kodiertes PEM-Zertifikat. Zertifikat und Hostname werden weiterhin geprüft.
+- Verbindung über den Anwendungsadapter mit SELECT 1 bestätigt. 37 Anwendungstabellen zuvor über dieselbe TLS-Verbindung gezählt. TypeScript, ESLint für die geänderte Datei, alle 42 Tests und Produktionsbuild bestanden.
+- Privater Bucket über die verbundene Supabase-CLI sichtbar. Die App benötigt für ihren S3-Adapter noch ein S3-Schlüsselpaar. Der postfachspezifische SMTP-Hostname wurde von der öffentlichen Autokonfiguration nicht geliefert. Produktionsfreigabe bleibt aus.
+
+## Anfrage-Ping und Vorbereitung der Veröffentlichung (04.11.2026)
+
+- Kontakt- und Paketanfragen speichern den privaten Mail-Ping gemeinsam mit der Anfrage. Der Versandversuch startet nach der HTTP-Antwort. Die Mail enthält ausschließlich eine feste Betreffzeile und den Eingangshinweis. Anfragedetails bleiben in der Adminansicht. Vorhandene Kundenbestätigungen nutzen weiterhin den separaten Versandweg.
+- Test verifiziert einen einzigen internen Ping je geprüfter Paketanfrage, mit statischem Inhalt und ohne Link oder Anhang. TypeScript, ESLint, alle 42 Tests und Produktionsbuild bestanden. SMTP-Zustellung an das private Postfach ist separat zu prüfen.
+- 16 vorhandene Geschäftsfelder und sieben Terminregeln über den verifizierten TLS-Adapter nach Supabase übernommen. Bestehende Zielwerte werden nicht überschrieben. Die Übernahme wurde transaktional auditiert.

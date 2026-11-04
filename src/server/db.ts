@@ -20,8 +20,29 @@ export function connectDatabase(
             throw new Error(
                 "DATABASE_URL muss eine PostgreSQL-Verbindung sein.",
             );
+        const encodedCa = process.env.DATABASE_CA_CERT_BASE64;
+        const connectionUrl = encodedCa ? new URL(url) : undefined;
+        if (connectionUrl) {
+            // pg-connection-string replaces explicit TLS settings if these are present.
+            for (const option of [
+                "ssl",
+                "sslmode",
+                "sslrootcert",
+                "sslcert",
+                "sslkey",
+            ])
+                connectionUrl.searchParams.delete(option);
+        }
         const pool = new Pool({
-            connectionString: url,
+            connectionString: connectionUrl?.toString() ?? url,
+            ...(encodedCa
+                ? {
+                      ssl: {
+                          ca: Buffer.from(encodedCa, "base64").toString("utf8"),
+                          rejectUnauthorized: true,
+                      },
+                  }
+                : {}),
             max: 5,
             idleTimeoutMillis: 10_000,
             connectionTimeoutMillis: 10_000,

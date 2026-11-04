@@ -55,6 +55,7 @@ export async function requestServicePackage(
             tx,
         );
         return {
+            inquiryId: row.id,
             message:
                 "Deine Anfrage ist gespeichert. Sie ist noch keine Bestellung. Nach Klärung des Umfangs erhältst Du ein Angebot mit dem verbindlichen Gesamtpreis.",
         };

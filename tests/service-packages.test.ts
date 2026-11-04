@@ -1,4 +1,4 @@
-import { beforeAll, afterAll, it, expect } from "vitest";
+import { beforeAll, afterAll, it, expect, vi } from "vitest";
 import { PGlite } from "@electric-sql/pglite";
 import { drizzle } from "drizzle-orm/pglite";
 import { migrate } from "drizzle-orm/pglite/migrator";
@@ -23,6 +23,7 @@ import {
 } from "../src/server/finance";
 import { book, changeBooking } from "../src/server/calendar";
 import { timer, manualTime } from "../src/server/projects";
+import { decrypt } from "../src/server/security";
 const local = new PGlite();
 const database = drizzle(local, { schema: s });
 let admin: s.User, customer: s.User, other: s.User;
@@ -127,13 +128,32 @@ it("bietet das Anfängerpaket ab 249 € und trennt es von der Vorbereitung eine
     );
 });
 it("speichert eine unverbindliche Anfrage mit dem serverseitigen Paketpreis und Audit, ohne eine Bestellung anzulegen", async () => {
-    await requestServicePackage({
-        packageKey: "neustart",
-        name: "QA Interessent",
-        email: "inquiry@packages.example.test",
-        body: "Ich möchte eine Selbstständigkeit vorbereiten und habe noch keine Geschäftsidee.",
-        consent: true,
-    });
+    vi.stubEnv("INQUIRY_NOTIFICATION_EMAIL", "ping@example.test");
+    try {
+        const result = await requestServicePackage({
+            packageKey: "neustart",
+            name: "QA Interessent",
+            email: "inquiry@packages.example.test",
+            body: "Ich möchte eine Selbstständigkeit vorbereiten und habe noch keine Geschäftsidee.",
+            consent: true,
+        });
+        const mails = await database.select().from(s.outbox);
+        const pings = mails.filter((mail) =>
+            mail.eventKey.endsWith("package-inquiry:" + result.inquiryId),
+        );
+        expect(pings).toHaveLength(1);
+        expect(pings[0]).toMatchObject({
+            to: "ping@example.test",
+            subject: "Avelsorn: Neue Anfrage",
+            ctaUrl: null,
+            attachmentKeys: [],
+        });
+        expect(decrypt(pings[0].encryptedBody)).toBe(
+            "Eine neue Anfrage ist eingegangen.",
+        );
+    } finally {
+        vi.unstubAllEnvs();
+    }
     const rows = await database.select().from(s.contacts);
     expect(rows).toHaveLength(1);
     expect(rows[0].body).toContain("249");
