@@ -1,0 +1,2 @@
+ALTER TABLE "bookings" ADD COLUMN "service_order_id" text;--> statement-breakpoint
+ALTER TABLE "bookings" ADD CONSTRAINT "bookings_service_order_id_orders_id_fk" FOREIGN KEY ("service_order_id") REFERENCES "public"."orders"("id") ON DELETE no action ON UPDATE no action;

@@ -1,0 +1,42 @@
+{
+  "source": "Avelsorn_Markenblatt.pdf",
+  "sha256": "19e3d5a7cd4e762ffd5fac1ab1284f17f24ad431464179434941f0280aab76a6",
+  "format": "Original embedded raster images with soft masks; no vector paths supplied",
+  "assets": [
+    {
+      "file": "avelsorn-logo.png",
+      "imageObject": 3,
+      "maskObject": 4
+    },
+    {
+      "file": "avelsorn-logo-white.png",
+      "imageObject": 5,
+      "maskObject": 4
+    },
+    {
+      "file": "avelsorn-signet.png",
+      "imageObject": 7,
+      "maskObject": 8
+    },
+    {
+      "file": "avelsorn-icon-16.png",
+      "imageObject": 9,
+      "maskObject": 10
+    },
+    {
+      "file": "avelsorn-icon-32.png",
+      "imageObject": 11,
+      "maskObject": 12
+    },
+    {
+      "file": "avelsorn-icon-48.png",
+      "imageObject": 13,
+      "maskObject": 14
+    },
+    {
+      "file": "avelsorn-profile.png",
+      "imageObject": 15,
+      "maskObject": 16
+    }
+  ]
+}

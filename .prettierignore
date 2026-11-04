@@ -1,0 +1,7 @@
+.tools
+.next
+node_modules
+data
+tests/output
+package-lock.json
+docs/requirements.json
