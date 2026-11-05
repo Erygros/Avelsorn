@@ -50,3 +50,7 @@ Der Inhaber hat im Chat den Abschluss der AVV/DPA für alle drei Dienste bestät
 - Vollständige manuelle Barrierefreiheitsprüfung, visuelle PDF-/Mail-Abnahme und umfassende Geschäftsablaufprüfung beider Dashboards bleiben separat nachzuweisen.
 - Anbieter-/Steuerstatus und Vertragstexte sind mit Inhaberangaben und tatsächlichen Funktionen abgeglichen; eine abschließende juristische Einzelfallprüfung ist damit nicht ersetzt.
 - Vertragsbestätigungen auf dauerhaftem Datenträger und die Abdeckung aller einzelnen Vertragsarten sind im nächsten Durchgang gezielt zu prüfen. Eine Website-Verlinkung allein ist dafür kein Nachweis.
+
+## Veröffentlichung und Nachprüfung
+
+GitHub-Stand `f119bb8` wurde über die bestehende Vercel-Integration als Production-Deployment `dpl_AMCNtAEY2mgS78ctqyp3Mp9zmbjH` erfolgreich veröffentlicht. Auf www.avelsorn.de wurden sieben rechtliche Seiten, geschützte Konto-/Adminzugänge und die Abweisung ungültiger Widerrufseingaben geprüft (`tests/output/legal-production-http.json`, zehn Prüfungen). Alle sieben rechtlichen Seiten wurden zusätzlich im echten Produktionsbrowser bei 320, 768 und 1440 px ohne Überlauf oder unfertige Hilfstexte geprüft (`legal-production-responsive.json`). Die automatisierten WCAG-A/AA-Prüfungen melden auch auf Produktion keine Verstöße oder unvollständigen Ergebnisse (`legal-production-a11y-*.json`). Es wurden dabei keine künstlichen Produktionsanfragen oder Kundenkonten angelegt.

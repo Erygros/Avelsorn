@@ -18,5 +18,3 @@ Stand 05.11.2026: Der Nutzer hat die Veröffentlichung ausdrücklich beauftragt.
 - [x] Explizite Veröffentlichungsfreigabe des Nutzers liegt vor.
 
 Der Zieltermin 01.11.2026 ersetzt keine Prüfung. Fehlende externe Werte sind Konfigurationsabhängigkeiten; ungeprüfte Integrationen bleiben ungeprüft.
-
-

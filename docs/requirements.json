@@ -12517,7 +12517,8 @@
         "evidence": [
           "docs/LEGAL_OPERATIONAL_AUDIT.md",
           "tests/output/legal-responsive.json: 21 Layoutprüfungen",
-          "tests/output/legal-a11y-*.json"
+          "tests/output/legal-a11y-*.json",
+          "tests/output/legal-production-http.json und legal-production-responsive.json: sieben Seiten und 21 Layoutprüfungen auf öffentlicher Domain."
         ]
       },
       {
