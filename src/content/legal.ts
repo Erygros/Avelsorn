@@ -38,6 +38,10 @@ export const legal: Record<
                 text: "Bei einem Seitenaufruf verarbeiten die technischen Dienste insbesondere IP-Adresse, angeforderte Adresse, Zeitpunkt und technische Browser- und Verbindungsinformationen, um die Website auszuliefern und Angriffe zu erkennen. Grundlage ist Art. 6 Abs. 1 Buchst. f DSGVO; unser Interesse ist ein sicherer und verlässlicher Betrieb. Bei einer Kontakt- oder Paketanfrage verarbeiten wir Deine angegebenen Kontaktdaten und Dein Anliegen zur Bearbeitung. Soweit die Anfrage auf einen Vertrag gerichtet ist, gilt Art. 6 Abs. 1 Buchst. b DSGVO; sonst gilt unser berechtigtes Interesse an der Beantwortung nach Buchst. f. Der Inhaber erhält zusätzlich einen E-Mail-Hinweis über den Eingang, ohne den Inhalt der Anfrage.",
             },
             {
+                title: "Erstgespräch ohne Kundenkonto",
+                text: "Für eine Gastbuchung verarbeiten wir Vorname, Nachname, E-Mail-Adresse, Telefonnummer, Dein Anliegen und den ausgewählten Termin, um das angeforderte Erstgespräch durchzuführen, Änderungen zu ermöglichen und Bestätigungen sowie Erinnerungen per E-Mail zu versenden. Es entsteht kein Kundenkonto. Grundlage ist die Bearbeitung Deiner Anfrage nach Art. 6 Abs. 1 Buchst. b DSGVO. Die Administration sieht den Termin im geschützten Kalender; der separate private E-Mail-Hinweis enthält nur den Eingang einer Anfrage. Der persönliche Zugangslink berechtigt zur Einsicht, Verschiebung und Absage dieses Termins und gilt bis 30 Tage nach dem aktuell gebuchten Termin. Gib ihn nicht weiter. Für Auskunft, Berichtigung oder Löschung kannst Du Dich an die hier genannten Kontaktdaten wenden. Die allgemeinen Aufbewahrungskriterien für Anfragen gelten auch für Gastbuchungen.",
+            },
+            {
                 title: "Konto und Sicherheit",
                 text: "Zur Kontoführung verarbeiten wir Name, E-Mail-Adresse, Geburtsdatum, Passwort-Hash und erforderliche Zustimmungsnachweise. Sitzungen, Einmalcodes und Sicherheitsprotokolle schützen Deinen Zugang. Das Geburtsdatum dient der Altersprüfung; bei Minderjährigen wird die erforderliche Zustimmung oder Vertretung gesondert geprüft.",
             },
@@ -128,7 +132,7 @@ export const legal: Record<
             },
             {
                 title: "Terminänderung und Ausfall",
-                text: "Termine können im Kundenkonto bis zu ihrem Beginn verschoben werden, sofern ein passender Termin verfügbar ist. Absagen werden dokumentiert. Gesetzliche Rechte bleiben unberührt; individuelle Vergütungs- oder Erstattungsfragen werden anhand des konkreten Vertrags und anwendbaren Rechts geklärt.",
+                text: "Termine können im Kundenkonto oder bei einer Gastbuchung über den persönlichen Zugangslink bis zu ihrem Beginn verschoben werden, sofern ein passender Termin verfügbar ist. Absagen werden dokumentiert. Gesetzliche Rechte bleiben unberührt; individuelle Vergütungs- oder Erstattungsfragen werden anhand des konkreten Vertrags und anwendbaren Rechts geklärt.",
             },
             {
                 title: "Minderjährige",
@@ -193,7 +197,7 @@ export const legal: Record<
         sections: [
             {
                 title: "Notwendige Funktionen",
-                text: "platform_session enthält eine zufällige Sitzungskennung für die Anmeldung und läuft nach zwölf Stunden ab. Es ist nicht per JavaScript lesbar. platform_consent speichert für 180 Tage, ob Du optionalen Statistiken zugestimmt hast. platform_visitor enthält für denselben Zeitraum eine zufällige Kennung, um die gespeicherte Entscheidung zuzuordnen; sie ist nicht per JavaScript lesbar. Diese Cookies gelten für diese Website, werden im HTTPS-Betrieb sicher übertragen und nutzen SameSite=Lax. Notwendige Speicherung erfolgt nach § 25 Abs. 2 TDDDG; die anschließende Verarbeitung dient dem sicheren Betrieb und der Berücksichtigung Deiner Auswahl nach Art. 6 Abs. 1 Buchst. f DSGVO beziehungsweise der angeforderten Kontonutzung nach Buchst. b.",
+                text: "avelsorn_guest_booking schützt den Zugriff auf eine Gastbuchung. Das Cookie enthält einen zufälligen Zugangsschlüssel, ist nur für die Gastbuchungs-API gültig, nicht per JavaScript lesbar und läuft nach 30 Tagen ab. Der Zugangslink in der Bestätigungs-E-Mail kann den Zugriff während seiner Gültigkeit erneut öffnen. platform_session enthält eine zufällige Sitzungskennung für die Anmeldung und läuft nach zwölf Stunden ab. Es ist nicht per JavaScript lesbar. platform_consent speichert für 180 Tage, ob Du optionalen Statistiken zugestimmt hast. platform_visitor enthält für denselben Zeitraum eine zufällige Kennung, um die gespeicherte Entscheidung zuzuordnen; sie ist nicht per JavaScript lesbar. Diese Cookies gelten für diese Website, werden im HTTPS-Betrieb sicher übertragen und nutzen SameSite=Lax. Notwendige Speicherung erfolgt nach § 25 Abs. 2 TDDDG; die anschließende Verarbeitung dient dem sicheren Betrieb und der Berücksichtigung Deiner Auswahl nach Art. 6 Abs. 1 Buchst. f DSGVO beziehungsweise der angeforderten Kontonutzung nach Buchst. b.",
             },
             {
                 title: "Optionale Statistiken",

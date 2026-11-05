@@ -572,6 +572,12 @@ export async function PortalPage({
                   })
                   .from(s.users)
             : [];
+        const guestRows = admin
+            ? await db()
+                  .select()
+                  .from(s.guestBookings)
+                  .orderBy(s.guestBookings.startsAt)
+            : [];
         const intervals = admin
             ? await db()
                   .select()
@@ -583,27 +589,47 @@ export async function PortalPage({
                 {admin ? (
                     <AdminCalendar
                         initialBooking={query.booking}
-                        appointments={rows.map((b) => {
-                            const owner = owners.find((o) => o.id === b.userId);
-                            return {
+                        appointments={[
+                            ...rows.map((b) => {
+                                const owner = owners.find(
+                                    (o) => o.id === b.userId,
+                                );
+                                return {
+                                    id: b.id,
+                                    userId: b.userId,
+                                    name:
+                                        b.contactName ??
+                                        owner?.name ??
+                                        "Kundenkonto",
+                                    email: b.contactEmail ?? owner?.email ?? "",
+                                    phone: b.contactPhone ?? owner?.phone ?? "",
+                                    company: b.company ?? owner?.company ?? "",
+                                    topic: b.topic ?? "",
+                                    notes: b.notes ?? "",
+                                    startsAt: b.startsAt.toISOString(),
+                                    endsAt: b.endsAt.toISOString(),
+                                    createdAt: b.createdAt.toISOString(),
+                                    status: b.status,
+                                    product: b.product,
+                                };
+                            }),
+                            ...guestRows.map((b) => ({
                                 id: b.id,
-                                userId: b.userId,
-                                name:
-                                    b.contactName ??
-                                    owner?.name ??
-                                    "Kundenkonto",
-                                email: b.contactEmail ?? owner?.email ?? "",
-                                phone: b.contactPhone ?? owner?.phone ?? "",
-                                company: b.company ?? owner?.company ?? "",
-                                topic: b.topic ?? "",
-                                notes: b.notes ?? "",
+                                guest: true,
+                                sequence: b.sequence,
+                                name: b.firstName + " " + b.lastName,
+                                email: b.email,
+                                phone: b.phone,
+                                company: "",
+                                topic: b.topic,
+                                notes: b.notes,
                                 startsAt: b.startsAt.toISOString(),
                                 endsAt: b.endsAt.toISOString(),
                                 createdAt: b.createdAt.toISOString(),
                                 status: b.status,
-                                product: b.product,
-                            };
-                        })}
+                                product: "intro",
+                            })),
+                        ]}
                     />
                 ) : (
                     <Table

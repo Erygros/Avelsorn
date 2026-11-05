@@ -1,7 +1,14 @@
 import nodemailer from "nodemailer";
 import { and, eq, lte } from "drizzle-orm";
 import { db } from "./db";
-import { outbox, files, documents, bookings, users } from "./schema";
+import {
+    outbox,
+    files,
+    documents,
+    bookings,
+    guestBookings,
+    users,
+} from "./schema";
 import { decrypt, audit } from "./security";
 import { business } from "./settings";
 import { storage } from "./storage";
@@ -31,9 +38,11 @@ export async function emailHtml(
     logoSource = baseUrl() + BRAND.logo,
 ) {
     const values = await business();
-    return `<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escape(subject)}</title></head><body style="margin:0;background:#f5f6f2;color:#22251f;font-family:Arial,sans-serif"><table role="presentation" style="width:100%;padding:24px 12px;table-layout:fixed;box-sizing:border-box"><tr><td><table role="presentation" style="width:100%;max-width:600px;margin:auto;background:#fff;border:1px solid #dedfd9;padding:28px;table-layout:fixed;box-sizing:border-box"><tr><td style="min-width:0;overflow-wrap:anywhere;word-break:break-word"><p style="margin:0 0 28px;padding:8px"><img src="${escape(logoSource)}" alt="${BRAND.name}" width="174" height="39" style="display:block;width:174px;max-width:100%;height:auto;border:0"></p><h1 style="font:normal 22px Arial,sans-serif;line-height:1.25;overflow-wrap:anywhere;word-break:break-word;hyphens:auto">${escape(subject)}</h1><div style="font-size:14px;line-height:1.8;color:#555c4c">${body.startsWith("HTML:") ? cleanHtml(body.slice(5)) : escape(body).replace(/\n/g, "<br>")}</div>${ctaUrl && /^https?:\/\//.test(ctaUrl) ? `<p style="margin:28px 0"><a href="${escape(ctaUrl)}" style="display:inline-block;padding:14px 20px;color:#fff;background:#22251f;text-decoration:none">Im Portal öffnen →</a></p>` : ""}<hr style="border:0;border-top:1px solid #dedfd9;margin-top:32px"><p style="font-size:11px;color:#62665d;line-height:1.8">${escape(values.legal_full_name)}<br>${escape(values.business_street)}<br>${escape(values.business_postcode + " " + values.business_city)}<br>${escape(values.contact_email)}</p></td></tr></table></td></tr></table></body></html>`;
+    return `<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escape(subject)}</title></head><body style="margin:0;background:#f5f6f2;color:#22251f;font-family:Arial,sans-serif"><table role="presentation" style="width:100%;padding:24px 12px;table-layout:fixed;box-sizing:border-box"><tr><td><table role="presentation" style="width:100%;max-width:600px;margin:auto;background:#fff;border:1px solid #dedfd9;padding:28px;table-layout:fixed;box-sizing:border-box"><tr><td style="min-width:0;overflow-wrap:anywhere;word-break:break-word"><p style="margin:0 0 28px;padding:8px"><img src="${escape(logoSource)}" alt="${BRAND.name}" width="174" height="39" style="display:block;width:174px;max-width:100%;height:auto;border:0"></p><h1 style="font:normal 22px Arial,sans-serif;line-height:1.25;overflow-wrap:anywhere;word-break:break-word;hyphens:auto">${escape(subject)}</h1><div style="font-size:14px;line-height:1.8;color:#555c4c">${body.startsWith("HTML:") ? cleanHtml(body.slice(5)) : escape(body).replace(/\n/g, "<br>")}</div>${ctaUrl && /^https?:\/\//.test(ctaUrl) ? `<p style="margin:28px 0"><a href="${escape(ctaUrl)}" style="display:inline-block;padding:14px 20px;color:#fff;background:#22251f;text-decoration:none">${ctaUrl.includes("/kalender/gast") ? "Termin verwalten" : "Im Portal öffnen"} →</a></p>` : ""}<hr style="border:0;border-top:1px solid #dedfd9;margin-top:32px"><p style="font-size:11px;color:#62665d;line-height:1.8">${escape(values.legal_full_name)}<br>${escape(values.business_street)}<br>${escape(values.business_postcode + " " + values.business_city)}<br>${escape(values.contact_email)}</p></td></tr></table></td></tr></table></body></html>`;
 }
 export async function sendOutboxBatch(max = 15, eventKey?: string) {
+    if (process.env.PLATFORM_ENV === "preview")
+        return { sent: 0, configured: false };
     if (
         !process.env.SMTP_HOST ||
         !process.env.SMTP_USERNAME ||
@@ -82,23 +91,39 @@ export async function sendOutboxBatch(max = 15, eventKey?: string) {
         });
         if (!row) break;
         try {
-            const [calendarBooking] = row.calendarEvent
+            const [accountBooking] = row.calendarEvent?.bookingId
                 ? await db()
                       .select()
                       .from(bookings)
-                      .where(eq(bookings.id, row.calendarEvent.bookingId))
+                      .where(eq(bookings.id, row.calendarEvent.bookingId!))
                 : [];
-            const [calendarOwner] = calendarBooking
+            const [guestBooking] = row.calendarEvent?.guestBookingId
+                ? await db()
+                      .select()
+                      .from(guestBookings)
+                      .where(
+                          eq(
+                              guestBookings.id,
+                              row.calendarEvent.guestBookingId,
+                          ),
+                      )
+                : [];
+            const calendarBooking =
+                accountBooking ??
+                (guestBooking
+                    ? { ...guestBooking, product: "intro", channel: "phone" }
+                    : undefined);
+            const [calendarOwner] = accountBooking
                 ? await db()
                       .select({ disabledAt: users.disabledAt })
                       .from(users)
-                      .where(eq(users.id, calendarBooking.userId))
+                      .where(eq(users.id, accountBooking.userId))
                 : [];
             if (
                 row.calendarEvent &&
                 (!calendarBooking ||
-                    !calendarOwner ||
-                    calendarOwner.disabledAt ||
+                    (!guestBooking &&
+                        (!calendarOwner || calendarOwner.disabledAt)) ||
                     calendarBooking.sequence !== row.calendarEvent.sequence ||
                     calendarBooking.status !==
                         (row.calendarEvent.kind === "cancellation"

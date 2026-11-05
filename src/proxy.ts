@@ -8,6 +8,9 @@ export async function proxy(request: NextRequest) {
     headers.set("x-nonce", nonce);
     headers.set("x-pathname", request.nextUrl.pathname);
     headers.set("Content-Security-Policy", policy);
+    const isPreview =
+        process.env.VERCEL_ENV === "preview" &&
+        process.env.PLATFORM_ENV === "preview";
     const isProduction =
         process.env.PLATFORM_ENV === "production" || !!process.env.VERCEL;
     const adminActions = new Set([
@@ -69,6 +72,7 @@ export async function proxy(request: NextRequest) {
         );
     if (
         isProduction &&
+        !isPreview &&
         process.env.PRODUCTION_APPROVED !== "true" &&
         !setupPath
     )
@@ -83,7 +87,28 @@ export async function proxy(request: NextRequest) {
                 },
             },
         );
-    if (isProduction && !setupPath) {
+    if (isPreview) {
+        if (
+            !process.env.DATABASE_URL ||
+            !process.env.DATABASE_PREVIEW_ROLE ||
+            !/^avel_preview_[a-z0-9_]+$/.test(
+                process.env.DATABASE_PREVIEW_ROLE,
+            ) ||
+            new URL(process.env.DATABASE_URL).username.split(".")[0] !==
+                process.env.DATABASE_PREVIEW_ROLE ||
+            process.env.SMTP_HOST ||
+            process.env.STORAGE_PREFIX !==
+                process.env.DATABASE_PREVIEW_ROLE + "/"
+        )
+            return new NextResponse(
+                "Die isolierte Vorschau ist noch nicht konfiguriert.",
+                {
+                    status: 503,
+                    headers: { "X-Robots-Tag": "noindex, nofollow" },
+                },
+            );
+    }
+    if (isProduction && !isPreview && !setupPath) {
         try {
             const { readiness } = await import("./server/settings");
             const missing = await readiness();
@@ -110,13 +135,14 @@ export async function proxy(request: NextRequest) {
     }
     const response = NextResponse.next({ request: { headers } });
     response.headers.set("Content-Security-Policy", policy);
+    if (isPreview) response.headers.set("X-Robots-Tag", "noindex, nofollow");
     if (isProduction)
         response.headers.set(
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains",
         );
     if (
-        /^\/(konto|admin|api|einrichtung|otp|anmelden|registrieren|passwort|email-bestaetigen|zustimmung|vertragszustimmung|entwicklung)/.test(
+        /^\/(kalender\/gast|konto|admin|api|einrichtung|otp|anmelden|registrieren|passwort|email-bestaetigen|zustimmung|vertragszustimmung|entwicklung)/.test(
             request.nextUrl.pathname,
         )
     ) {

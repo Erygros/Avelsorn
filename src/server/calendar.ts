@@ -4,6 +4,7 @@ import { db, type Db } from "./db";
 import {
     availability,
     bookings,
+    guestBookings,
     orders,
     packages,
     documents,
@@ -123,6 +124,25 @@ export async function slots(day: string, minutes: number, database: Db = db()) {
                 ),
             ),
         );
+    const guests = await database
+        .select()
+        .from(guestBookings)
+        .where(
+            and(
+                eq(guestBookings.status, "confirmed"),
+                lt(
+                    guestBookings.startsAt,
+                    new Date(Math.max(...windows.map((w) => w.end.getTime()))),
+                ),
+                gt(
+                    guestBookings.endsAt,
+                    new Date(
+                        Math.min(...windows.map((w) => w.start.getTime())),
+                    ),
+                ),
+            ),
+        );
+    const allOccupied = [...occupied, ...guests];
     const results: { value: string; label: string }[] = [];
     for (const window of windows)
         for (
@@ -138,7 +158,7 @@ export async function slots(day: string, minutes: number, database: Db = db()) {
                     (b) =>
                         b.startsAt.getTime() < end && b.endsAt.getTime() > at,
                 ) ||
-                occupied.some(
+                allOccupied.some(
                     (b) =>
                         b.startsAt.getTime() < end && b.endsAt.getTime() > at,
                 )
@@ -153,11 +173,12 @@ export async function slots(day: string, minutes: number, database: Db = db()) {
         ...new Map(results.map((slot) => [slot.value, slot])).values(),
     ].sort((a, b) => a.value.localeCompare(b.value));
 }
-async function ensureFree(
+export async function ensureFree(
     start: Date,
     end: Date,
     database: Db,
     exclude?: string,
+    excludeGuest?: string,
 ) {
     assert(
         Number.isFinite(start.getTime()) && start > new Date(),
@@ -187,8 +208,19 @@ async function ensureFree(
                 gt(bookings.endsAt, start),
             ),
         );
+    const guests = await database
+        .select()
+        .from(guestBookings)
+        .where(
+            and(
+                eq(guestBookings.status, "confirmed"),
+                lt(guestBookings.startsAt, end),
+                gt(guestBookings.endsAt, start),
+            ),
+        );
     assert(
-        !overlapping.some((b) => b.id !== exclude),
+        !guests.some((b) => b.id !== excludeGuest) &&
+            !overlapping.some((b) => b.id !== exclude),
         "Dieser Termin wurde inzwischen vergeben. Bitte wähle einen anderen.",
         409,
     );
@@ -278,7 +310,21 @@ export async function book(user: User, input: BookingInput, actorId = user.id) {
                 .from(users)
                 .where(eq(users.id, user.id))
                 .for("update");
-            const repeated = existing.some((b) => b.product === "intro");
+            const guestHistory = await tx
+                .select({ id: guestBookings.id })
+                .from(guestBookings)
+                .where(
+                    and(
+                        eq(guestBookings.email, user.email.toLowerCase()),
+                        inArray(guestBookings.status, [
+                            "confirmed",
+                            "completed",
+                        ]),
+                    ),
+                );
+            const repeated =
+                existing.some((b) => b.product === "intro") ||
+                guestHistory.length > 0;
             assert(
                 !repeated || current.introCredits > 0,
                 "Das kostenlose Erstgespräch kann einmal gebucht werden.",
@@ -782,7 +828,19 @@ export async function changeBooking(
         return { ok: true };
     });
 }
-export function ics(booking: typeof bookings.$inferSelect): string {
+export function ics(
+    booking: Pick<
+        typeof bookings.$inferSelect,
+        | "id"
+        | "status"
+        | "sequence"
+        | "updatedAt"
+        | "startsAt"
+        | "endsAt"
+        | "product"
+        | "channel"
+    >,
+): string {
     const stamp = (date: Date) =>
         date
             .toISOString()
@@ -860,7 +918,7 @@ export async function bookingMessage(
         "Beratungsart: Telefonisch",
         booking.status === "cancelled"
             ? "Zu diesem Termin erfolgt kein Anruf."
-            : "Du musst uns nicht selbst anrufen. Ich melde mich zum vereinbarten Termin persönlich telefonisch bei Dir.",
+            : "Du musst uns nicht selbst anrufen. Ich melde mich zum gebuchten Termin telefonisch bei Dir.",
         "Deine hinterlegte Telefonnummer: " +
             (booking.contactPhone ?? owner?.phone ?? ""),
         booking.status === "cancelled"

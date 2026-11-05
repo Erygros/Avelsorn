@@ -210,8 +210,16 @@ export function owns(user: User, row: { userId: string } | undefined) {
 export function checkOrigin(request: Request) {
     const origin = request.headers.get("origin");
     const expected = new URL(process.env.PUBLIC_BASE_URL ?? request.url).origin;
+    const previewOrigins =
+        process.env.PLATFORM_ENV === "preview" &&
+        process.env.VERCEL_ENV === "preview"
+            ? [process.env.VERCEL_URL, process.env.VERCEL_BRANCH_URL]
+                  .filter((v): v is string => Boolean(v))
+                  .map((v) => "https://" + v)
+            : [];
     assert(
-        origin === expected,
+        origin === expected ||
+            (origin !== null && previewOrigins.includes(origin)),
         "Die Anfrage stammt nicht von dieser Anwendung.",
         403,
     );

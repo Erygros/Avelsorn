@@ -46,6 +46,7 @@ const tables: AnyPgTable[] = [
     s.videoSignals,
     s.videoRooms,
     s.calendarBlocks,
+    s.guestBookings,
 ];
 type Snapshot = {
     format: 1;

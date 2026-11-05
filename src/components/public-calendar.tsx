@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -37,9 +37,7 @@ export function PublicCalendar({ user }: { user: Contact | null }) {
     const [loading, setLoading] = useState(true);
     const [busy, setBusy] = useState(false);
     const [message, setMessage] = useState("");
-    const [auth, setAuth] = useState<"login" | "register">("register");
-    const [registered, setRegistered] = useState(false);
-    const [birth, setBirth] = useState("");
+    const requestId = useRef<string | null>(null);
     useEffect(() => {
         const frame = requestAnimationFrame(() => {
             let saved: string | null = null;
@@ -66,7 +64,7 @@ export function PublicCalendar({ user }: { user: Contact | null }) {
         let pending = false;
         const controller = new AbortController();
         const refresh = () => {
-            if (pending) return;
+            if (pending || document.hidden) return;
             pending = true;
             fetch("/api/slots?public=1&day=" + day, {
                 cache: "no-store",
@@ -108,6 +106,7 @@ export function PublicCalendar({ user }: { user: Contact | null }) {
         rememberSlot(null);
     };
     const chooseSlot = (value: string) => {
+        requestId.current = null;
         setSelected(value);
         rememberSlot(value);
         setMessage("");
@@ -119,9 +118,6 @@ export function PublicCalendar({ user }: { user: Contact | null }) {
         Number(month.slice(5)),
         0,
     ).getDate();
-    const adultAt = birth ? new Date(birth + "T00:00:00Z") : null;
-    if (adultAt) adultAt.setUTCFullYear(adultAt.getUTCFullYear() + 18);
-    const minor = adultAt && adultAt > new Date();
     async function submit(event: React.SubmitEvent<HTMLFormElement>) {
         event.preventDefault();
         setBusy(true);
@@ -129,52 +125,34 @@ export function PublicCalendar({ user }: { user: Contact | null }) {
         const form = new FormData(event.currentTarget);
         const val = (name: string) => String(form.get(name) ?? "");
         try {
-            if (!user) {
-                const action = auth === "register" ? "register" : "login";
-                const payload =
-                    auth === "register"
-                        ? {
-                              name: val("firstName") + " " + val("lastName"),
-                              email: val("email"),
-                              password: val("password"),
-                              birthDate: val("birthDate"),
-                              terms: form.has("terms"),
-                              returnTo: "/kalender",
-                              guardianName: val("guardianName"),
-                              guardianEmail: val("guardianEmail"),
-                          }
-                        : { email: val("email"), password: val("password") };
-                const r = await fetch("/api/action/" + action, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload),
-                });
-                const data = await r.json();
-                if (!r.ok) throw Error(data.error);
-                if (action === "register") {
-                    setRegistered(true);
-                    setAuth("login");
-                    setMessage(
-                        "Dein Konto ist angelegt. Bestätige Deine E-Mail-Adresse und melde Dich hier an.",
-                    );
-                } else if (data.redirect === "/otp") router.push("/otp");
-                else router.refresh();
-            } else {
-                const r = await fetch("/api/action/intro-booking", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        startsAt: selected,
-                        terms: form.has("terms"),
-                        details: {
+            if (!requestId.current) requestId.current = crypto.randomUUID();
+            {
+                const r = await fetch(
+                    user ? "/api/action/intro-booking" : "/api/guest-bookings",
+                    {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            operation: "book",
+                            requestId: requestId.current,
+                            email: val("email"),
+                            website: val("website"),
                             firstName: val("firstName"),
                             lastName: val("lastName"),
                             phone: val("phone"),
-                            company: val("company"),
                             topic: val("topic"),
-                        },
-                    }),
-                });
+                            startsAt: selected,
+                            terms: form.has("terms"),
+                            details: {
+                                firstName: val("firstName"),
+                                lastName: val("lastName"),
+                                phone: val("phone"),
+                                company: val("company"),
+                                topic: val("topic"),
+                            },
+                        }),
+                    },
+                );
                 const data = await r.json();
                 if (!r.ok) {
                     if (r.status === 409) {
@@ -191,7 +169,11 @@ export function PublicCalendar({ user }: { user: Contact | null }) {
                     throw Error(data.error);
                 }
                 rememberSlot(null);
-                router.push("/kalender/bestaetigt?id=" + data.id);
+                router.push(
+                    user
+                        ? "/kalender/bestaetigt?id=" + data.id
+                        : "/kalender/gast",
+                );
                 router.refresh();
             }
         } catch (e) {
@@ -326,147 +308,15 @@ export function PublicCalendar({ user }: { user: Contact | null }) {
                 ) : (
                     <form onSubmit={submit} className="action-form">
                         {!user && (
-                            <>
-                                <div className="calendar-auth-tabs">
-                                    <button
-                                        type="button"
-                                        aria-pressed={auth === "register"}
-                                        onClick={() => setAuth("register")}
-                                    >
-                                        Konto erstellen
-                                    </button>
-                                    <button
-                                        type="button"
-                                        aria-pressed={auth === "login"}
-                                        onClick={() => setAuth("login")}
-                                    >
-                                        Anmelden
-                                    </button>
-                                </div>
-                                {auth === "register" && (
-                                    <div className="form-row">
-                                        <label>
-                                            Vorname
-                                            <input
-                                                name="firstName"
-                                                autoComplete="given-name"
-                                                required
-                                                maxLength={50}
-                                            />
-                                        </label>
-                                        <label>
-                                            Nachname
-                                            <input
-                                                name="lastName"
-                                                autoComplete="family-name"
-                                                required
-                                                maxLength={80}
-                                            />
-                                        </label>
-                                    </div>
-                                )}
-                                <label>
-                                    E-Mail-Adresse
-                                    <input
-                                        name="email"
-                                        type="email"
-                                        autoComplete="email"
-                                        required
-                                        maxLength={254}
-                                    />
-                                </label>
-                                <label>
-                                    Passwort
-                                    <input
-                                        name="password"
-                                        type="password"
-                                        minLength={auth === "register" ? 12 : 1}
-                                        maxLength={128}
-                                        autoComplete={
-                                            auth === "register"
-                                                ? "new-password"
-                                                : "current-password"
-                                        }
-                                        required
-                                    />
-                                </label>
-                                {auth === "register" && (
-                                    <>
-                                        <label>
-                                            Geburtsdatum
-                                            <input
-                                                name="birthDate"
-                                                type="date"
-                                                required
-                                                max={today}
-                                                value={birth}
-                                                onChange={(e) =>
-                                                    setBirth(e.target.value)
-                                                }
-                                            />
-                                        </label>
-                                        {minor && (
-                                            <>
-                                                <label>
-                                                    Erziehungsberechtigte Person
-                                                    <input
-                                                        name="guardianName"
-                                                        required
-                                                        maxLength={100}
-                                                    />
-                                                </label>
-                                                <label>
-                                                    E-Mail der
-                                                    erziehungsberechtigten
-                                                    Person
-                                                    <input
-                                                        name="guardianEmail"
-                                                        type="email"
-                                                        required
-                                                    />
-                                                </label>
-                                            </>
-                                        )}
-                                        <label className="check">
-                                            <input
-                                                name="terms"
-                                                type="checkbox"
-                                                required
-                                            />
-                                            Ich akzeptiere die{" "}
-                                            <Link href="/agb">AGB</Link> und
-                                            habe die{" "}
-                                            <Link href="/datenschutz">
-                                                Datenschutzhinweise
-                                            </Link>{" "}
-                                            gelesen.
-                                        </label>
-                                    </>
-                                )}
-                                <button
-                                    className="button primary"
-                                    disabled={busy}
-                                >
-                                    {busy
-                                        ? "Wird verarbeitet …"
-                                        : auth === "register"
-                                          ? "Konto erstellen"
-                                          : "Anmelden"}
-                                </button>
-                                {registered && (
-                                    <p>
-                                        Die Terminauswahl bleibt auf diesem
-                                        Gerät gespeichert. Nach der
-                                        E-Mail-Bestätigung kannst Du hier
-                                        fortfahren.
-                                    </p>
-                                )}
-                                <Link href="/passwort-vergessen">
-                                    Passwort vergessen?
+                            <p>
+                                Du kannst ohne Kundenkonto buchen. Du hast
+                                bereits ein Konto?{" "}
+                                <Link href="/anmelden?next=/kalender">
+                                    Anmelden
                                 </Link>
-                            </>
+                            </p>
                         )}
-                        {user && (
+                        {
                             <>
                                 <div className="form-row">
                                     <label>
@@ -476,7 +326,7 @@ export function PublicCalendar({ user }: { user: Contact | null }) {
                                             autoComplete="given-name"
                                             required
                                             defaultValue={
-                                                user.name.split(" ")[0]
+                                                user?.name.split(" ")[0]
                                             }
                                             maxLength={50}
                                         />
@@ -487,7 +337,7 @@ export function PublicCalendar({ user }: { user: Contact | null }) {
                                             name="lastName"
                                             autoComplete="family-name"
                                             required
-                                            defaultValue={user.name
+                                            defaultValue={user?.name
                                                 .split(" ")
                                                 .slice(1)
                                                 .join(" ")}
@@ -495,7 +345,20 @@ export function PublicCalendar({ user }: { user: Contact | null }) {
                                         />
                                     </label>
                                 </div>
-                                <p>E-Mail-Adresse: {user.email}</p>
+                                {user ? (
+                                    <p>E-Mail-Adresse: {user.email}</p>
+                                ) : (
+                                    <label>
+                                        E-Mail-Adresse
+                                        <input
+                                            name="email"
+                                            type="email"
+                                            autoComplete="email"
+                                            required
+                                            maxLength={254}
+                                        />
+                                    </label>
+                                )}
                                 <label>
                                     Telefonnummer
                                     <input
@@ -503,27 +366,44 @@ export function PublicCalendar({ user }: { user: Contact | null }) {
                                         type="tel"
                                         autoComplete="tel"
                                         required
-                                        defaultValue={user.phone}
+                                        defaultValue={user?.phone}
                                         maxLength={30}
                                     />
                                 </label>
+                                {user && (
+                                    <label>
+                                        Unternehmen (optional)
+                                        <input
+                                            name="company"
+                                            autoComplete="organization"
+                                            defaultValue={user.company}
+                                            maxLength={200}
+                                        />
+                                    </label>
+                                )}
                                 <label>
-                                    Unternehmen (optional)
-                                    <input
-                                        name="company"
-                                        autoComplete="organization"
-                                        defaultValue={user.company}
-                                        maxLength={200}
-                                    />
-                                </label>
-                                <label>
-                                    Dein Anliegen (optional)
+                                    Dein Anliegen
                                     <textarea
                                         name="topic"
+                                        required
+                                        minLength={3}
                                         maxLength={2000}
                                         rows={4}
                                     />
                                 </label>
+                                {!user && (
+                                    <label
+                                        className="guest-honeypot"
+                                        aria-hidden="true"
+                                    >
+                                        Website
+                                        <input
+                                            name="website"
+                                            tabIndex={-1}
+                                            autoComplete="off"
+                                        />
+                                    </label>
+                                )}
                                 <label className="check">
                                     <input
                                         name="terms"
@@ -537,7 +417,7 @@ export function PublicCalendar({ user }: { user: Contact | null }) {
                                     </Link>{" "}
                                     gelesen.
                                 </label>
-                                {!user.verified && (
+                                {user && !user.verified && (
                                     <p role="status">
                                         Bestätige zuerst Deine E-Mail-Adresse.
                                         Lade diese Seite danach neu.
@@ -545,14 +425,16 @@ export function PublicCalendar({ user }: { user: Contact | null }) {
                                 )}
                                 <button
                                     className="button primary"
-                                    disabled={busy || !user.verified}
+                                    disabled={
+                                        busy || Boolean(user && !user.verified)
+                                    }
                                 >
                                     {busy
                                         ? "Termin wird gebucht …"
                                         : "Kostenlosen Termin verbindlich buchen"}
                                 </button>
                             </>
-                        )}
+                        }
                     </form>
                 )}
                 {message && (

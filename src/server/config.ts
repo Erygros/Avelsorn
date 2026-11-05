@@ -118,4 +118,7 @@ export const berlin = (date: Date | string) =>
         timeStyle: "short",
     }).format(new Date(date));
 export const baseUrl = () =>
-    (process.env.PUBLIC_BASE_URL ?? "http://localhost:3001").replace(/\/$/, "");
+    (process.env.PLATFORM_ENV === "preview" && process.env.VERCEL_BRANCH_URL
+        ? "https://" + process.env.VERCEL_BRANCH_URL
+        : (process.env.PUBLIC_BASE_URL ?? "http://localhost:3001")
+    ).replace(/\/$/, "");

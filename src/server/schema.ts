@@ -446,7 +446,8 @@ export const outbox = pgTable("mail_outbox", {
     ctaUrl: text("cta_url"),
     eventKey: text("event_key").notNull().unique(),
     calendarEvent: jsonb("calendar_event").$type<{
-        bookingId: string;
+        bookingId?: string;
+        guestBookingId?: string;
         sequence: number;
         kind: "confirmation" | "reminder" | "cancellation";
     }>(),
@@ -462,6 +463,40 @@ export const outbox = pgTable("mail_outbox", {
     errorCode: text("error_code"),
     createdAt: created(),
 });
+// Free introductory calls are not customer accounts and grant no portal access.
+export const guestBookings = pgTable(
+    "guest_bookings",
+    {
+        id: id(),
+        firstName: text("first_name").notNull(),
+        lastName: text("last_name").notNull(),
+        email: text().notNull(),
+        phone: text().notNull(),
+        topic: text().notNull(),
+        notes: text().notNull().default(""),
+        startsAt: date("starts_at").notNull(),
+        endsAt: date("ends_at").notNull(),
+        status: text().notNull().default("confirmed"),
+        sequence: integer().notNull().default(0),
+        tokenHash: text("token_hash").notNull().unique(),
+        accessExpiresAt: date("access_expires_at").notNull(),
+        requestId: text("request_id").notNull().unique(),
+        createdAt: created(),
+        updatedAt: updated(),
+    },
+    (t) => [
+        index("guest_bookings_range").on(t.startsAt, t.endsAt),
+        index("guest_bookings_email").on(t.email),
+        check(
+            "guest_booking_duration",
+            sql`${t.endsAt} = ${t.startsAt} + interval '15 minutes'`,
+        ),
+        check(
+            "guest_booking_status",
+            sql`${t.status} IN ('confirmed','cancelled','completed')`,
+        ),
+    ],
+);
 export const posts = pgTable("posts", {
     id: id(),
     slug: text().notNull().unique(),

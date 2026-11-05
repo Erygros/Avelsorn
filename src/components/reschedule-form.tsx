@@ -4,9 +4,13 @@ import { useRouter } from "next/navigation";
 export function RescheduleForm({
     id,
     minutes,
+    action = "booking-change",
+    sequence,
 }: {
     id: string;
     minutes: number;
+    action?: string;
+    sequence?: number;
 }) {
     const [day, setDay] = useState(
         new Date().toLocaleDateString("en-CA", { timeZone: "Europe/Berlin" }),
@@ -51,11 +55,12 @@ export function RescheduleForm({
         setBusy(true);
         setMessage("");
         try {
-            const response = await fetch("/api/action/booking-change", {
+            const response = await fetch("/api/action/" + action, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     id,
+                    sequence,
                     action: "reschedule",
                     startsAt: at,
                 }),

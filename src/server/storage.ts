@@ -57,7 +57,21 @@ class S3Storage implements PrivateStorage {
         },
     });
     private bucket = process.env.S3_BUCKET!;
+    private prefix = process.env.STORAGE_PREFIX ?? "";
+    private objectKey(key: string) {
+        return this.prefix + validKey(key);
+    }
     constructor() {
+        if (this.prefix && !/^[a-zA-Z0-9_-]+\/$/.test(this.prefix))
+            throw new Error("Ungültiger Speicherpräfix.");
+        if (
+            process.env.PLATFORM_ENV === "preview" &&
+            (!process.env.DATABASE_PREVIEW_ROLE ||
+                this.prefix !== process.env.DATABASE_PREVIEW_ROLE + "/")
+        )
+            throw new Error(
+                "Die Preview benötigt einen eigenen Speicherpräfix.",
+            );
         if (
             !this.bucket ||
             !process.env.S3_ACCESS_KEY_ID ||
@@ -71,7 +85,7 @@ class S3Storage implements PrivateStorage {
         await this.client.send(
             new PutObjectCommand({
                 Bucket: this.bucket,
-                Key: validKey(key),
+                Key: this.objectKey(key),
                 Body: data,
                 ContentType: mime,
             }),
@@ -79,7 +93,10 @@ class S3Storage implements PrivateStorage {
     }
     async get(key: string) {
         const result = await this.client.send(
-            new GetObjectCommand({ Bucket: this.bucket, Key: validKey(key) }),
+            new GetObjectCommand({
+                Bucket: this.bucket,
+                Key: this.objectKey(key),
+            }),
         );
         return Buffer.from(await result.Body!.transformToByteArray());
     }
@@ -87,7 +104,7 @@ class S3Storage implements PrivateStorage {
         await this.client.send(
             new DeleteObjectCommand({
                 Bucket: this.bucket,
-                Key: validKey(key),
+                Key: this.objectKey(key),
             }),
         );
     }

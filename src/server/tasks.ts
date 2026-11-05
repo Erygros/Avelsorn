@@ -9,6 +9,7 @@ import { documentPdf } from "./pdf";
 import { storage } from "./storage";
 import { createBackup } from "./backup";
 import { bookingMessage } from "./calendar";
+import { guestNotice } from "./guest-bookings";
 import { lock } from "./security";
 
 export async function runTasks() {
@@ -104,6 +105,48 @@ export async function runTasks() {
                     results.reminders++;
                 }
             }
+        }
+    const guestUpcoming = await db()
+        .select()
+        .from(s.guestBookings)
+        .where(
+            and(
+                eq(s.guestBookings.status, "confirmed"),
+                gt(s.guestBookings.startsAt, now),
+            ),
+        );
+    for (const booking of guestUpcoming)
+        for (const hours of [24, 1]) {
+            const due = new Date(booking.startsAt.getTime() - hours * 3600_000);
+            if (due <= now && due >= booking.updatedAt)
+                await db().transaction(async (tx) => {
+                    await lock("calendar", tx);
+                    const [current] = await tx
+                        .select()
+                        .from(s.guestBookings)
+                        .where(eq(s.guestBookings.id, booking.id));
+                    if (
+                        !current ||
+                        current.status !== "confirmed" ||
+                        current.sequence !== booking.sequence
+                    )
+                        return;
+                    const eventKey = `guest:${current.id}:${current.sequence}:reminder:${hours}`;
+                    const [existing] = await tx
+                        .select()
+                        .from(s.outbox)
+                        .where(eq(s.outbox.eventKey, eventKey));
+                    if (!existing) {
+                        await guestNotice(
+                            current,
+                            "reminder",
+                            tx,
+                            undefined,
+                            hours,
+                        );
+                        results.reminders++;
+                    }
+                });
         }
     const expiredPackages = await db()
         .update(s.packages)

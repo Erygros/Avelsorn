@@ -20,6 +20,7 @@ import {
     requireUser,
     secretToken,
 } from "@/server/security";
+import { changeGuest } from "@/server/guest-bookings";
 import { register, login, consumeToken, issueToken } from "@/server/auth";
 import { setSetting, getSetting } from "@/server/settings";
 import { productKey, publicKeys } from "@/server/config";
@@ -809,6 +810,26 @@ async function dispatch(action: string, input: unknown): Promise<unknown> {
         return { ok: true };
     }
     await requireUser(true);
+    if (action === "guest-booking-change") {
+        const data = z
+            .object({
+                id: uuid,
+                action: z.enum(["cancel", "reschedule", "complete", "note"]),
+                startsAt: z.iso.datetime().optional(),
+                notes: z.string().max(10000).optional(),
+                sequence: z.number().int().nonnegative().optional(),
+            })
+            .parse(input);
+        return {
+            ok: true,
+            booking: await changeGuest(data.id, data.action, {
+                adminId: user.id,
+                startsAt: data.startsAt,
+                notes: data.notes,
+                expectedSequence: data.sequence,
+            }),
+        };
+    }
     if (action === "calendar-note") {
         const data = z
             .object({ id: uuid, notes: z.string().max(5000) })

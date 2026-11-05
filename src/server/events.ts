@@ -10,7 +10,8 @@ export type MailOptions = {
     url?: string;
     attachments?: string[];
     calendarEvent?: {
-        bookingId: string;
+        bookingId?: string;
+        guestBookingId?: string;
         sequence: number;
         kind: "confirmation" | "reminder" | "cancellation";
     };

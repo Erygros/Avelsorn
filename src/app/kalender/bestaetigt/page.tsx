@@ -1,6 +1,7 @@
 import { requireUser, currentUser } from "@/server/security";
 import { notFound, redirect } from "next/navigation";
 import { db } from "@/server/db";
+import { business } from "@/server/settings";
 import { bookings } from "@/server/schema";
 import { eq } from "drizzle-orm";
 import { SiteShell } from "@/components/site-shell";
@@ -27,6 +28,7 @@ export default async function BookingSuccess({
         booking.product !== "intro"
     )
         notFound();
+    const values = await business();
     return (
         <SiteShell exitBanner={false}>
             <main id="main" className="wrap calendar-page">
@@ -44,10 +46,23 @@ export default async function BookingSuccess({
                         <p>Zu diesem Termin erfolgt kein Anruf.</p>
                     ) : (
                         <p>
-                            Ich rufe Dich unter{" "}
+                            Ich melde mich zum gebuchten Termin telefonisch bei
+                            Dir. Hinterlegte Telefonnummer:{" "}
                             {booking.contactPhone ?? user.phone} an.
                         </p>
                     )}
+                    <p>
+                        Bei Rückfragen:{" "}
+                        <a
+                            href={
+                                "tel:" +
+                                values.public_phone.replace(/[^+\d]/g, "")
+                            }
+                        >
+                            {values.public_phone}
+                        </a>
+                        .
+                    </p>
                     <p>
                         {booking.status === "cancelled"
                             ? "Die Absage"

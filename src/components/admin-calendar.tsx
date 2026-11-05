@@ -6,7 +6,9 @@ import { RescheduleForm } from "./reschedule-form";
 
 export type AdminAppointment = {
     id: string;
-    userId: string;
+    userId?: string;
+    guest?: boolean;
+    sequence?: number;
     name: string;
     email: string;
     phone: string;
@@ -322,12 +324,17 @@ export function AdminCalendar({
                             </dd>
                         </dl>
                         <div className="record-actions">
-                            <Link
-                                className="button"
-                                href={"/admin/kunden?id=" + current.userId}
-                            >
-                                Kundendetails öffnen
-                            </Link>
+                            {current.userId && (
+                                <Link
+                                    className="button"
+                                    href={"/admin/kunden?id=" + current.userId}
+                                >
+                                    Kundendetails öffnen
+                                </Link>
+                            )}
+                            {current.guest && (
+                                <span>Gastbuchung · kein Kundenkonto</span>
+                            )}
                             {current.phone && (
                                 <a
                                     className="button"
@@ -350,6 +357,12 @@ export function AdminCalendar({
                             <div className="record-actions">
                                 <RescheduleForm
                                     id={current.id}
+                                    sequence={current.sequence}
+                                    action={
+                                        current.guest
+                                            ? "guest-booking-change"
+                                            : "booking-change"
+                                    }
                                     minutes={Math.round(
                                         (Date.parse(current.endsAt) -
                                             Date.parse(current.startsAt)) /
@@ -357,9 +370,14 @@ export function AdminCalendar({
                                     )}
                                 />
                                 <ActionForm
-                                    action="booking-change"
+                                    action={
+                                        current.guest
+                                            ? "guest-booking-change"
+                                            : "booking-change"
+                                    }
                                     values={{
                                         id: current.id,
+                                        sequence: current.sequence,
                                         action: "cancel",
                                     }}
                                     submit="Termin absagen"
@@ -376,8 +394,12 @@ export function AdminCalendar({
                         )}
                         <ActionForm
                             key={current.id + current.notes}
-                            action="calendar-note"
-                            values={{ id: current.id }}
+                            action={
+                                current.guest
+                                    ? "guest-booking-change"
+                                    : "calendar-note"
+                            }
+                            values={{ id: current.id, action: "note" }}
                             fields={[
                                 {
                                     name: "notes",
@@ -388,11 +410,13 @@ export function AdminCalendar({
                             ]}
                             submit="Notiz speichern"
                         />
-                        <ActionForm
-                            action="intro-credit"
-                            values={{ userId: current.userId, count: 1 }}
-                            submit="Weiteres kostenloses Erstgespräch freigeben"
-                        />
+                        {current.userId && (
+                            <ActionForm
+                                action="intro-credit"
+                                values={{ userId: current.userId, count: 1 }}
+                                submit="Weiteres kostenloses Erstgespräch freigeben"
+                            />
+                        )}
                     </>
                 )}
             </dialog>

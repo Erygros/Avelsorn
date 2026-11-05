@@ -57,6 +57,13 @@
       "when": 1793868981789,
       "tag": "0007_intro-calendar",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1793880184089,
+      "tag": "0008_guest-bookings",
+      "breakpoints": true
     }
   ]
 }
