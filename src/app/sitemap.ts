@@ -1,13 +1,16 @@
 import type { MetadataRoute } from "next";
 import { and, eq, lte } from "drizzle-orm";
 import { db } from "@/server/db";
-import { posts } from "@/server/schema";
-import { services } from "@/content/pages";
-import { audiences, audiencePath } from "@/content/audiences";
+import { posts, pages } from "@/server/schema";
+import { searchPages, searchPagePath } from "@/content/search";
+import { publicSitePaths, publicCmsPath } from "@/content/search/urls";
 import { baseUrl } from "@/server/config";
+import { searchIndexingAllowed } from "@/server/search-policy";
+export const dynamic = "force-dynamic";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    if (process.env.PRODUCTION_APPROVED !== "true") return [];
-    const articles = await db()
+    if (!searchIndexingAllowed()) return [];
+    const database = db();
+    const articles = await database
         .select()
         .from(posts)
         .where(
@@ -16,27 +19,31 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
                 lte(posts.publishAt, new Date()),
             ),
         );
-    return [
-        "",
-        "/leistungen",
-        "/preise",
-        "/ablauf",
-        "/zielgruppen",
-        "/erstgespraech",
-        "/kalender",
-        "/kontakt",
-        "/ueber-mich",
-        "/blog",
-        "/beruflich-neu-starten",
-        "/paket-anfragen",
-        ...audiences.map(audiencePath),
-        ...services.map((s) => "/leistungen/" + s.slug),
-    ]
-        .map((path) => ({ url: baseUrl() + path }))
-        .concat(
-            articles.map((p) => ({
-                url: baseUrl() + "/blog/" + p.slug,
-                lastModified: p.updatedAt,
-            })),
-        );
+    const custom = await database
+        .select({ slug: pages.slug, updatedAt: pages.updatedAt })
+        .from(pages);
+    const entries = new Map<string, MetadataRoute.Sitemap[number]>();
+    for (const path of publicSitePaths())
+        entries.set(path, { url: new URL(path, baseUrl()).href });
+    for (const page of searchPages)
+        entries.set(searchPagePath(page), {
+            url: new URL(searchPagePath(page), baseUrl()).href,
+            lastModified: page.updatedOn,
+        });
+    for (const page of custom) {
+        const path = publicCmsPath(page.slug);
+        if (path)
+            entries.set(path, {
+                url: new URL(path, baseUrl()).href,
+                lastModified: page.updatedAt,
+            });
+    }
+    for (const article of articles) {
+        const path = "/blog/" + article.slug;
+        entries.set(path, {
+            url: new URL(path, baseUrl()).href,
+            lastModified: article.updatedAt,
+        });
+    }
+    return [...entries.values()];
 }

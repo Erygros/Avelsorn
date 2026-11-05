@@ -142,7 +142,7 @@ export async function proxy(request: NextRequest) {
             "max-age=31536000; includeSubDomains",
         );
     if (
-        /^\/(kalender\/gast|konto|admin|api|einrichtung|otp|anmelden|registrieren|passwort|email-bestaetigen|zustimmung|vertragszustimmung|entwicklung)/.test(
+        /^\/(kalender\/(?:gast|bestaetigt)|konto|admin|api|einrichtung|otp|anmelden|registrieren|passwort|email-bestaetigen|zustimmung|vertragszustimmung|entwicklung)/.test(
             request.nextUrl.pathname,
         )
     ) {

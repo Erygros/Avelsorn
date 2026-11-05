@@ -10,3 +10,6 @@
 *.tsbuildinfo
 next-env.d.ts
 /.vercel/
+
+# Generated from ignored server configuration; not part of the source tree.
+/public/indexnow-*.txt

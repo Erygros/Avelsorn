@@ -1,3 +1,4 @@
+import { BusinessStructuredData } from "./business-structured-data";
 import { publicNavigation } from "@/content/navigation";
 import { MobileNavigation } from "./mobile-navigation";
 import { Brand } from "./brand";
@@ -14,6 +15,7 @@ export async function SiteShell({
 }) {
     return (
         <>
+            <BusinessStructuredData />
             <header className="site-header">
                 <Brand />
                 <nav aria-label="Hauptnavigation">
@@ -51,6 +53,13 @@ export async function SiteShell({
                         Beruflich neu starten
                     </Link>
                     <Link href="/ablauf">Zusammenarbeit</Link>
+                    <Link href="/branchen">Branchen</Link>
+                    <Link href="/loesungen">Digitale Lösungen</Link>
+                    <Link href="/wissen">Wissen und Vorlagen</Link>
+                    <Link href="/fragen">Häufige Fragen</Link>
+                    <Link href="/unternehmensberatung-castrop-rauxel">
+                        Avelsorn in Castrop-Rauxel
+                    </Link>
                     <Link href="/kontakt">Kontakt</Link>
                     <Link href="/ueber-mich">Über Avelsorn</Link>
                     <Link href="/impressum">Impressum</Link>

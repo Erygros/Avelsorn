@@ -1177,7 +1177,7 @@ async function dispatch(action: string, input: unknown): Promise<unknown> {
             })
             .parse(input);
         assert(
-            !/^(admin|konto|api|entwicklung|kalender|paket-anfragen|beruflich-neu-starten|anmelden|registrieren|passwort-vergessen|passwort-zuruecksetzen|email-bestaetigen|zustimmung|vertragszustimmung|otp|einrichtung)(\/|$)/.test(
+            !/^(admin|konto|api|entwicklung|kalender|branchen|loesungen|wissen|fragen|unternehmensberatung-castrop-rauxel|paket-anfragen|beruflich-neu-starten|anmelden|registrieren|passwort-vergessen|passwort-zuruecksetzen|email-bestaetigen|zustimmung|vertragszustimmung|otp|einrichtung)(\/|$)/.test(
                 data.slug,
             ) &&
                 !/^zielgruppen\//.test(data.slug) &&

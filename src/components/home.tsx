@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { BusinessStructuredData } from "./business-structured-data";
 import { ArrowUpRight } from "lucide-react";
 import { SiteShell } from "./site-shell";
 import { heroImage } from "@/content/editorial-images";
@@ -14,7 +13,6 @@ export async function Home() {
     return (
         <SiteShell>
             <main id="main">
-                <BusinessStructuredData />
                 <section className="hero wrap optimized-hero">
                     <div className="hero-copy">
                         <h1 className="hero-heading">

@@ -438,3 +438,10 @@ Abschließender Prüfnachtrag (27.10.2026): `npm run check` vollständig erfolgr
 - Gastfähigen Rücknahmestand 3653ca7 zusätzlich in einem separaten lokalen Worktree erfolgreich gebaut und typgeprüft; nur lokale Turbopack-Abhängigkeitsauflösung für die gemeinsame node_modules-Junction angepasst. Keine Produktionsveröffentlichung dieses Stands.
 
 - Gast-Verwaltungslinks abschließend an die Laufzeitadresse der jeweiligen Umgebung gebunden. Keine versehentlichen lokalen Links zur Produktivdomain bei übernommenen Geschäftsdaten. Vollständige Prüfkette nach dieser Anpassung erneut bestanden.
+
+## SEO-, GEO- und AEO-Ausbau (05.11.2026)
+
+- Live-Bestand: 36 erreichbare öffentliche Seiten, 28 Sitemap-URLs, acht Seiten mit derselben Meta-Beschreibung. Keine gemessenen Klicks, Rankings oder AI-Zitationen ohne Leistungsdaten.
+- 32 neue Seiten umgesetzt: elf Branchen, acht Lösungen, acht Ratgeber, drei Übersichten, Fragen zur Zusammenarbeit und Standortseite Castrop-Rauxel. Bestehende Leistungen, Preise, Zielgruppen und Artikel bleiben erhalten. Inhalte, Verlinkung und Nachweise: docs/SEO_GEO_AEO_AUDIT.md und docs/SEARCH_CONTENT_MAP.md.
+- 68 öffentliche Seiten lokal erreichbar. Alle 32 neuen Seiten bei 320, 768 und 1440 Pixeln geprüft: 96 Layoutprüfungen ohne horizontalen Überlauf, eindeutige Hauptüberschrift und funktionierende Sprungziele. 32 automatische WCAG-Prüfungen auf Mobilbreite ohne gemeldete Verletzungen oder offene Prüfpunkte. FAQ per Tastatur geöffnet. Das ist keine vollständige WCAG-Konformitätsprüfung.
+- 87 Funktionstests, Typprüfung, Lint und Produktionsbuild erfolgreich. Vorschau und lokale Umgebung bleiben von der Indexierung ausgeschlossen. IndexNow-Schlüsseldatei und kontrollierter Versand sind vorbereitet; kein externer IndexNow-Aufruf zur Einreichung.

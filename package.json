@@ -17,7 +17,10 @@
     "qa:prepare": "tsx bin/prepare-qa.ts",
     "qa:serve": "node bin/serve-qa.mjs",
     "check": "npm run typecheck && npm run lint && npm test && npm run build",
-    "format": "prettier --write src bin tests *.ts *.mts *.mjs"
+    "format": "prettier --write src bin tests *.ts *.mts *.mjs",
+    "prebuild": "node bin/prepare-indexnow-key.mjs",
+    "seo:audit": "tsx bin/audit-search.ts",
+    "seo:indexnow": "tsx bin/submit-indexnow.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1156.0",

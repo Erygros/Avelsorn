@@ -3,6 +3,7 @@ import { Consent } from "@/components/consent";
 import { cookies } from "next/headers";
 import { BRAND } from "@/content/brand";
 import { baseUrl } from "@/server/config";
+import { searchIndexingAllowed } from "@/server/search-policy";
 import "./globals.css";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -13,8 +14,8 @@ export async function generateMetadata(): Promise<Metadata> {
         description:
             "Avelsorn: Websites und Webanwendungen, digitale Arbeitsabläufe und Beratung zur Selbstständigkeit. Aufgaben, Aufwand und Umsetzung nach Vereinbarung.",
         robots: {
-            index: process.env.PRODUCTION_APPROVED === "true",
-            follow: process.env.PRODUCTION_APPROVED === "true",
+            index: searchIndexingAllowed(),
+            follow: searchIndexingAllowed(),
         },
         openGraph: { type: "website", locale: "de_DE", siteName: name },
         twitter: { card: "summary_large_image" },

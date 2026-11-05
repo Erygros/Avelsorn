@@ -35,7 +35,20 @@ export async function BusinessStructuredData() {
             type="application/ld+json"
             nonce={(await headers()).get("x-nonce") ?? undefined}
             dangerouslySetInnerHTML={{
-                __html: JSON.stringify(data).replace(/</g, "\\u003c"),
+                __html: JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@graph": [
+                        data,
+                        {
+                            "@type": "WebSite",
+                            "@id": baseUrl() + "/#website",
+                            url: baseUrl(),
+                            name: BRAND.name,
+                            inLanguage: "de-DE",
+                            publisher: { "@id": baseUrl() + "/#avelsorn" },
+                        },
+                    ],
+                }).replace(/</g, "\\u003c"),
             }}
         />
     );

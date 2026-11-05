@@ -68,6 +68,7 @@ beforeEach(async () => {
         s.notifications,
         s.bookings,
         s.guestBookings,
+        s.pages,
         s.calendarBlocks,
         s.availability,
         s.users,
@@ -341,4 +342,57 @@ it("führt kanonische Leistungs- und Über-Seiten in der Sitemap, keine Gastzug�
     expect(urls).not.toContain("https://example.test/kalender/gast");
     expect(urls).not.toContain("https://example.test/gruendung");
     expect(new Set(urls).size).toBe(urls.length);
+});
+
+it("hält redaktionelle Seiten in der aktuellen Sitemap und filtert alte ungültige Systempfade", async () => {
+    vi.stubEnv("PRODUCTION_APPROVED", "true");
+    vi.stubEnv("PLATFORM_ENV", "production");
+    vi.stubEnv("VERCEL_ENV", "production");
+    vi.stubEnv("PUBLIC_BASE_URL", "https://example.test");
+    await database.insert(s.pages).values([
+        {
+            slug: "eigener-ratgeber",
+            title: "Eigener Inhalt",
+            description: "Freigegebene redaktionelle Seite",
+            body: "<p>Inhalt</p>",
+        },
+        {
+            slug: "admin/alt",
+            title: "Alt",
+            description: "Ungültiger Altbestand",
+            body: "<p>nicht öffentlich</p>",
+        },
+        {
+            slug: "wissen/unbekannt",
+            title: "Alt",
+            description: "Nicht erreichbarer Systempfad",
+            body: "<p>nicht öffentlich</p>",
+        },
+    ]);
+    const list = await sitemap();
+    expect(
+        list.some(
+            (item) =>
+                item.url === "https://example.test/eigener-ratgeber" &&
+                item.lastModified,
+        ),
+    ).toBe(true);
+    expect(
+        list.some(
+            (item) =>
+                item.url.includes("admin/alt") ||
+                item.url.includes("wissen/unbekannt"),
+        ),
+    ).toBe(false);
+    expect(
+        list.some(
+            (item) => item.url === "https://example.test/branchen/kioske",
+        ),
+    ).toBe(true);
+    expect(
+        list.some(
+            (item) =>
+                item.url === "https://example.test/wissen/website-briefing",
+        ),
+    ).toBe(true);
 });

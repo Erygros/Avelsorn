@@ -1,4 +1,5 @@
 import { requireUser, currentUser } from "@/server/security";
+import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { db } from "@/server/db";
 import { business } from "@/server/settings";
@@ -9,6 +10,11 @@ import { berlin } from "@/server/config";
 import Link from "next/link";
 import { RescheduleForm } from "@/components/reschedule-form";
 import { ActionForm } from "@/components/action-form";
+export const metadata: Metadata = {
+    title: "Dein Erstgespräch",
+    robots: { index: false, follow: false },
+    referrer: "no-referrer",
+};
 export default async function BookingSuccess({
     searchParams,
 }: {

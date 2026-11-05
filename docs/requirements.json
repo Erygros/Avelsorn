@@ -12724,5 +12724,49 @@
       }
     ],
     "releaseNote": "Entwicklung und Preview-Abnahme abgeschlossen; ausdrückliche Produktionsfreigabe und anschließende Veröffentlichung/Migration stehen aus."
+  },
+  {
+    "id": 56,
+    "title": "Vollständige SEO-/GEO-/AEO-Analyse und Inhaltsausbau",
+    "status": "in Arbeit",
+    "source": "Aktives Nutzerziel vom 05.11.2026; docs/SEO_GEO_AEO_AUDIT.md",
+    "acceptance": [
+      {
+        "id": "56.1",
+        "text": "Live- und Entwicklungsstand evidenzbasiert auditieren; Quellen und fehlende Leistungsdaten dokumentieren.",
+        "status": "in Arbeit",
+        "evidence": [
+          "tests/output/search-live-baseline.json; docs/SEO_GEO_AEO_AUDIT.md"
+        ]
+      },
+      {
+        "id": "56.2",
+        "text": "Alle benannten Branchen und angebotenen Bereiche mit eigenständigen hilfreichen Seiten, Vorlagen und Querverweisen abdecken.",
+        "status": "in Arbeit",
+        "evidence": [
+          "src/content/search: 29 neue Detailinhalte und drei Hubs angelegt; noch keine vollständige Laufzeitabnahme."
+        ]
+      },
+      {
+        "id": "56.3",
+        "text": "Metadaten, Sitemap, Crawlerregeln, strukturierte Daten, CMS und IndexNow-Prozess korrekt integrieren und prüfen.",
+        "status": "in Arbeit",
+        "evidence": []
+      },
+      {
+        "id": "56.4",
+        "text": "Vollständige technische, inhaltliche und responsive Prüfung sowie isolierte Preview und Dokumentation.",
+        "status": "offen",
+        "evidence": []
+      },
+      {
+        "id": "56.5",
+        "text": "Echte SEO-/GEO-/AEO-Leistungsdaten von technischen Nachweisen trennen und verfügbare Daten auswerten.",
+        "status": "in Arbeit",
+        "evidence": [
+          "Inhaber nach verfügbaren Google-/Bing-Daten gefragt; kein verbundener Zugriff vorhanden."
+        ]
+      }
+    ]
   }
 ]

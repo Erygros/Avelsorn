@@ -22,6 +22,11 @@ import { ProfessionalNetwork } from "@/components/professional-network";
 import { ServiceGroups } from "@/components/service-groups";
 import { ServiceDetail } from "@/components/service-detail";
 
+import { findSearchPage, searchHubs } from "@/content/search";
+import { searchMetadata } from "@/content/search/structured";
+import { SearchLanding, SearchHub } from "@/components/search-content";
+import { JsonLd } from "@/components/json-ld";
+
 const authTitles: Record<string, string> = {
     anmelden: "Anmelden",
     registrieren: "Konto erstellen",
@@ -46,6 +51,15 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const requestedPath = (await params).slug.join("/");
     const path = publicAliases[requestedPath] ?? requestedPath;
+    const searchPage = findSearchPage("/" + path);
+    if (searchPage) return searchMetadata(searchPage, "/" + path, baseUrl());
+    const hub = searchHubs.find((item) => item.path === "/" + path);
+    if (hub)
+        return searchMetadata(
+            { title: hub.title, description: hub.description },
+            hub.path,
+            baseUrl(),
+        );
     const service = services.find(
         (s) => path === "leistungen/" + s.slug || path === s.slug,
     );
@@ -156,6 +170,11 @@ export default async function PublicPage({ params, searchParams }: Props) {
     const requestedPath = (await params).slug.join("/");
     const path = publicAliases[requestedPath] ?? requestedPath;
     const query = await searchParams;
+    const searchPage = findSearchPage("/" + path);
+    if (searchPage) return <SearchLanding page={searchPage} />;
+    const hub = searchHubs.find((item) => item.path === "/" + path);
+    if (hub) return <SearchHub hub={hub} />;
+    if (/^(branchen|loesungen|wissen)\//.test(path)) notFound();
     if (publicAliases[requestedPath]) permanentRedirect("/" + path);
     const aliasService = services.find((item) => item.slug === requestedPath);
     if (aliasService) permanentRedirect("/leistungen/" + aliasService.slug);
@@ -206,7 +225,16 @@ export default async function PublicPage({ params, searchParams }: Props) {
             <>
                 <ServiceGroups overview />
                 <section className="supplementary-service">
-                    <h2>Ergänzend: Finanzgrundlagen</h2>
+                    <h2>Konkrete digitale Aufgaben</h2>
+                    <p>
+                        Von der Anfrage bis zur Freigabe: Die Lösungsseiten
+                        erklären mögliche Umsetzungen und benötigte
+                        Vorbereitungen.
+                    </p>
+                    <Link className="arrow-link" href="/loesungen">
+                        Digitale Lösungen ansehen ↗
+                    </Link>
+                    <h2 className="mt-8">Ergänzend: Finanzgrundlagen</h2>
                     <p>
                         Allgemeine Wissensvermittlung zu Märkten, Kosten und
                         Risiken. Keine individuelle Anlageberatung oder
@@ -321,22 +349,38 @@ export default async function PublicPage({ params, searchParams }: Props) {
         intro =
             "Die Aufgaben unterscheiden sich je nachdem, ob Du einen Betrieb führst, Deine Selbstständigkeit vorbereitest oder projektweise arbeitest. Hier findest Du die Unterstützung passend zu Deiner Situation.";
         body = (
-            <div className="service-grid">
-                {audiences.map((audience) => (
-                    <Link
-                        className="service-card"
-                        key={audience.slug}
-                        href={audiencePath(audience)}
-                    >
-                        <h2>{audience.name}</h2>
-                        <p>{audience.summary}</p>
-                        <span className="arrow-link">
-                            Aufgaben und Unterstützung ansehen{" "}
-                            <ArrowUpRight size={17} aria-hidden="true" />
-                        </span>
+            <>
+                <div className="service-grid">
+                    {audiences.map((audience) => (
+                        <Link
+                            className="service-card"
+                            key={audience.slug}
+                            href={audiencePath(audience)}
+                        >
+                            <h2>{audience.name}</h2>
+                            <p>{audience.summary}</p>
+                            <span className="arrow-link">
+                                Aufgaben und Unterstützung ansehen{" "}
+                                <ArrowUpRight size={17} aria-hidden="true" />
+                            </span>
+                        </Link>
+                    ))}
+                </div>
+                <section className="supplementary-service">
+                    <h2>Welche Aufgabe steht in Deinem Betrieb an?</h2>
+                    <p>
+                        In den Branchenbeispielen findest Du konkrete
+                        Anforderungen, mögliche Abläufe und Grenzen der
+                        technischen Umsetzung.
+                    </p>
+                    <Link className="arrow-link" href="/branchen">
+                        Branchen und Aufgaben ansehen ↗
                     </Link>
-                ))}
-            </div>
+                    <Link className="arrow-link" href="/loesungen">
+                        Digitale Lösungen nach Aufgabe ↗
+                    </Link>
+                </section>
+            </>
         );
     } else if (path === "ueber-mich") {
         const values = await business();
@@ -708,6 +752,31 @@ export default async function PublicPage({ params, searchParams }: Props) {
         const articleHtml = await publicHtml(post.body);
         body = (
             <>
+                <JsonLd
+                    value={{
+                        "@context": "https://schema.org",
+                        "@type": "BlogPosting",
+                        "@id": baseUrl() + "/blog/" + post.slug + "#article",
+                        headline: post.title,
+                        description: post.excerpt,
+                        datePublished: post.publishAt?.toISOString(),
+                        dateModified: post.updatedAt.toISOString(),
+                        inLanguage: "de-DE",
+                        author: { "@id": baseUrl() + "/#avelsorn" },
+                        publisher: { "@id": baseUrl() + "/#avelsorn" },
+                        mainEntityOfPage: baseUrl() + "/blog/" + post.slug,
+                    }}
+                />
+                <p className="search-editorial">
+                    Redaktion: <Link href="/ueber-mich">Avelsorn</Link> ·
+                    Aktualisiert am{" "}
+                    <time dateTime={post.updatedAt.toISOString()}>
+                        {new Intl.DateTimeFormat("de-DE", {
+                            dateStyle: "long",
+                            timeZone: "Europe/Berlin",
+                        }).format(post.updatedAt)}
+                    </time>
+                </p>
                 {articleImages[post.slug] && (
                     <EditorialPhoto
                         asset={articleImages[post.slug]}
