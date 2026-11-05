@@ -41,3 +41,7 @@ Der angeforderte Inhaberzugang für kontakt@avelsorn.de wurde mit den vom Inhabe
 Der aktuell öffentlich angebotene kostenpflichtige Vertragsweg ist das individuelle Angebot. Frühere Stunden-/Laufzeitpakete und direkte bezahlte Einzelbuchungen bleiben für neue Bestellungen gesperrt. Die alte Bestellfunktion wird nicht als neuer freigegebener Vertriebsweg ausgegeben.
 
 Die umfassende Geschäftsablaufabnahme bleibt in Arbeit. Besonders Projekt-/Aufgabenstatus, Wiedereröffnung abgeschlossener Projekte samt Dateiaufbewahrung, Chat/Dateifreigaben sowie Datenschutzabläufe sind weiter zu prüfen. Ein erfolgreicher Seitenaufruf oder eine einzelne Beispielrechnung beweist keine vollständige Abnahme aller Funktionen. Die technische Umsetzung ersetzt keine juristische Einzelfallprüfung und keine vollständige manuelle Barrierefreiheitsprüfung.
+
+## Veröffentlichung dieser Etappe
+
+GitHub-Stand `7cbe852` wurde als Vercel-Production-Deployment `dpl_CVxm4DbGsFWcr6KcncVQNLBZo8e2` mit Status Ready und Alias www.avelsorn.de verifiziert. Zehn Prüfungen auf der echten Domain bestätigen aktualisierte AGB, geschützte Konto-/Adminzugänge, Ablehnung anonymer Angebotsannahme, gesperrte Entwicklungsseiten und die geschlossene Ersteinrichtung (GET 404, erneuter Setup-Versuch 409). Bericht: `tests/output/contract-production-http.json`. Es wurden dafür keine künstlichen Produktionsverträge, Zahlungen oder Kunden angelegt. Die Geschäftsablaufprüfung erfolgte ausschließlich in QA.

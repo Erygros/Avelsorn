@@ -12563,7 +12563,8 @@
         "evidence": [
           "tests/service-packages.test.ts: vollständige Fassung, CMS-Änderung, Rollenprüfung, Idempotenz und Rollback.",
           "tests/output/contract-http-e2e.json: elf echte Aktionen ausschließlich in QA.",
-          "docs/CONTRACT_FLOW_AUDIT.md"
+          "docs/CONTRACT_FLOW_AUDIT.md",
+          "tests/output/contract-production-http.json: produktive Veröffentlichung, Zugriffsgrenzen und geschlossene Einrichtung verifiziert; Geschäftsabläufe ausschließlich in QA."
         ]
       },
       {
