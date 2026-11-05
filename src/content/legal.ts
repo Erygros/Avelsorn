@@ -115,6 +115,10 @@ export const legal: Record<
                 text: "Die veröffentlichten Einstiegspreise beziehen sich auf den jeweils beschriebenen Basisumfang. Maßgeblich ist der Gesamtpreis im konkret angenommenen Angebot. Für die Leistungen gilt die Steuerbefreiung für Kleinunternehmer gemäß § 19 UStG; Umsatzsteuer wird nicht gesondert ausgewiesen. Zahlungsart ist Banküberweisung; der Zahlungseingang wird nach Prüfung bestätigt. Ein Projekt wird nach vollständiger Zahlung angelegt. Der zulässige Leistungsbeginn richtet sich außerdem nach den bei Annahme abgegebenen Erklärungen.",
             },
             {
+                title: "Leistungsbeginn",
+                text: "Ohne Deinen ausdrücklichen Wunsch nach einem vorzeitigen Beginn planen wir die Leistung frühestens nach Ablauf von vierzehn Tagen ab Vertragsschluss. Fällt das Fristende auf ein Wochenende oder einen deutschen regionalen Feiertag, berücksichtigen wir dies bei der Planung vorsorglich durch einen späteren Beginn. Das konkrete früheste Datum erhältst Du in der Vertragsbestätigung. Die vollständige Zahlung bleibt Voraussetzung. Ein früherer Beginn setzt Dein ausdrückliches Verlangen und die gesonderte Bestätigung der Kenntnis vom Erlöschen des Widerrufsrechts bei vollständiger Leistung voraus. Gesetzliche Widerrufsrechte bleiben davon unberührt.",
+            },
+            {
                 title: "Leistungspakete und Zusatzaufgaben",
                 text: "Die Pakete beziehen sich auf vereinbarte Arbeitsergebnisse. Umfang, enthaltene Projektgespräche und Korrekturrunden werden im Angebot festgehalten. Weitere Aufgaben und externe Kosten benötigen eine gesonderte Vereinbarung. Es gibt keine automatische Verlängerung oder pauschal unbegrenzte Betreuung. Bereits abgeschlossene Verträge behalten ihre vereinbarten Bedingungen.",
             },

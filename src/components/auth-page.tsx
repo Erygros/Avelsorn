@@ -6,6 +6,8 @@ import { db } from "@/server/db";
 import { tokens, guardianConsents } from "@/server/schema";
 import { digest } from "@/server/security";
 import { products, money, type ProductKey } from "@/server/config";
+import { getSetting } from "@/server/settings";
+import { notFound } from "next/navigation";
 const field = (
     name: string,
     label: string,
@@ -22,6 +24,8 @@ export async function AuthPage({
     token?: string;
     returnTo?: string;
 }) {
+    if (slug === "einrichtung" && (await getSetting("setup_complete", false)))
+        notFound();
     const configurations: Record<
         string,
         {

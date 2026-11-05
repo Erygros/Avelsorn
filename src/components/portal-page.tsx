@@ -37,6 +37,7 @@ import { RescheduleForm } from "./reschedule-form";
 import { TimeCorrectionForm } from "./time-correction-form";
 import { formatInTimeZone } from "date-fns-tz";
 import { AdminOverview } from "./admin-overview";
+import { ContractTerms } from "./contract-terms";
 
 export function Status({ value }: { value: string }) {
     return (
@@ -1670,6 +1671,9 @@ export async function PortalPage({
                             <a href={"/api/documents/" + d.id + "/pdf"}>
                                 PDF herunterladen ↓
                             </a>
+                            {kind === "offer" && !admin && (
+                                <ContractTerms snapshot={d.snapshot} />
+                            )}
                             {kind === "offer" &&
                                 d.status === "sent" &&
                                 !admin && (
@@ -1698,7 +1702,7 @@ export async function PortalPage({
                                                 },
                                                 {
                                                     name: "withdrawalAcknowledged",
-                                                    label: "Ich habe die Hinweise zum frühzeitigen Leistungsbeginn und zum Widerrufsrecht gelesen.",
+                                                    label: "Mir ist bekannt, dass mein Widerrufsrecht bei vollständiger Vertragserfüllung erlischt, wenn ich dem Beginn vor Ablauf der Widerrufsfrist zugestimmt habe. Bei einem vorherigen Widerruf kann anteiliger Wertersatz anfallen.",
                                                     type: "checkbox",
                                                     required: false,
                                                 },

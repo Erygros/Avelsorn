@@ -23,6 +23,14 @@ import {
     assertCatalogAmount,
 } from "./package-catalog";
 import { consumeContractApproval, consumeApprovalScope } from "./guardian";
+import {
+    captureContractTerms,
+    savedContractTerms,
+    contractTermsText,
+    offerScopeText,
+    confirmContract,
+    regularWorkStart,
+} from "./contracts";
 
 export async function purchasePackage(
     user: User,
@@ -450,7 +458,16 @@ export async function sendOffer(admin: User, id: string) {
             .select()
             .from(users)
             .where(eq(users.id, doc.userId));
-        await tx
+        assert(
+            customer?.role === "customer" && !customer.disabledAt,
+            "Das Angebot benötigt ein aktives Kundenkonto.",
+        );
+        const contractTerms = await captureContractTerms(tx);
+        assert(
+            invoiceIssuerMissing(contractTerms.provider, 0).length === 0,
+            "Vervollständige die Ausstellerangaben vor dem Angebotsversand.",
+        );
+        const [sentOffer] = await tx
             .update(documents)
             .set({
                 number: await nextNumber("AN", tx),
@@ -461,7 +478,8 @@ export async function sendOffer(admin: User, id: string) {
                 snapshot: {
                     catalogPackage: catalogFromSnapshot(doc.snapshot),
                     preparedById: admin.id,
-                    business: await business(tx),
+                    contractTerms,
+                    business: contractTerms.provider,
                     customer: {
                         name: customer.name,
                         billingAddress: customer.billingAddress,
@@ -469,12 +487,13 @@ export async function sendOffer(admin: User, id: string) {
                 },
                 updatedAt: new Date(),
             })
-            .where(eq(documents.id, id));
+            .where(eq(documents.id, id))
+            .returning();
         await notify(
             doc.userId,
             "offer",
             "Ein Angebot für Dich",
-            "Dein Angebot ist sieben Tage gültig. Du kannst es im Kundenportal prüfen, annehmen oder ablehnen.",
+            `Dein Angebot ist sieben Tage gültig. Du kannst es im Kundenportal prüfen, annehmen oder ablehnen.\n\n${offerScopeText(sentOffer)}\n\n${contractTermsText(contractTerms)}`,
             "offer:" + id,
             "/konto/angebote",
             tx,
@@ -972,6 +991,11 @@ export async function respondOffer(
     earlyStart = false,
     withdrawalAcknowledged = false,
 ) {
+    assert(
+        user.role === "customer",
+        "Angebote können nur vom zugehörigen Kunden angenommen oder abgelehnt werden.",
+        403,
+    );
     readyCustomer(user, true);
     assert(
         !earlyStart || withdrawalAcknowledged,
@@ -1010,6 +1034,10 @@ export async function respondOffer(
             })
             .where(eq(documents.id, id));
         if (accept) {
+            const acceptedAt = new Date();
+            const contractTerms =
+                savedContractTerms(doc.snapshot) ??
+                (await captureContractTerms(tx));
             const [order] = await tx
                 .insert(orders)
                 .values({
@@ -1025,11 +1053,12 @@ export async function respondOffer(
                         catalogPackage: catalogFromSnapshot(doc.snapshot),
                         earlyStart,
                         withdrawalAcknowledged,
-                        workMayStartAt: new Date(
-                            Date.now() + (earlyStart ? 0 : 14 * 86400_000),
+                        workMayStartAt: (earlyStart
+                            ? acceptedAt
+                            : regularWorkStart(acceptedAt)
                         ).toISOString(),
                     },
-                    acceptedAt: new Date(),
+                    acceptedAt,
                 })
                 .returning();
             await tx.insert(documents).values({
@@ -1043,6 +1072,13 @@ export async function respondOffer(
                 description: doc.description,
                 snapshot: { catalogPackage: catalogFromSnapshot(doc.snapshot) },
             });
+            await confirmContract(
+                user,
+                order,
+                offerScopeText(doc),
+                contractTerms,
+                tx,
+            );
         }
         await notifyAdmin(
             "offer",

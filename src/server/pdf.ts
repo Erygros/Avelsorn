@@ -2,9 +2,9 @@ import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import { eq } from "drizzle-orm";
 import { db } from "./db";
 import { documents, users } from "./schema";
-import { business } from "./settings";
+import { business, invoiceIssuerMissing } from "./settings";
 import { storage } from "./storage";
-import { digest } from "./security";
+import { digest, assert } from "./security";
 import { money, berlin } from "./config";
 import { BRAND } from "../content/brand";
 import { brandLogoBytes } from "./brand";
@@ -26,10 +26,15 @@ export async function documentPdf(
     ].filter((entry): entry is [string, string] =>
         Boolean(entry[1] && !entry[1].includes("{{")),
     );
-    const invoiceReview =
-        doc.kind !== "offer" &&
-        doc.amountCents > 25000 &&
-        identifiers.length === 0;
+    const missing = invoiceIssuerMissing(
+        values,
+        doc.kind === "offer" ? 0 : Math.abs(doc.amountCents),
+    );
+    assert(
+        !doc.finalizedAt || missing.length === 0,
+        "Das Dokument kann mit unvollständigen Ausstellerangaben nicht erstellt werden: " +
+            missing.join(", "),
+    );
     const [user] = await db()
         .select()
         .from(users)
@@ -107,29 +112,11 @@ export async function documentPdf(
     text("Ausgestellt: " + calendarDate(doc.issuedAt ?? new Date()));
     if (doc.validUntil)
         text("Gültig bis: " + berlin(doc.validUntil) + " (Europe/Berlin)");
-    if (
-        doc.status === "draft" ||
-        Object.entries(values).some(
-            ([key, value]) =>
-                ![
-                    "vat_id_if_available",
-                    "small_business_id_if_available",
-                    "about_text",
-                    "contact_hours",
-                    "business_name",
-                    "bic",
-                ].includes(key) && value.includes("{{"),
-        )
-    )
+    if (doc.status === "draft")
+        text("ENTWURF · noch nicht ausgestellt", 9, bold, rgb(0.55, 0.2, 0.15));
+    if (missing.length)
         text(
-            "ENTWICKLUNGSFASSUNG · Pflichtangaben prüfen",
-            9,
-            bold,
-            rgb(0.55, 0.2, 0.15),
-        );
-    if (invoiceReview)
-        text(
-            "ENTWICKLUNGSFASSUNG · Rechnungsangaben gesondert prüfen",
+            "Vor Ausstellung sind die Ausstellerangaben zu vervollständigen.",
             9,
             bold,
             rgb(0.55, 0.2, 0.15),

@@ -11,6 +11,7 @@ import {
 } from "./schema";
 import { assert, owns, lock, audit } from "./security";
 import { notify, notifyAdmin } from "./events";
+import { assertContractConfirmation } from "./contracts";
 import {
     assertNoTimeOverlap,
     timePeriod,
@@ -42,6 +43,7 @@ async function assertServiceWork(projectId: string, at: Date, database: Db) {
         !contract.workMayStartAt || at >= new Date(contract.workMayStartAt),
         "Die Arbeit liegt vor dem vereinbarten Leistungsbeginn.",
     );
+    await assertContractConfirmation(order, at, database);
     return true;
 }
 export async function manualTime(

@@ -2,7 +2,7 @@ import { beforeAll, afterAll, it, expect, vi } from "vitest";
 import { PGlite } from "@electric-sql/pglite";
 import { drizzle } from "drizzle-orm/pglite";
 import { migrate } from "drizzle-orm/pglite/migrator";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import * as s from "../src/server/schema";
 import type { Database } from "../src/server/db";
 import {
@@ -24,6 +24,7 @@ import {
 import { book, changeBooking } from "../src/server/calendar";
 import { timer, manualTime } from "../src/server/projects";
 import { decrypt } from "../src/server/security";
+import { savedContractTerms } from "../src/server/contracts";
 const local = new PGlite();
 const database = drizzle(local, { schema: s });
 let admin: s.User, customer: s.User, other: s.User;
@@ -359,4 +360,194 @@ it("nimmt einen vorzeitigen Beginn ohne ausdrückliche Bestätigung nicht an", a
         .from(s.documents)
         .where(eq(s.documents.id, doc.id));
     expect(unchanged.status).toBe("sent");
+});
+
+it("übermittelt Angebot und Vertragsbestätigung vollständig und bewahrt die angebotene Rechtsfassung trotz späterer CMS-Änderung", async () => {
+    await database.insert(s.pages).values({
+        slug: "agb",
+        title: "Vereinbarte Bedingungen",
+        description: "Prüfung",
+        body: "<p>Vereinbarte Fassung &amp; Mitwirkung.</p>",
+    });
+    try {
+        const doc = await createOffer(admin, {
+            userId: customer.id,
+            catalogKey: "creator",
+            description:
+                "Einrichtung eines Creator-Auftritts, Lieferung nach Abstimmung bis 30.06.2030. Zahlung vor Beginn.",
+            items: [
+                {
+                    description: "Creator-Auftritt",
+                    quantity: 1,
+                    unitCents: 19900,
+                },
+            ],
+        });
+        await sendOffer(admin, doc.id);
+        const [sent] = await database
+            .select()
+            .from(s.documents)
+            .where(eq(s.documents.id, doc.id));
+        const original = savedContractTerms(sent.snapshot)!;
+        await expect(
+            respondOffer(
+                admin,
+                doc.id,
+                true,
+                "Ich nehme dieses Angebot stellvertretend zahlungspflichtig an.",
+            ),
+        ).rejects.toThrow("zugehörigen Kunden");
+        expect(original.terms).toContain("Fassung & Mitwirkung.");
+        const [offerMail] = await database
+            .select()
+            .from(s.outbox)
+            .where(eq(s.outbox.eventKey, "offer:" + doc.id));
+        expect(decrypt(offerMail.encryptedBody)).toContain("Creator-Auftritt");
+        expect(decrypt(offerMail.encryptedBody)).toContain(
+            original.withdrawalForm,
+        );
+        await database
+            .update(s.pages)
+            .set({ body: "<p>Spätere abweichende Bedingungen.</p>" })
+            .where(eq(s.pages.slug, "agb"));
+        await respondOffer(
+            customer,
+            doc.id,
+            true,
+            "Ich nehme dieses Angebot verbindlich und zahlungspflichtig an.",
+            false,
+            false,
+        );
+        const [invoice] = await database
+            .select()
+            .from(s.documents)
+            .where(eq(s.documents.parentId, doc.id));
+        const [order] = await database
+            .select()
+            .from(s.orders)
+            .where(eq(s.orders.id, invoice.orderId!));
+        const [mail] = await database
+            .select()
+            .from(s.outbox)
+            .where(eq(s.outbox.eventKey, "contract:" + order.id));
+        const copy = decrypt(mail.encryptedBody);
+        expect(mail.to).toBe(customer.email);
+        for (const text of [
+            order.reference,
+            customer.name,
+            customer.billingAddress!,
+            doc.description,
+            "199",
+            original.terms,
+            original.withdrawal,
+            original.withdrawalForm,
+        ])
+            expect(copy).toContain(text);
+        expect(copy).not.toContain("Spätere abweichende Bedingungen");
+        expect(savedContractTerms(order.contract)?.hash).toBe(original.hash);
+        await expect(
+            respondOffer(
+                customer,
+                doc.id,
+                true,
+                "Ich nehme dieses Angebot erneut zahlungspflichtig an.",
+            ),
+        ).rejects.toThrow();
+        expect(
+            await database
+                .select()
+                .from(s.outbox)
+                .where(eq(s.outbox.eventKey, "contract:" + order.id)),
+        ).toHaveLength(1);
+    } finally {
+        await database.delete(s.pages).where(eq(s.pages.slug, "agb"));
+    }
+});
+
+it("rollt Vertragsannahme und Rechnung zurück, wenn die dauerhafte Bestätigung nicht gespeichert werden kann", async () => {
+    const doc = await createOffer(admin, {
+        userId: customer.id,
+        description: "Einzelberatung nach Zahlung mit schriftlichem Ergebnis.",
+        items: [
+            { description: "Einzelberatung", quantity: 1, unitCents: 19900 },
+        ],
+    });
+    await sendOffer(admin, doc.id);
+    const before = (await database.select().from(s.orders)).length;
+    await database.execute(
+        sql`ALTER TABLE mail_outbox ADD CONSTRAINT qa_contract_outbox_failure CHECK (event_key NOT LIKE 'contract:%') NOT VALID`,
+    );
+    try {
+        await expect(
+            respondOffer(
+                customer,
+                doc.id,
+                true,
+                "Ich nehme dieses Angebot verbindlich und zahlungspflichtig an.",
+            ),
+        ).rejects.toThrow();
+        expect((await database.select().from(s.orders)).length).toBe(before);
+        expect(
+            await database
+                .select()
+                .from(s.documents)
+                .where(eq(s.documents.parentId, doc.id)),
+        ).toHaveLength(0);
+        const [unchanged] = await database
+            .select()
+            .from(s.documents)
+            .where(eq(s.documents.id, doc.id));
+        expect(unchanged.status).toBe("sent");
+        expect(unchanged.respondedAt).toBeNull();
+    } finally {
+        await database.execute(
+            sql`ALTER TABLE mail_outbox DROP CONSTRAINT qa_contract_outbox_failure`,
+        );
+    }
+});
+
+it("startet keine Projektarbeit, solange die Vertragsbestätigung nicht erfolgreich übermittelt wurde", async () => {
+    const { order } = await paid("creator", true);
+    const [current] = await database
+        .select()
+        .from(s.orders)
+        .where(eq(s.orders.id, order.id));
+    const projectId = (current.contract as { projectId: string }).projectId;
+    const start = () =>
+        timer(admin, {
+            action: "start",
+            projectId,
+            activity: "Vereinbarte Umsetzung",
+        });
+    await expect(start()).rejects.toThrow("Vertragsbestätigung");
+    await database
+        .update(s.outbox)
+        .set({ status: "delivery_unknown" })
+        .where(eq(s.outbox.eventKey, "contract:" + order.id));
+    await expect(start()).rejects.toThrow("Vertragsbestätigung");
+    expect(
+        await database
+            .select()
+            .from(s.timeEntries)
+            .where(eq(s.timeEntries.projectId, projectId)),
+    ).toHaveLength(0);
+    await database
+        .update(s.outbox)
+        .set({ status: "smtp_accepted", sentAt: new Date() })
+        .where(eq(s.outbox.eventKey, "contract:" + order.id));
+    const running = await start();
+    expect(running).toHaveProperty("status", "running");
+    vi.useFakeTimers({ toFake: ["Date"] });
+    vi.setSystemTime(new Date(Date.now() + 2000));
+    try {
+        await timer(admin, { action: "stop" });
+    } finally {
+        vi.useRealTimers();
+    }
+    const [entry] = await database
+        .select()
+        .from(s.timeEntries)
+        .where(eq(s.timeEntries.projectId, projectId));
+    expect(entry.status).toBe("stopped");
+    expect(entry.durationSeconds).toBe(2);
 });

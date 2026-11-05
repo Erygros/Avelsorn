@@ -80,3 +80,7 @@ Zusätzliche optionale Stammdaten contact_hours und about_text werden im Adminbe
 ## Nachtrag: Rechtstexte und Datenintegrität
 
 Zentrale Anbieterangaben bleiben bei redaktionellen Änderungen von Rechtstexten erhalten. Eine Widerrufserklärung wird mit Bestätigungs-Outbox, Adminhinweis und Audit atomar gespeichert. Rechnungsfinalisierung prüft Pflichtangaben; eine Zahlung wird nicht wegen fehlender Rechnungsstammdaten verworfen. Ältere Backups müssen in das aktuelle Schema unter Erhalt neu eingeführter Standardwerte wiederherstellbar sein. Prüfstand und fachliche Grenzen: docs/LEGAL_OPERATIONAL_AUDIT.md.
+
+## Vertragsfassungen und Bestätigungen
+
+Beim Versand wird die angebotene Fassung der Bedingungen in documents.snapshot.contractTerms mit Anbieterangaben und Inhalts-Hash eingefroren. Eine Annahme übernimmt sie in orders.contract, speichert den vollständigen Bestätigungstext und legt die verschlüsselte Outbox atomar an. Änderungen im CMS verändern vorhandene Angebote/Verträge nicht. Neue auftragsgebundene Zeiterfassung prüft Zahlung, vereinbarten Beginn und SMTP-Annahme der Vertragsbestätigung. Ein unbekannter Versandstatus ist keine Versandbestätigung. Historische Bestellungen bleiben erhalten. Abnahme und Grenzen: docs/CONTRACT_FLOW_AUDIT.md.

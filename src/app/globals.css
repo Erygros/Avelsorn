@@ -2812,3 +2812,8 @@ address {
 
 :where(h1,h2,h3) { overflow-wrap:anywhere; hyphens:auto; }
 .calendar-dialog { margin:auto; }
+.contract-dialog { margin:auto; width:min(760px,calc(100vw - 32px)); max-height:calc(100dvh - 32px); overflow:auto; border:1px solid var(--line); padding:24px; background:#fff; color:var(--ink); font-size:14px; line-height:1.8; white-space:normal; }
+.contract-dialog::backdrop { background:#22251f77; }
+.contract-dialog h2 { margin:24px 0; font-size:28px; line-height:1.2; }
+.contract-dialog p { white-space:pre-line; overflow-wrap:anywhere; }
+.contract-dialog > .button { position:sticky; top:0; z-index:1; background:#fff; }

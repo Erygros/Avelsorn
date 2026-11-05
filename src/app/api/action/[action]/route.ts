@@ -1312,16 +1312,26 @@ async function dispatch(action: string, input: unknown): Promise<unknown> {
         );
     if (action === "settings") {
         const data = z.record(z.string(), z.string().max(2000)).parse(input);
-        for (const [key, value] of Object.entries(data)) {
+        for (const key of Object.keys(data)) {
             assert(
                 key !== "brand_name" &&
                     publicKeys.includes(key as (typeof publicKeys)[number]),
                 "Dieses Feld darf hier nicht geändert werden.",
             );
-            await setSetting(key, value);
         }
-        await audit(user.id, "settings.updated", "settings", undefined, {
-            keys: Object.keys(data),
+        await db().transaction(async (tx) => {
+            for (const [key, value] of Object.entries(data))
+                await setSetting(key, value, tx);
+            await audit(
+                user.id,
+                "settings.updated",
+                "settings",
+                undefined,
+                {
+                    keys: Object.keys(data),
+                },
+                tx,
+            );
         });
         return { ok: true };
     }

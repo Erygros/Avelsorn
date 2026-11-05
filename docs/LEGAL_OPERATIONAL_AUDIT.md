@@ -46,10 +46,10 @@ Der Inhaber hat im Chat den Abschluss der AVV/DPA für alle drei Dienste bestät
 
 ## Noch offen im Gesamtziel
 
-- Der Inhaberzugang soll `kontakt@avelsorn.de` verwenden. Noch kein Administratorkonto in Produktion. Eigenes Passwort und tatsächliches Geburtsdatum legt der Inhaber im geschützten Einrichtungsformular fest; diese werden nicht erfunden. Einrichtungsschlüssel nur in ignorierter privater Konfiguration.
+- Der angeforderte Inhaberzugang wurde mit übermittelten Angaben angelegt. Die Passwortmail wurde vom SMTP-Server angenommen. Die Anmeldung des Inhabers wurde nicht unabhängig bestätigt; Einzelheiten in docs/CONTRACT_FLOW_AUDIT.md.
 - Vollständige manuelle Barrierefreiheitsprüfung, visuelle PDF-/Mail-Abnahme und umfassende Geschäftsablaufprüfung beider Dashboards bleiben separat nachzuweisen.
 - Anbieter-/Steuerstatus und Vertragstexte sind mit Inhaberangaben und tatsächlichen Funktionen abgeglichen; eine abschließende juristische Einzelfallprüfung ist damit nicht ersetzt.
-- Vertragsbestätigungen auf dauerhaftem Datenträger und die Abdeckung aller einzelnen Vertragsarten sind im nächsten Durchgang gezielt zu prüfen. Eine Website-Verlinkung allein ist dafür kein Nachweis.
+- Vollständige Angebots- und Vertragsbestätigungen wurden für den aktuellen Angebotsweg implementiert und geprüft; weitere Geschäftsabläufe bleiben offen. Nachweise: docs/CONTRACT_FLOW_AUDIT.md.
 
 ## Veröffentlichung und Nachprüfung
 

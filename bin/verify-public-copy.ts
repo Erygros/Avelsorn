@@ -54,7 +54,12 @@ async function main() {
     for (const path of paths) {
         const response = await fetch(base + path);
         const html = await response.text();
-        assert.equal(response.status, 200, path);
+        if (path === "/einrichtung")
+            assert.ok(
+                [200, 404].includes(response.status),
+                path + " available only before initial setup",
+            );
+        else assert.equal(response.status, 200, path);
         assert.equal((html.match(/<h1[ >]/g) ?? []).length, 1, path + " H1");
         assert.ok(!retired.test(html), path + " retired copy");
         assert.ok(

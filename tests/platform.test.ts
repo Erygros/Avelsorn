@@ -505,12 +505,13 @@ describe("Pakete, Bankeingang und Rechnungen", () => {
             .where(eq(schema.users.id, invoice.userId));
         expect(digest(await documentPdf(stored))).toBe(digest(bytes));
     });
-    it("druckt keine entfernte oder leere Steuerzeile und kennzeichnet gesondert zu prüfende größere Rechnungen", async () => {
+    it("druckt keine entfernte Steuerzeile, kennzeichnet Entwürfe und verweigert neue endgültige PDFs mit fehlenden Pflichtangaben", async () => {
         const [template] = await database.select().from(schema.documents);
         const issuer = {
             legal_full_name: "Testanbieter",
             business_street: "Teststraße 1",
             business_postcode: "12345",
+            business_city: "Teststadt",
             contact_email: "qa@example.test",
             account_holder: "Testanbieter",
             iban: "TESTKONTO",
@@ -559,7 +560,17 @@ describe("Pakete, Bankeingang und Rechnungen", () => {
                 ],
             }),
         );
-        expect(larger).toContain("Rechnungsangaben gesondert prüfen");
+        expect(larger).toContain("Ausstellerangaben zu vervollständigen");
+        expect(larger).toContain("ENTWURF");
+        expect(larger).not.toContain("ENTWICKLUNGSFASSUNG");
+        await expect(
+            documentPdf({
+                ...sample,
+                amountCents: 34900,
+                finalizedAt: new Date(),
+                status: "issued",
+            }),
+        ).rejects.toThrow("unvollständigen Ausstellerangaben");
         const identified = await renderedPdfText(
             await documentPdf({
                 ...sample,

@@ -12447,9 +12447,10 @@
       {
         "id": "52.3",
         "text": "Inhaber legt das Produktionsadministratorkonto über die geschützte Ersteinrichtung an.",
-        "status": "offen",
+        "status": "erledigt",
         "evidence": [
-          "Produktionsdatenbank enthält zum Veröffentlichungszeitpunkt kein Administratorkonto."
+          "tests/output/owner-account-setup.json: echtes Inhaberkonto auf ausdrücklichen Wunsch mit übermittelten Angaben angelegt.",
+          "tests/output/owner-account-reset-delivery.json: SMTP-Annahme der Mail zur eigenen Passwortvergabe; Inhaberanmeldung nicht unabhängig bestätigt."
         ]
       }
     ]
@@ -12552,7 +12553,36 @@
         "status": "in Arbeit",
         "evidence": [
           "tests/output/admin-workspace-http.json: 50 Seiten-/Berechtigungsprüfungen; keine vollständige Ablaufabnahme.",
-          "Produktionskonto noch durch den Inhaber einzurichten."
+          "Inhaberkonto angelegt. Vollständige Geschäftsablaufabnahme noch in Arbeit."
+        ]
+      },
+      {
+        "id": "54.6",
+        "text": "Angebot und Vertragsbestätigung mit unveränderlicher Rechtsfassung und transaktionalem Speicherungsnachweis bereitstellen.",
+        "status": "erledigt",
+        "evidence": [
+          "tests/service-packages.test.ts: vollständige Fassung, CMS-Änderung, Rollenprüfung, Idempotenz und Rollback.",
+          "tests/output/contract-http-e2e.json: elf echte Aktionen ausschließlich in QA.",
+          "docs/CONTRACT_FLOW_AUDIT.md"
+        ]
+      },
+      {
+        "id": "54.7",
+        "text": "Neuen vertraglichen Arbeitsbeginn mit Berliner Kalendertagen planen und auftragsgebundene Zeiterfassung vor Bestätigungsversand sperren.",
+        "status": "erledigt",
+        "evidence": [
+          "tests/contract-scheduling.test.ts: sechs Kalenderfälle.",
+          "tests/service-packages.test.ts: ausstehender, unbekannter und bestätigter SMTP-Status."
+        ]
+      },
+      {
+        "id": "54.8",
+        "text": "Vertragsdialog, E-Mail-Vorlage und ausgewählte erzeugte PDF-Dokumente visuell prüfen.",
+        "status": "erledigt",
+        "evidence": [
+          "tests/output/contract-browser-verification.json: sechs Layoutprüfungen mit Tastatur und Fokus.",
+          "tests/output/contract-customer-a11y.json",
+          "tests/output/contract-qa-offer-1.png und contract-qa-invoice-1.png: API-Dokumente ohne Entwicklungshinweise."
         ]
       }
     ]
