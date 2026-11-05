@@ -12429,51 +12429,80 @@
         "id": "52.1",
         "text": "Öffentliche Website auf Vercel mit Supabase-Datenbank, privatem Speicher und Checkdomain-SMTP veröffentlichen und prüfen.",
         "status": "erledigt",
-        "evidence": ["PROGRESS.md: Inbetriebnahme vom 05.11.2026; 44 öffentliche Seiten, drei Aliase und 404 geprüft.", "tests/output/production-api-checks.json: sieben API-, Domain- und Sitemapprüfungen erfolgreich.", "data/production-service-check.json: S3-Rundlauf und SMTP-Authentifizierung erfolgreich."]
+        "evidence": [
+          "PROGRESS.md: Inbetriebnahme vom 05.11.2026; 44 öffentliche Seiten, drei Aliase und 404 geprüft.",
+          "tests/output/production-api-checks.json: sieben API-, Domain- und Sitemapprüfungen erfolgreich.",
+          "data/production-service-check.json: S3-Rundlauf und SMTP-Authentifizierung erfolgreich."
+        ]
       },
       {
         "id": "52.2",
         "text": "Kontakt- und Paketanfragen mit einem statischen Ping an die private Inhaberadresse melden.",
         "status": "erledigt",
-        "evidence": ["tests/service-packages.test.ts prüft die einzelne Benachrichtigung ohne Kundeninhalt, Link oder Anhang.", "data/production-ping-check.json: Test-Ping vom echten SMTP-Server angenommen; tatsächlicher privater Posteingang ist nicht unabhängig bestätigt."]
+        "evidence": [
+          "tests/service-packages.test.ts prüft die einzelne Benachrichtigung ohne Kundeninhalt, Link oder Anhang.",
+          "data/production-ping-check.json: Test-Ping vom echten SMTP-Server angenommen; tatsächlicher privater Posteingang ist nicht unabhängig bestätigt."
+        ]
       },
       {
         "id": "52.3",
         "text": "Inhaber legt das Produktionsadministratorkonto über die geschützte Ersteinrichtung an.",
         "status": "offen",
-        "evidence": ["Produktionsdatenbank enthält zum Veröffentlichungszeitpunkt kein Administratorkonto."]
+        "evidence": [
+          "Produktionsdatenbank enthält zum Veröffentlichungszeitpunkt kein Administratorkonto."
+        ]
       }
     ]
   },
   {
     "id": "53",
     "title": "Öffentliche Terminbuchung, CRM-Kalender und responsive Seiten",
-    "status": "in Arbeit",
+    "status": "erledigt",
     "acceptance": [
       {
         "id": "53.1",
         "text": "Direktbuchung mit vorhandener Authentifizierung, Telefonpflicht, aktuellen Zeiten und transaktionalem Schutz gegen Doppelbuchungen.",
         "status": "erledigt",
-        "evidence": ["tests/calendar-extension.test.ts", "tests/output/calendar-api-e2e.json", "tests/output/calendar-ui-e2e.json"]
+        "evidence": [
+          "tests/calendar-extension.test.ts",
+          "tests/output/calendar-api-e2e.json",
+          "tests/output/calendar-ui-e2e.json"
+        ]
       },
       {
         "id": "53.2",
         "text": "Admin-Kalender mit vier Ansichten, Detailaktionen, internen Notizen, Terminfreigaben und Verfügbarkeitsverwaltung.",
         "status": "erledigt",
-        "evidence": ["src/components/admin-calendar.tsx und bestehende Portalverwaltung.", "calendar-admin-*.png: alle vier Ansichten bei 320 px geprüft; acht feste Navigationspunkte.", "tests/output/calendar-api-e2e.json: Adminfreigaben und Schutz interner Notizen."]
+        "evidence": [
+          "src/components/admin-calendar.tsx und bestehende Portalverwaltung.",
+          "calendar-admin-*.png: alle vier Ansichten bei 320 px geprüft; acht feste Navigationspunkte.",
+          "tests/output/calendar-api-e2e.json: Adminfreigaben und Schutz interner Notizen."
+        ]
       },
       {
         "id": "53.3",
         "text": "Bestätigungen und aktualisierte ICS versenden, Erinnerungen für 24 Stunden und eine Stunde mit produktivem Zeitplan betreiben.",
-        "status": "in Arbeit",
-        "evidence": ["tests/calendar-extension.test.ts: einmalige Reminder je Revision und gesperrte Absagen.", "bin/configure-reminders.ts: Supabase-Zeitplan mit Vault-Authentifizierung vorbereitet."]
+        "status": "erledigt",
+        "evidence": [
+          "tests/calendar-extension.test.ts: einmalige Reminder je Revision und gesperrte Absagen.",
+          "bin/configure-reminders.ts: Supabase-Zeitplan mit Vault-Authentifizierung vorbereitet.",
+          "tests/output/calendar-production-scheduler.json: minütlicher Supabase-Job erfolgreich, HTTP 200 und produktiver Aufgabenabschluss bestätigt."
+        ]
       },
       {
         "id": "53.4",
         "text": "Technische Hilfstexte entfernen und öffentliche Seiten einschließlich Rechtstexten für Mobil-, Tablet- und Desktopbreiten prüfen.",
         "status": "erledigt",
-        "evidence": ["tests/output/calendar-public-responsive.json: 45 Seiten bei 320, 768 und 1440 px ohne horizontalen Überlauf.", "bin/verify-public-copy.ts: Entwicklungsvermerke ausgeschlossen; 45 öffentliche Seiten geprüft."]
+        "evidence": [
+          "tests/output/calendar-public-responsive.json: 45 Seiten bei 320, 768 und 1440 px ohne horizontalen Überlauf.",
+          "bin/verify-public-copy.ts: Entwicklungsvermerke ausgeschlossen; 45 öffentliche Seiten geprüft."
+        ]
       }
+    ],
+    "evidence": [
+      "47 Funktionstests, TypeScript, ESLint und Vercel-Produktionsbuild erfolgreich.",
+      "45 öffentliche Seiten auf Produktionsdomain, 135 lokale Layoutprüfungen und 50 Portal-/Zugriffsprüfungen erfolgreich.",
+      "Echte Browserbuchung, Verschiebung und Absage ausschließlich in separater QA-Instanz geprüft."
     ]
   }
 ]
