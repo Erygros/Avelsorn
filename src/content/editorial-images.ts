@@ -41,3 +41,7 @@ export const articleImages: Record<string, EditorialAsset> = {
         alt: "Kleiner Arbeitsplatz am Fenster mit Laptop, Projektordner und aufgeschlagenem Notizbuch",
     },
 };
+
+export function articleImage(slug: string): EditorialAsset | undefined {
+    return Object.hasOwn(articleImages, slug) ? articleImages[slug] : undefined;
+}

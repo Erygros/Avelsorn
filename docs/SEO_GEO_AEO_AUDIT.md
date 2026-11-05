@@ -71,6 +71,7 @@ Die Hauptdatei des installierten SEO/GEO-Skills wurde gelesen. Dessen verlinkte 
 - Startseite, Leistungen und Blog auf der Live-Domain mit vier simulierten User-Agent-Kennungen geprüft: gleiche Hauptüberschrift, Titel und Beschreibung für Browser, Googlebot, Bingbot und OAI-SearchBot. Das simuliert HTTP-Anfragen und beweist keine Aufnahme durch echte Suchdienste.
 - Gastbuchung nach Umstellung des Transaktionspools erneut in der geschützten Vorschau durchlaufen: zwölf öffentliche HTTP-/Aliasprüfungen, parallele Buchungsanfragen mit genau einem Gewinner, Zugriffsgrenzen, Verschiebung und Absage. Testdaten entfernt, kein Mailversand; `tests/output/website-preview-booking.json`.
 - Typprüfung, Lint, 87 Tests und Produktionsbuild erfolgreich. Prüfdaten: `tests/output/search-{production-audit,local-audit,preview-audit,browser-audit,preview-browser,approved-qa,local-http,live-user-agent}.json`.
+- Redaktionelle Nachprüfung: Die fünf vorhandenen Blogartikel führen jeweils zu zwei passenden Arbeitshilfen oder Lösungsseiten. Der isolierte HTTP-Test bestätigt alle zehn Verweise und die Übereinstimmung der fünf abrufbaren Titelbilder in Open Graph und BlogPosting. Ergebnisse in `tests/output/search-blog-links.json`. Eine weitere öffentliche Suchstichprobe mit exaktem Markennamen samt Inhaber und mit Domainfilter ergab im eingesetzten Suchwerkzeug keine Treffer. Für einen Indexierungsbefund sind URL-Prüfberichte des jeweiligen Suchdiensts erforderlich.
 
 ## 6. Messung ohne vorgetäuschte Ergebnisse
 

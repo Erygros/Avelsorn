@@ -80,3 +80,25 @@ export const serviceQuestions: Record<
         },
     ],
 };
+export const articleSearchLinks = new Map<string, readonly string[]>([
+    [
+        "prozesse-sinnvoll-automatisieren",
+        ["/wissen/prozessaufnahme-vorlage", "/wissen/automatisierung-oder-ki"],
+    ],
+    [
+        "website-klarer-naechster-schritt",
+        ["/wissen/website-briefing", "/loesungen/website-relaunch"],
+    ],
+    [
+        "social-media-strategie-alltag",
+        ["/wissen/redaktionsplan-vorlage", "/loesungen/kooperationsanfragen"],
+    ],
+    [
+        "positionierung-fuer-deine-gruendung",
+        ["/wissen/geschaeftsidee-testen", "/wissen/website-kosten"],
+    ],
+    [
+        "digitale-selbststaendigkeit-erster-schritt",
+        ["/wissen/geschaeftsidee-testen", "/wissen/website-oder-webanwendung"],
+    ],
+]);

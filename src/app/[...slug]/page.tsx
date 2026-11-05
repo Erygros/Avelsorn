@@ -15,7 +15,7 @@ import { posts, pages } from "@/server/schema";
 import { publicHtml } from "@/server/content";
 import { baseUrl } from "@/server/config";
 import { EditorialPhoto } from "@/components/editorial-photo";
-import { articleImages } from "@/content/editorial-images";
+import { articleImage } from "@/content/editorial-images";
 import { audiences, audiencePath } from "@/content/audiences";
 import { ProfessionalNetwork } from "@/components/professional-network";
 
@@ -24,6 +24,7 @@ import { ServiceDetail } from "@/components/service-detail";
 
 import { findSearchPage, searchHubs } from "@/content/search";
 import { searchMetadata } from "@/content/search/structured";
+import { articleSearchLinks } from "@/content/search/service-links";
 import { SearchLanding, SearchHub } from "@/components/search-content";
 import { JsonLd } from "@/components/json-ld";
 
@@ -112,6 +113,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
                   ),
               )
         : [];
+    const image = post ? articleImage(post.slug) : undefined;
     return {
         title:
             post?.seoTitle ??
@@ -149,14 +151,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
                 descriptions[path] ??
                 "Persönliche Beratung und praktische Umsetzung bei Avelsorn.",
             url: "/" + (service ? "leistungen/" + service.slug : path),
-            images: [
-                {
-                    url: "/brand/avelsorn-logo.png",
-                    width: 3200,
-                    height: 712,
-                    alt: "Avelsorn",
-                },
-            ],
+            images: image
+                ? [
+                      {
+                          url: image.src.src,
+                          width: image.src.width,
+                          height: image.src.height,
+                          alt: image.alt,
+                      },
+                  ]
+                : [
+                      {
+                          url: "/brand/avelsorn-logo.png",
+                          width: 3200,
+                          height: 712,
+                          alt: "Avelsorn",
+                      },
+                  ],
         },
         alternates: {
             canonical:
@@ -708,25 +719,28 @@ export default async function PublicPage({ params, searchParams }: Props) {
             .orderBy(desc(posts.publishAt));
         body = articles.length ? (
             <div className="article-grid">
-                {articles.map((p, i) => (
-                    <Link
-                        href={"/blog/" + p.slug}
-                        className="article-card"
-                        key={p.id}
-                    >
-                        {articleImages[p.slug] && (
-                            <EditorialPhoto
-                                asset={articleImages[p.slug]}
-                                className="article-cover"
-                                sizes="(max-width: 640px) calc(100vw - 40px), (max-width: 900px) calc((100vw - 105px) / 2), (max-width: 1150px) calc((100vw - 140px) / 3), (max-width: 1352px) calc((100vw - 182px) / 3), 390px"
-                                preload={i === 0}
-                            />
-                        )}
-                        <h2>{p.title}</h2>
-                        <p>{p.excerpt}</p>
-                        <span className="arrow-link">Weiterlesen ↗</span>
-                    </Link>
-                ))}
+                {articles.map((p, i) => {
+                    const image = articleImage(p.slug);
+                    return (
+                        <Link
+                            href={"/blog/" + p.slug}
+                            className="article-card"
+                            key={p.id}
+                        >
+                            {image && (
+                                <EditorialPhoto
+                                    asset={image}
+                                    className="article-cover"
+                                    sizes="(max-width: 640px) calc(100vw - 40px), (max-width: 900px) calc((100vw - 105px) / 2), (max-width: 1150px) calc((100vw - 140px) / 3), (max-width: 1352px) calc((100vw - 182px) / 3), 390px"
+                                    preload={i === 0}
+                                />
+                            )}
+                            <h2>{p.title}</h2>
+                            <p>{p.excerpt}</p>
+                            <span className="arrow-link">Weiterlesen ↗</span>
+                        </Link>
+                    );
+                })}
             </div>
         ) : (
             <p className="empty-state">
@@ -750,6 +764,13 @@ export default async function PublicPage({ params, searchParams }: Props) {
         intro = post.excerpt;
 
         const articleHtml = await publicHtml(post.body);
+        const image = articleImage(post.slug);
+        const related = (articleSearchLinks.get(post.slug) ?? []).flatMap(
+            (path) => {
+                const page = findSearchPage(path);
+                return page ? [{ path, heading: page.heading }] : [];
+            },
+        );
         body = (
             <>
                 <JsonLd
@@ -759,6 +780,9 @@ export default async function PublicPage({ params, searchParams }: Props) {
                         "@id": baseUrl() + "/blog/" + post.slug + "#article",
                         headline: post.title,
                         description: post.excerpt,
+                        image: image
+                            ? new URL(image.src.src, baseUrl()).href
+                            : undefined,
                         datePublished: post.publishAt?.toISOString(),
                         dateModified: post.updatedAt.toISOString(),
                         inLanguage: "de-DE",
@@ -777,9 +801,9 @@ export default async function PublicPage({ params, searchParams }: Props) {
                         }).format(post.updatedAt)}
                     </time>
                 </p>
-                {articleImages[post.slug] && (
+                {image && (
                     <EditorialPhoto
-                        asset={articleImages[post.slug]}
+                        asset={image}
                         className="article-feature"
                         sizes="(max-width: 640px) calc(100vw - 40px), (max-width: 900px) calc(100vw - 70px), 830px"
                         preload
@@ -791,6 +815,18 @@ export default async function PublicPage({ params, searchParams }: Props) {
                         __html: articleHtml,
                     }}
                 />
+                {related.length > 0 && (
+                    <section className="search-related">
+                        <h2>Vorlagen und nächste Schritte</h2>
+                        <ul>
+                            {related.map(({ path, heading }) => (
+                                <li key={path}>
+                                    <Link href={path}>{heading} ↗</Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </section>
+                )}
             </>
         );
     } else notFound();
