@@ -78,12 +78,23 @@ async function main() {
         throw Error("Ungültige Auditadresse.");
     const catalog = process.argv.includes("--catalog");
     const expectIndexable = process.argv.includes("--expect-indexable");
+    const expectPreview = base.hostname.endsWith(".vercel.app");
     const headers: Record<string, string> = {
         "User-Agent": "AvelsornReadOnlySeoAudit/1.0",
     };
-    if (process.env.SEO_AUDIT_OIDC_TOKEN)
+    if (process.env.SEO_AUDIT_OIDC_TOKEN) {
+        if (
+            base.protocol !== "https:" ||
+            !/^avelsorn-[a-z0-9-]+-erygros-8437\.vercel\.app$/.test(
+                base.hostname,
+            )
+        )
+            throw Error(
+                "Das Vorschau-Token darf nur an die Avelsorn-Vorschau gesendet werden.",
+            );
         headers["x-vercel-trusted-oidc-idp-token"] =
             process.env.SEO_AUDIT_OIDC_TOKEN;
+    }
     const findings: Finding[] = [],
         records: Page[] = [],
         visited = new Set<string>();
@@ -93,11 +104,30 @@ async function main() {
     ]);
     const privatePath =
         /^\/(admin|konto|api|einrichtung|entwicklung|otp|anmelden|registrieren|passwort[^/]*|email-bestaetigen|zustimmung|vertragszustimmung)(\/|$)/;
-    const fetchPage = (path: string) =>
-        fetch(new URL(path, base), {
-            headers,
-            signal: AbortSignal.timeout(30000),
-        });
+    const fetchPage = async (path: string) => {
+        let url = new URL(path, base);
+        const signal = AbortSignal.timeout(30000);
+        for (let redirects = 0; redirects < 8; redirects++) {
+            if (url.origin !== base.origin)
+                throw Error("Auditadresse außerhalb der geprüften Umgebung.");
+            const response = await fetch(url, {
+                headers,
+                signal,
+                redirect: "manual",
+            });
+            const location = response.headers.get("location");
+            if (
+                !location ||
+                ![301, 302, 303, 307, 308].includes(response.status)
+            )
+                return response;
+            const target = new URL(location, url);
+            if (target.origin !== base.origin) return response;
+            await response.body?.cancel();
+            url = target;
+        }
+        throw Error("Zu viele Weiterleitungen im Audit.");
+    };
     const robotsResponse = await fetchPage("/robots.txt"),
         robots = await robotsResponse.text();
     const sitemapResponse = await fetchPage("/sitemap.xml"),
@@ -112,6 +142,19 @@ async function main() {
             path: "/robots.txt",
             code: "public-crawl-blocked",
             detail: "Die geprüfte Veröffentlichungsumgebung sperrt alle Crawler.",
+        });
+    if (
+        expectPreview &&
+        (robotsResponse.status !== 200 ||
+            !/^Disallow:\s*\/\s*$/m.test(robots) ||
+            sitemapResponse.status !== 200 ||
+            /<loc>/.test(sitemap))
+    )
+        findings.push({
+            severity: "P0",
+            path: "/robots.txt, /sitemap.xml",
+            code: "preview-crawl-policy",
+            detail: "Vorschau muss Crawling sperren und eine leere Sitemap liefern.",
         });
     while (pending.size && visited.size < 300) {
         const path = pending.values().next().value!;
@@ -143,6 +186,13 @@ async function main() {
                     .map((item) => item.content),
             ].join(" "),
         );
+        if (expectPreview && response.ok && !noindex)
+            findings.push({
+                severity: "P0",
+                path,
+                code: "preview-indexable",
+                detail: "Die Vorschauseite liefert kein noindex.",
+            });
         const structuredTypes: string[] = [];
         function types(value: unknown) {
             if (!value || typeof value !== "object") return;
@@ -256,7 +306,8 @@ async function main() {
     for (const field of ["title", "description"] as const) {
         const groups = new Map<string, string[]>();
         for (const record of records.filter(
-            (item) => item.status === 200 && (!expectIndexable || !item.noindex),
+            (item) =>
+                item.status === 200 && (!expectIndexable || !item.noindex),
         ))
             groups.set(record[field], [
                 ...(groups.get(record[field]) ?? []),
