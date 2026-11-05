@@ -27,7 +27,7 @@ Auftrag: docs/WEBSITE_OPTIMIZATION_REQUEST.txt. Ausgangsstand: ae8c842, produkti
 8. [x] Navigation, Canonicals/Metadaten, Sitemap, Responsivität und Tastaturbedienung.
 9. [x] Bestehende Kunden- und Adminprozesse auf Regressionen prüfen.
 10. [x] TypeScript, ESLint, vollständige Tests, Build, Integration, Browser, Barrierefreiheit und Performance.
-11. [ ] Vollständige Dokumentation, isolierte Preview und konkrete abschließende Freigabevorlage.
+11. [x] Vollständige Dokumentation, isolierte Preview und konkrete abschließende Freigabevorlage.
 
 ## Verbindliche Freigabegrenze
 
@@ -45,7 +45,7 @@ Die frühere Freigabe für den damaligen Stand gilt nicht als Freigabe dieses ne
 
 ## Bisherige konkrete Prüfnachweise
 
-- npm run check: Typprüfung, Lint, 73 Tests und Produktionsbuild bestanden. 12 Gast-/Sitemap-Tests und 4 Inhalts-/Preis-/Origin-Tests ergänzen die bisherigen 57 Tests. Die Browserprüfdatei erhielt anschließend eine reine Lint-Bereinigung; deren Abschlussprüfung folgt separat.
+- npm run check: Typprüfung, Lint, 73 Tests und Produktionsbuild bestanden. 12 Gast-/Sitemap-Tests und 4 Inhalts-/Preis-/Origin-Tests ergänzen die bisherigen 57 Tests. Die Browserprüfdatei erhielt anschließend eine reine Lint-Bereinigung und wurde ebenfalls erfolgreich geprüft.
 - tests/output/website-guest-http.json: neun echte lokale API-Prüfungen mit Konto-/Gasttrennung, Konflikt, Bestätigungs-Outbox, geschütztem E-Mail-Link, Verschiebung, veraltetem Versionsstand und Absage.
 - tests/output/calendar-api-e2e.json: bestehende Registrierung, E-Mail-Verifizierung, Kontobuchung, Wiederholungsschutz, Adminfreigabe, private Notiz und ICS erneut erfolgreich.
 - tests/output/service-packages-http.json: 16 echte lokale Schritte für Anfrage, konkretes Angebot, Beauftragung, Überweisung und Projektanlage erfolgreich. 50 Portal-/Zugriffsprüfungen in admin-workspace-http.json erfolgreich.
@@ -71,3 +71,21 @@ Die bestehende produktive SMTP-Anbindung bleibt unverändert; neue Gastmails wer
 ### Öffentliche Browserabnahme
 
 tests/output/website-public-validation.json: 138 Layoutprüfungen, 38 interne Verlinkungen und 17 automatisierte WCAG-A/AA-Prüfungen einschließlich WCAG 2.2 ohne gemeldete Verletzung. Zwei Hinweise auf /kalender wurden zusätzlich behandelt: die beschriftete Slotgruppe erhält eine explizite Gruppenrolle; Monatsnavigation verwendet beschriftete Schaltflächen mit dekorativen SVG-Pfeilen. Die gezielte Prüfung des abschließenden Kalenderstands folgt nach dem Build. Automatische Prüfungen ersetzen keine vollständige manuelle Barrierefreiheitsprüfung.
+
+
+## Abschluss der Entwicklung und Freigabevorlage
+
+Die funktionale Optimierung ist im Entwicklungsstand abgeschlossen. Vorschau: https://avelsorn-git-codex-website-optimierung-erygros-8437.vercel.app/ (bestehende Vercel-Anmeldung erforderlich; Deployment Protection bleibt aktiviert). Der Code-Stand b6d4c31 wurde als dpl_E4jrUrkuYGqxUB9CyThPwX4E27ga Ready/Preview nachgewiesen. Die produktive Domain bleibt auf dem bisherigen Main-Stand.
+
+- tests/output/website-preview-booking.json: zwölf HTTP-/Aliasprüfungen, echte parallele Buchungsversuche über Vercel/Supabase mit genau einem Gewinner, Secure-Cookie, anonymer Zugriffsschutz, Verschiebung, Versionskonflikt und Absage erfolgreich. Gastlink verweist auf die Preview; Nachrichten bleiben ohne Versand in deren verschlüsselter Outbox. Alle hierfür angelegten Gast-/Outbox-Testdatensätze wurden aus der Preview entfernt.
+- tests/output/website-calendar-final-a11y.json: nach den Korrekturen keine Verletzungen oder unvollständigen Prüfpunkte mehr auf der Kalenderseite. tests/output/website-preview-final-a11y.json und website-preview-desktop-a11y.json: Preview-Startseite ebenfalls ohne gemeldete Verletzungen; sichtbare mobile und Desktopdarstellung geprüft.
+- Performance-Stichprobe in website-preview-vitals.json: FCP etwa eine Sekunde, CLS 0 im verwendeten Browser. Kein allgemeiner Geschwindigkeitswert oder Feldnachweis; INP und vollständige Hydrierungsmetriken lagen im Werkzeug nicht vor. Der LCP-Datensatz bezog sich auf ein temporäres Bild-Platzhalterelement und wird nicht als belastbarer Bild-LCP gewertet. Tatsächliches Hero-Bild separat als PNG/HTTP 200 und vollständig geladen geprüft; optimierte mobile Fassung ca. 30 KB.
+- Aktueller lokaler Produktionsbuild startet unter http://localhost:3001 und liefert den neuen Hero samt weiterhin vorhandenem Bing-Metatag.
+- Quellcode, Preisquelle, Datenschutz-/Cookiebeschreibung, Migrationsdateien und Rücknahmestand sind versioniert. README, MASTER_SPEC, ARCHITECTURE und PROGRESS spiegeln den Entwicklungs-/Previewstand; eine Produktionsveröffentlichung oder -migration ist weiterhin offen und benötigt ausdrücklich die Zustimmung des Inhabers.
+
+Abschließende Freigabefrage: Soll dieser geprüfte Stand einschließlich der additiven Gastbuchungsmigration nach erneuter aktueller Sicherung auf avelsorn.de veröffentlicht werden? Vor Zustimmung kein Push auf main und keine produktive Migration.
+
+
+### Rücknahmebuild geprüft
+
+Der gastfähige Rücknahmestand 3653ca7 wurde zusätzlich in einem getrennten lokalen Worktree erfolgreich als Produktionsbuild kompiliert und typgeprüft (website-rollback-build.json). Für die lokal gemeinsam genutzten node_modules wurde ausschließlich dort der Turbopack-Auflösungsroot auf den Projektordner gesetzt; Produktquellen und Daten blieben unverändert. Diese lokale Abhängigkeitsauflösung ist keine Produktionskonfiguration. Die Build-Prüfung umfasst nicht die Veröffentlichung des Rücknahmestands.

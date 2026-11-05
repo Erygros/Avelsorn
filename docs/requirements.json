@@ -12709,19 +12709,20 @@
       {
         "id": "55.15",
         "text": "Isolierte Preview für die abschließende Freigabe bereitstellen; keine ungeprüfte Liveänderung.",
-        "status": "in Arbeit",
+        "status": "erledigt",
         "evidence": [
-          "Abschließende Vercel-Preview-Prüfung und Dokumentation in Arbeit; keine Produktionsfreigabe erteilt."
+          "docs/WEBSITE_OPTIMIZATION.md: geprüfte isolierte Vercel-Preview, dokumentierte Grenzen und Freigabevorlage; README, MASTER_SPEC, ARCHITECTURE, PROGRESS aktualisiert."
         ]
       },
       {
         "id": "55.16",
         "text": "MASTER_SPEC, ARCHITECTURE, PROGRESS und README aktuell dokumentieren.",
-        "status": "in Arbeit",
+        "status": "erledigt",
         "evidence": [
-          "Abschließende Vercel-Preview-Prüfung und Dokumentation in Arbeit; keine Produktionsfreigabe erteilt."
+          "docs/WEBSITE_OPTIMIZATION.md: geprüfte isolierte Vercel-Preview, dokumentierte Grenzen und Freigabevorlage; README, MASTER_SPEC, ARCHITECTURE, PROGRESS aktualisiert."
         ]
       }
-    ]
+    ],
+    "releaseNote": "Entwicklung und Preview-Abnahme abgeschlossen; ausdrückliche Produktionsfreigabe und anschließende Veröffentlichung/Migration stehen aus."
   }
 ]

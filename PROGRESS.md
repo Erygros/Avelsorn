@@ -425,3 +425,14 @@ Abschließender Prüfnachtrag (27.10.2026): `npm run check` vollständig erfolgr
 - Typprüfung, Lint, 73 Funktionstests und Produktionsbuild bestanden. Neun neue echte Gast-HTTP-Prüfungen, bestehende Konto-/Kalenderstrecke, 16 Paket-/Projektaktionen und 50 Portalprüfungen erfolgreich. Mobile Buchung, Verschiebung und Absage im Browser tatsächlich durchgeführt.
 - 46 öffentliche Seiten bei drei Breiten ohne horizontalen Überlauf geprüft. WCAG-2.2-Prüfung fand einen zu kleinen Link auf der Widerrufsseite; korrigiert. Vollständige Abnahme des korrigierten Builds und Vercel-Preview wird abschließend dokumentiert.
 - Preview-Rolle kann produktive Tabellen weder lesen noch ändern. Nur öffentliche Geschäftsinhalte übernommen; private Speicherung nutzt einen eigenen Präfix. Tatsächlicher S3-Rundlauf geprüft. Preview-SMTP bleibt ausgeschaltet, keine neuen produktiven Kundendaten oder Integrationen vorgetäuscht.
+
+
+## Öffentliche Optimierung in der Preview abgenommen (05.11.2026)
+
+- Code b6d4c31 auf dem Entwicklungsbranch gepusht und als Vercel-Preview dpl_E4jrUrkuYGqxUB9CyThPwX4E27ga mit Ready verifiziert. Unter https://avelsorn-git-codex-website-optimierung-erygros-8437.vercel.app/ stehen die vollständigen neuen Inhalte bereit. Bestehender Vercel-Zugangsschutz bleibt erhalten; keine Veröffentlichung auf der produktiven Domain.
+- 138 Layoutprüfungen, 38 interne Links und 17 WCAG-A/AA-Prüfungen durchgeführt. Hinweise auf Widerruf und Kalender korrigiert; Kalender und Preview abschließend ohne gemeldete Verletzungen oder unvollständige Prüfpunkte nachgeprüft. Keine vollständige WCAG-Konformität behauptet.
+- Zwölf Preview-HTTP-/Aliasprüfungen und tatsächliche parallele Buchungen gegen Supabase erfolgreich: ein Gewinner, geschützter Zugang, Verschiebung, veraltete Version abgewiesen und Absage. Testdatensätze anschließend aus der isolierten Preview entfernt. Kein externer Mailversand behauptet; in Preview technisch unterbunden.
+- 73 Tests, Typprüfung, bereinigter Lint und Produktionsbuild erfolgreich. Neuer Stand lokal auf Port 3001 gestartet, ursprüngliche lokale Zeilen vor Migration verschlüsselt gesichert und erhalten.
+- Funktionale Entwicklung abgeschlossen. Produktionsfreigabe aus dem neuen Auftrag steht aus; vor genehmigter Migration erneut aktuellen Produktivstand sichern. Bank-/Stamm-/Zugangsdaten der Produktion und bestehende Kundendaten unverändert. Vollständige Nachweise, Grenzen und Rücknahmestand in docs/WEBSITE_OPTIMIZATION.md.
+
+- Gastfähigen Rücknahmestand 3653ca7 zusätzlich in einem separaten lokalen Worktree erfolgreich gebaut und typgeprüft; nur lokale Turbopack-Abhängigkeitsauflösung für die gemeinsame node_modules-Junction angepasst. Keine Produktionsveröffentlichung dieses Stands.
