@@ -1,8 +1,8 @@
 # Architektur
 
-Aktualisierung 03.11.2026: Zielpipeline GitHub → Vercel, Domain bei Checkdomain laut Inhaber gekauft. Lokales Git-Repository mit origin https://github.com/Erygros/Avelsorn.git auf main vorbereitet; noch kein Commit, Push oder Vercel-Projekt verbunden, keine Veröffentlichung vorgenommen. Netzwerk-PostgreSQL, privater Objektspeicher und SMTP bleiben separat konfigurierbare Dienste; lokales PGlite/Dateisystem bleiben Entwicklungsadapter. Siehe docs/DEPLOYMENT_PLAN.md.
+Aktualisierung 05.11.2026: Die bestehende Plattform läuft produktiv über GitHub → Vercel. Supabase stellt PostgreSQL und privaten S3-Speicher bereit, Checkdomain Domain und SMTP. Die neue Website-Optimierung wird auf codex/website-optimierung isoliert geprüft; sie ist noch nicht für Produktion freigegeben. Keine neue Hostinginfrastruktur.
 
-Das aktive Geschäftsfeld tax_number entfällt. business() liefert es nicht mehr, die Administration bietet es nicht an und neue PDF-Ausgaben verwenden es auch nicht aus älteren Snapshots. Optionale tatsächlich hinterlegte USt-/Kleinunternehmer-IDs können weiter ausgegeben werden. readiness() verlangt keine pauschale Steueridentifikation für die Website. Größere neu gerenderte Rechnungen ohne solche Identifikation erhalten einen zusätzlichen Prüfungshinweis; dies ist keine vollständige Rechnungsprüfung und verändert keine Geschäftsstatus. Bereits gespeicherte finalisierte PDFs bleiben unverändert.
+Das Feld tax_number bleibt aus aktiver Konfiguration und neuen Dokumenten entfernt. Tatsächlich hinterlegte optionale USt-/Kleinunternehmer-IDs werden für die Rechnungsprüfung berücksichtigt. Unvollständige Rechnungen werden serverseitig nicht finalisiert; bestehende endgültige PDFs bleiben unverändert.
 
 Stand: 28.10.2026. Die Nutzerkorrektur ersetzt PHP, MySQL, Laravel und eigenes Hosting. Alle funktionalen Anforderungen bleiben erhalten.
 
@@ -16,7 +16,7 @@ Avelsorn-Identität zentral in src/content/brand.ts. Originalgrafiken aus dem Nu
 
 ## Datenbank
 
-Ein PostgreSQL-Schema mit versionierten SQL-Migrationen über Drizzle ORM. Lokal persistentes PGlite in data/, kein Mock-Backend. Später konfigurierbarer PostgreSQL-Pool über DATABASE_URL; identisches Schema und identische Fachlogik. PGlite ist ausschließlich lokal und darf auf Vercel nicht als dauerhafte Datenbank eingesetzt werden.
+Ein PostgreSQL-Schema mit versionierten SQL-Migrationen über Drizzle ORM. Lokal persistentes PGlite in data/, kein Mock-Backend. Produktiver PostgreSQL-Pool über DATABASE_URL mit geprüftem TLS-Zertifikat; identisches Schema und identische Fachlogik. PGlite ist ausschließlich lokal und darf auf Vercel nicht als dauerhafte Datenbank eingesetzt werden.
 
 ## Schnittstellen
 
@@ -24,7 +24,7 @@ Privater Storage mit lokalem Entwicklungsadapter und konfigurierbarem Objektspei
 
 Sitzungen: zufällige, nur gehasht gespeicherte Tokens, HttpOnly/SameSite und Secure unter HTTPS. Ein Admin mit zusätzlichem E-Mail-OTP. Mutation-APIs prüfen Origin/CSRF. Private Ressourcen prüfen immer den Eigentümer. Geld in Cent, Zeit in UTC/Sekunden, Anzeige Europe/Berlin. Transaktionen und stabile Sperrzeilen für Kalender, Zahlungen und Kontingente. Idempotenzschlüssel für wiederholte Vorgänge.
 
-Hintergrundaufgaben sind begrenzte Anwendungsfunktionen, lokal per CLI und später durch autorisierten Scheduler aufrufbar. Keine Dauerprozesse in Vercel Functions, keine Einrichtung von Scheduler oder Infrastruktur.
+Hintergrundaufgaben sind begrenzte Anwendungsfunktionen, lokal per CLI und produktiv durch den bereits eingerichteten minütlichen Supabase-Zeitplan aufrufbar. Keine Dauerprozesse in Vercel Functions und keine eigene Serverinfrastruktur. In der isolierten Preview wird kein zusätzlicher Zeitplan eingerichtet.
 
 ## Module und Abnahme
 
@@ -84,3 +84,14 @@ Zentrale Anbieterangaben bleiben bei redaktionellen Änderungen von Rechtstexten
 ## Vertragsfassungen und Bestätigungen
 
 Beim Versand wird die angebotene Fassung der Bedingungen in documents.snapshot.contractTerms mit Anbieterangaben und Inhalts-Hash eingefroren. Eine Annahme übernimmt sie in orders.contract, speichert den vollständigen Bestätigungstext und legt die verschlüsselte Outbox atomar an. Änderungen im CMS verändern vorhandene Angebote/Verträge nicht. Neue auftragsgebundene Zeiterfassung prüft Zahlung, vereinbarten Beginn und SMTP-Annahme der Vertragsbestätigung. Ein unbekannter Versandstatus ist keine Versandbestätigung. Historische Bestellungen bleiben erhalten. Abnahme und Grenzen: docs/CONTRACT_FLOW_AUDIT.md.
+
+
+## Öffentliche Optimierung und Gasttermine
+
+Servicekategorien, allgemeine Beispiele und Zusammenarbeitsschritte liegen in src/content/service-groups.ts, leistungsspezifische Inhalte in service-details.ts. Gemeinsame Komponenten stellen diese Daten dar. Paketpreise, enthaltene Leistungen und sichtbare Ergebnisse haben eine gemeinsame Quelle. Bestehende Detail-URLs erhalten Inhalte; kürzere alte Alias-URLs leiten dauerhaft auf ihre kanonischen Seiten weiter.
+
+Migration 0008 ergänzt guest_bookings mit eigenem Kontakt, Anliegen, Termin, Status, Revision und Hash des zufälligen Zugangstokens. Sie erzeugt keine Kundenkonten. Gemeinsame Kalendersperre und Überschneidungsprüfung berücksichtigen Konto- und Gasttermine. Wiederholte Erstgespräche werden anhand der E-Mail-Adresse auch zwischen beiden Buchungswegen geprüft.
+
+/api/guest-bookings validiert Origin, Größe, Eingaben, Rate-Limits und Terminversionen. Das Management-Token steht im Fragment der E-Mail-URL, wird im Browser sofort aus der Adressleiste entfernt und per POST gegen ein HttpOnly-/SameSite-Cookie mit eng begrenztem API-Pfad getauscht. Gastzugänge verfallen 30 Tage nach dem aktuell gebuchten Termin; sie gewähren keinerlei Kundenportalzugriff. Interne Notizen verlassen die Adminansicht nicht. Outbox-Ziel-URLs und Nachrichtentexte sind verschlüsselt. Mailprüfung und bestehender Aufgabenlauf berücksichtigen Gaststatus und Revision; alte Erinnerungen werden nach Änderungen verworfen. Sicherungen umfassen die neue Tabelle.
+
+Die Vorschau nutzt eine eigene LOGIN-Rolle ohne Rechte auf produktive Tabellen und ein getrenntes Schema im bestehenden Supabase-Projekt. Öffentliche Geschäftsinhalte und veröffentlichte Blogartikel werden kopiert, keine Personen-/Auftragsdaten oder Einrichtungssperren. S3 wird ausschließlich mit einem erzwungenen Preview-Präfix angesprochen. PLATFORM_ENV=preview und VERCEL_ENV=preview erlauben genau die bereitgestellten Vercel-Origins, erzwingen noindex und verhindern SMTP-Versand. Produktionsrollen, Daten und ENV-Werte werden nicht ersetzt. Die erforderliche Produktionsfreigabe wird dadurch nicht erteilt.

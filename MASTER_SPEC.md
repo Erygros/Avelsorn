@@ -2178,3 +2178,8 @@ Der vom Nutzer ausdrücklich beauftragte Erweiterungsauftrag in docs/CALENDAR_EX
 ## Präzisierung rechtlicher Betriebsfunktionen (05.11.2026)
 
 Rechtstexte müssen tatsächliche Anbieter und Datenverarbeitungen beschreiben. Unfertige Hinweise auf zukünftige Konfigurationen gehören nicht in veröffentlichte Rechtstexte. CMS-Bearbeitung darf zentrale Anbieterangaben nicht entfernen. Unvollständige Rechnungen bleiben Entwürfe, ohne bestätigte Zahlungen zu verlieren. Elektronischer Widerruf benötigt eine dauerhaft übermittelbare vollständige Eingangsbestätigung und transaktionalen Nachweis. Eine technische Prüfung ersetzt keine juristische Einzelfallprüfung; verbleibende Abnahmen werden ausdrücklich fortgeschrieben.
+
+
+## Umsetzung des öffentlichen Optimierungsauftrags
+
+Die neue Positionierung, drei Servicekategorien, sichtbare Paketergebnisse und sichere Gasttelefontermine sind im Entwicklungsbranch umgesetzt. Die unveränderten Paketpreise stammen ausschließlich aus der zentralen Paketquelle. Gasttermine erzeugen keine Kundenkonten und nutzen denselben Kollisionsschutz wie bestehende Kontobuchungen. Details, Migrations-/Rücknahmestand, Prüfnachweise und Grenzen der isolierten Preview sind in docs/WEBSITE_OPTIMIZATION.md dokumentiert. Eine Implementierung oder eine erfolgreiche Preview ist ausdrücklich keine Produktionsfreigabe; die neue ausdrückliche Freigabe nach der vollständigen Abnahme bleibt erforderlich.

@@ -7,6 +7,15 @@ export const metadata: Metadata = {
     title: "Kostenloses Erstgespräch vereinbaren",
     description:
         "Buche Dein kostenloses und unverbindliches 15-minütiges Erstgespräch mit Avelsorn.",
+    openGraph: {
+        title: "Kostenloses Erstgespräch vereinbaren · Avelsorn",
+        description:
+            "Wähle einen freien Termin für Dein kostenloses 15-minütiges Telefongespräch – auch ohne Kundenkonto.",
+        url: "/kalender",
+        type: "website",
+        locale: "de_DE",
+        siteName: "Avelsorn",
+    },
     alternates: { canonical: "/kalender" },
 };
 export default async function CalendarPage() {

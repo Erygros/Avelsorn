@@ -1,3 +1,5 @@
+import { publicNavigation } from "@/content/navigation";
+import { MobileNavigation } from "./mobile-navigation";
 import { Brand } from "./brand";
 import { ConsentButton } from "./consent";
 import Link from "next/link";
@@ -15,39 +17,29 @@ export async function SiteShell({
             <header className="site-header">
                 <Brand />
                 <nav aria-label="Hauptnavigation">
-                    <Link href="/leistungen">Leistungen</Link>
-                    <Link href="/preise">Preise</Link>
-                    <Link href="/ablauf">So arbeiten wir</Link>
-                    <Link href="/blog">Blog</Link>
+                    {publicNavigation.map(([href, title]) => (
+                        <Link key={href} href={href}>
+                            {title}
+                        </Link>
+                    ))}
                 </nav>
                 <div className="header-actions">
                     <Link className="login-link" href="/anmelden">
                         Mein Konto ↗
                     </Link>
                     <Link className="button primary small" href="/kalender">
-                        Erstgespräch <span aria-hidden="true">↗</span>
+                        Kostenloses Erstgespräch{" "}
+                        <span aria-hidden="true">↗</span>
                     </Link>
                 </div>
-                <details className="mobile-menu">
-                    <summary>Menü</summary>
-                    <nav aria-label="Mobile Navigation">
-                        <Link href="/leistungen">Leistungen</Link>
-                        <Link href="/preise">Preise</Link>
-                        <Link href="/ablauf">Ablauf</Link>
-                        <Link href="/zielgruppen">Für wen ich arbeite</Link>
-                        <Link href="/blog">Blog</Link>
-                        <Link href="/anmelden">Mein Konto</Link>
-                        <Link href="/kalender">Erstgespräch</Link>
-                    </nav>
-                </details>
+                <MobileNavigation />
             </header>
             {children}
             <footer className="site-footer">
                 <div className="footer-top">
                     <Brand />
                     <p>
-                        Websites, digitale Abläufe und Unterstützung bei der
-                        Gründung.
+                        Unternehmensberatung, die weiterdenkt und mit anpackt.
                     </p>
                     <Link href="/erstgespraech" className="arrow-link">
                         Erstgespräch vereinbaren ↗
@@ -58,6 +50,7 @@ export async function SiteShell({
                     <Link href="/beruflich-neu-starten">
                         Beruflich neu starten
                     </Link>
+                    <Link href="/ablauf">Zusammenarbeit</Link>
                     <Link href="/kontakt">Kontakt</Link>
                     <Link href="/ueber-mich">Über Avelsorn</Link>
                     <Link href="/impressum">Impressum</Link>

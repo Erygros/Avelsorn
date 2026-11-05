@@ -6,14 +6,21 @@ import {
     packageInquiryPath,
 } from "@/content/service-packages";
 import { money, baseUrl } from "@/server/config";
+const selected = findServicePackage("neustart")!;
 export const metadata: Metadata = {
     title: "Selbstständigkeit vorbereiten – auch ohne Geschäftsidee",
-    description:
-        "Beruflich neu orientieren und eine Selbstständigkeit prüfen: Fähigkeiten aufnehmen, Tätigkeiten vergleichen und eine Angebotsidee ausarbeiten. Ab 249 € einmalig.",
+    description: `Beruflich neu orientieren und eine Selbstständigkeit prüfen: Fähigkeiten aufnehmen, Tätigkeiten vergleichen und eine Angebotsidee ausarbeiten. Ab ${money(selected.fromCents)} einmalig.`,
+    openGraph: {
+        title: "Selbstständigkeit vorbereiten · Avelsorn",
+        description: selected.description,
+        url: "/beruflich-neu-starten",
+        type: "website",
+        locale: "de_DE",
+        siteName: "Avelsorn",
+    },
     alternates: { canonical: baseUrl() + "/beruflich-neu-starten" },
 };
 export default function CareerStart() {
-    const selected = findServicePackage("neustart")!;
     return (
         <SiteShell>
             <main id="main">

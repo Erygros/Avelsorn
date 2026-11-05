@@ -4,6 +4,7 @@ export type ServicePackage = {
     fromCents: number;
     audience: string;
     description: string;
+    result: string;
     includes: string[];
     excludes: string;
     prepare: string;
@@ -18,6 +19,7 @@ export const servicePackages: ServicePackage[] = [
         audience: "Creator mit einem vorhandenen Kanal",
         description:
             "Du möchtest wissen, ob Dein Profil verständlich zeigt, welche Inhalte Du veröffentlichst und für wen sie gedacht sind.",
+        result: "Du erhältst einen überarbeiteten Profiltext und zehn Beitragsideen für Deinen Kanal.",
         includes: [
             "Prüfung eines vorhandenen Kanals",
             "Ein überarbeiteter Profiltext",
@@ -38,6 +40,7 @@ export const servicePackages: ServicePackage[] = [
             "Menschen vor einer beruflichen Veränderung – auch ohne fertige Geschäftsidee",
         description:
             "Du möchtest beruflich etwas verändern und prüfst, ob eine Selbstständigkeit zu Deinen Fähigkeiten und Deinem Alltag passen könnte. Eine fertige Idee oder Gründungserfahrung brauchst Du dafür nicht.",
+        result: "Du erhältst eine strukturierte Einschätzung Deiner Ausgangssituation und einen nachvollziehbaren Plan für Deine nächsten Schritte.",
         includes: [
             "Deine beruflichen Erfahrungen, Fähigkeiten und verfügbaren Mittel aufnehmen",
             "Bis zu drei mögliche Tätigkeitsfelder mit Voraussetzungen und offenen Fragen vergleichen",
@@ -58,6 +61,7 @@ export const servicePackages: ServicePackage[] = [
         audience: "Freelancer mit vorhandenen Arbeiten oder einem Portfolio",
         description:
             "Du möchtest Deine bisherigen Arbeiten und Leistungen für neue Kunden verständlicher darstellen.",
+        result: "Du erhältst eine überarbeitete Leistungsbeschreibung und eine wiederverwendbare Briefingvorlage.",
         includes: [
             "Prüfung eines vorhandenen Portfolios",
             "Eine überarbeitete Leistungsbeschreibung",
@@ -77,6 +81,7 @@ export const servicePackages: ServicePackage[] = [
         audience: "Gründer mit einer bereits ausgewählten Geschäftsidee",
         description:
             "Du hast Dich für eine Tätigkeit entschieden und möchtest daraus ein Angebot für erste Kundengespräche machen.",
+        result: "Du erhältst ein schriftlich ausgearbeitetes Angebot, eine beschriebene Zielgruppe und eine priorisierte Aufgabenliste.",
         includes: [
             "Eine Leistung und ihren enthaltenen Umfang schriftlich ausarbeiten",
             "Eine Zielgruppe und deren typische Anliegen beschreiben",
@@ -97,6 +102,7 @@ export const servicePackages: ServicePackage[] = [
         audience: "Selbstständige und Unternehmen mit einem bestehenden Kanal",
         description:
             "Du benötigst einen bearbeitbaren Themenplan für ein vorhandenes Angebot und einen ausgewählten Kanal.",
+        result: "Du erhältst drei wiederverwendbare Beitragsformate und einen Redaktionsplan mit acht Themen.",
         includes: [
             "Prüfung eines Kanals und Deiner bisherigen Inhalte",
             "Drei wiederverwendbare Beitragsformate",
@@ -117,6 +123,7 @@ export const servicePackages: ServicePackage[] = [
             "Unternehmen und Selbstständige mit einer wiederkehrenden Aufgabe",
         description:
             "Dein Team überträgt Angaben mehrfach oder fragt fehlenden Unterlagen hinterher. Wir prüfen einen Vorgang und vereinbaren eine technische Verbesserung – bei passender Aufgabe auch mit KI-Unterstützung.",
+        result: "Du erhältst die im Angebot vereinbarte technische Verbesserung und eine Dokumentation zur Bedienung und zu Fehlerfällen.",
         includes: [
             "Einen vorhandenen Ablauf, Zuständigkeiten und manuelle Arbeitsschritte aufnehmen",
             "Eine Verbesserung samt benötigten Daten und Prüfschritten planen",
@@ -138,6 +145,7 @@ export const servicePackages: ServicePackage[] = [
             "Selbstständige, Gründer und Unternehmen mit einem beschriebenen Angebot",
         description:
             "Eine Website als Onepager für Dein Angebot, auf Mobilgeräten und am Desktop nutzbar.",
+        result: "Du erhältst einen responsiv umgesetzten Onepager mit Kontaktformular auf Basis Deiner freigegebenen Inhalte.",
         includes: [
             "Eine Seitenstruktur für einen Onepager",
             "Gestaltung und responsive Umsetzung auf Basis Deiner freigegebenen Inhalte",

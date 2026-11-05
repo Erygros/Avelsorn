@@ -12605,92 +12605,122 @@
       {
         "id": "55.2",
         "text": "Positionierung und Hero gemäß Auftrag mit Originalbranding und zwei CTAs.",
-        "status": "offen",
-        "evidence": []
+        "status": "erledigt",
+        "evidence": [
+          "docs/WEBSITE_OPTIMIZATION.md: implementierter Entwicklungsstand und konkrete Prüfnachweise; 73 Funktionstests, Build und isolierte API-/Browserprüfungen."
+        ]
       },
       {
         "id": "55.3",
         "text": "Drei Servicekategorien; bestehende Seiten einschließlich separater Trading-Information erhalten.",
-        "status": "offen",
-        "evidence": []
+        "status": "erledigt",
+        "evidence": [
+          "docs/WEBSITE_OPTIMIZATION.md: implementierter Entwicklungsstand und konkrete Prüfnachweise; 73 Funktionstests, Build und isolierte API-/Browserprüfungen."
+        ]
       },
       {
         "id": "55.4",
         "text": "Alle Leistungsseiten mit Zielgruppe, Problem, Umfang, Ablauf, Ergebnissen, Vorbereitung, Preisen und Anfrage.",
-        "status": "offen",
-        "evidence": []
+        "status": "erledigt",
+        "evidence": [
+          "docs/WEBSITE_OPTIMIZATION.md: implementierter Entwicklungsstand und konkrete Prüfnachweise; 73 Funktionstests, Build und isolierte API-/Browserprüfungen."
+        ]
       },
       {
         "id": "55.5",
         "text": "Umsetzungsabschnitt, gekennzeichnete allgemeine Projektbeispiele und funktionsgestützte Portalvorteile.",
-        "status": "offen",
-        "evidence": []
+        "status": "erledigt",
+        "evidence": [
+          "docs/WEBSITE_OPTIMIZATION.md: implementierter Entwicklungsstand und konkrete Prüfnachweise; 73 Funktionstests, Build und isolierte API-/Browserprüfungen."
+        ]
       },
       {
         "id": "55.6",
         "text": "Sieben Pakete mit unveränderten zentralen Preisen und sichtbar passendem Leistungsumfang/Ergebnis.",
-        "status": "offen",
-        "evidence": []
+        "status": "erledigt",
+        "evidence": [
+          "docs/WEBSITE_OPTIMIZATION.md: implementierter Entwicklungsstand und konkrete Prüfnachweise; 73 Funktionstests, Build und isolierte API-/Browserprüfungen."
+        ]
       },
       {
         "id": "55.7",
         "text": "Sichere Gastbuchung ohne Kundenkonto, mit bestehenden Slots, Kollisionsschutz, Bestätigung, Mail und Adminansicht.",
-        "status": "offen",
-        "evidence": []
+        "status": "erledigt",
+        "evidence": [
+          "docs/WEBSITE_OPTIMIZATION.md: implementierter Entwicklungsstand und konkrete Prüfnachweise; 73 Funktionstests, Build und isolierte API-/Browserprüfungen."
+        ]
       },
       {
         "id": "55.8",
         "text": "Reguläre Anmeldung, E-Mail-Verifizierung, Kundenkonten, Buchungen und Erinnerungen erhalten.",
-        "status": "offen",
-        "evidence": []
+        "status": "erledigt",
+        "evidence": [
+          "docs/WEBSITE_OPTIMIZATION.md: implementierter Entwicklungsstand und konkrete Prüfnachweise; 73 Funktionstests, Build und isolierte API-/Browserprüfungen."
+        ]
       },
       {
         "id": "55.9",
         "text": "Über-Avelsorn-Seite mit tatsächlichen persönlichen Angaben, ohne erfundene Referenzen oder Bilder.",
-        "status": "offen",
-        "evidence": []
+        "status": "erledigt",
+        "evidence": [
+          "docs/WEBSITE_OPTIMIZATION.md: implementierter Entwicklungsstand und konkrete Prüfnachweise; 73 Funktionstests, Build und isolierte API-/Browserprüfungen."
+        ]
       },
       {
         "id": "55.10",
         "text": "Vorgegebene Hauptnavigation, mobile Bedienung und erreichbare bestehende Ablauf-/Zielgruppenseiten.",
-        "status": "offen",
-        "evidence": []
+        "status": "erledigt",
+        "evidence": [
+          "docs/WEBSITE_OPTIMIZATION.md: implementierter Entwicklungsstand und konkrete Prüfnachweise; 73 Funktionstests, Build und isolierte API-/Browserprüfungen."
+        ]
       },
       {
         "id": "55.11",
         "text": "SEO, Canonicals, Metadaten, Sitemap, strukturierte Daten und Weiterleitungen prüfen.",
-        "status": "offen",
-        "evidence": []
+        "status": "erledigt",
+        "evidence": [
+          "docs/WEBSITE_OPTIMIZATION.md: implementierter Entwicklungsstand und konkrete Prüfnachweise; 73 Funktionstests, Build und isolierte API-/Browserprüfungen."
+        ]
       },
       {
         "id": "55.12",
         "text": "Responsive und barrierearme Darstellung ohne neue Trackingdienste.",
-        "status": "offen",
-        "evidence": []
+        "status": "erledigt",
+        "evidence": [
+          "docs/WEBSITE_OPTIMIZATION.md: implementierter Entwicklungsstand und konkrete Prüfnachweise; 73 Funktionstests, Build und isolierte API-/Browserprüfungen."
+        ]
       },
       {
         "id": "55.13",
         "text": "Automatisierte Tests, kritische E2E-Abläufe, Build und Fehlerbehandlung vollständig prüfen.",
-        "status": "offen",
-        "evidence": []
+        "status": "erledigt",
+        "evidence": [
+          "docs/WEBSITE_OPTIMIZATION.md: implementierter Entwicklungsstand und konkrete Prüfnachweise; 73 Funktionstests, Build und isolierte API-/Browserprüfungen."
+        ]
       },
       {
         "id": "55.14",
         "text": "Rückwärtskompatible Datenmodelländerungen mit Migrations-/Rollbacknachweis vorbereiten.",
-        "status": "offen",
-        "evidence": []
+        "status": "erledigt",
+        "evidence": [
+          "docs/WEBSITE_OPTIMIZATION.md: implementierter Entwicklungsstand und konkrete Prüfnachweise; 73 Funktionstests, Build und isolierte API-/Browserprüfungen."
+        ]
       },
       {
         "id": "55.15",
         "text": "Isolierte Preview für die abschließende Freigabe bereitstellen; keine ungeprüfte Liveänderung.",
-        "status": "offen",
-        "evidence": []
+        "status": "in Arbeit",
+        "evidence": [
+          "Abschließende Vercel-Preview-Prüfung und Dokumentation in Arbeit; keine Produktionsfreigabe erteilt."
+        ]
       },
       {
         "id": "55.16",
         "text": "MASTER_SPEC, ARCHITECTURE, PROGRESS und README aktuell dokumentieren.",
-        "status": "offen",
-        "evidence": []
+        "status": "in Arbeit",
+        "evidence": [
+          "Abschließende Vercel-Preview-Prüfung und Dokumentation in Arbeit; keine Produktionsfreigabe erteilt."
+        ]
       }
     ]
   }

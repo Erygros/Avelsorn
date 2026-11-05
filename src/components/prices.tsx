@@ -26,6 +26,15 @@ export function Prices() {
                         </div>
                         <p>{p.audience}</p>
                         <p className="my-4">{p.description}</p>
+                        <ul className="package-highlights">
+                            {p.includes.slice(0, 3).map((item) => (
+                                <li key={item}>{item}</li>
+                            ))}
+                        </ul>
+                        <p className="package-result">
+                            <strong>Dein Ergebnis</strong>
+                            {p.result}
+                        </p>
                         <details className="package-scope">
                             <summary>Leistungsumfang ansehen</summary>
                             <ul>

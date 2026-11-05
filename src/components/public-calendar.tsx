@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 type Contact = {
     name: string;
@@ -198,7 +199,7 @@ export function PublicCalendar({ user }: { user: Contact | null }) {
                             setMonth(d.slice(0, 7));
                         }}
                     >
-                        ←
+                        <ChevronLeft size={18} aria-hidden="true" />
                     </button>
                     <h2 aria-live="polite">
                         {new Intl.DateTimeFormat("de-DE", {
@@ -215,7 +216,7 @@ export function PublicCalendar({ user }: { user: Contact | null }) {
                             setMonth(addDay(first, days).slice(0, 7))
                         }
                     >
-                        →
+                        <ChevronRight size={18} aria-hidden="true" />
                     </button>
                 </div>
                 <div className="month-picker">
@@ -262,6 +263,7 @@ export function PublicCalendar({ user }: { user: Contact | null }) {
                 </p>
                 <div
                     className="slot-grid"
+                    role="group"
                     aria-busy={loading}
                     aria-label="Verfügbare Startzeiten"
                 >

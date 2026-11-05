@@ -18,17 +18,56 @@ Auftrag: docs/WEBSITE_OPTIMIZATION_REQUEST.txt. Ausgangsstand: ae8c842, produkti
 ## Umsetzung und Abnahme
 
 1. [x] Bestand und kritische Schnittstellen analysiert; Ausgangstests durchgeführt.
-2. [ ] Home und Positionierung nach Wortlaut des Auftrags, Originalbild und zwei klare CTAs.
-3. [ ] Drei Servicekategorien; alle sieben bisherigen Detailseiten mit konkretem Aufbau.
-4. [ ] Pakete mit sichtbarem Umfang und Ergebnis, unveränderten zentralen Preisen.
-5. [ ] Sichere Gastbuchung mit gemeinsamer Kollisionsprüfung, echten gespeicherten Terminen und CRM-/Mail-/Reminderintegration. Reguläre Kontobuchung erhalten.
-6. [ ] Persönliche Über-Avelsorn-Seite ohne erfundene Erfahrung oder Fotos.
-7. [ ] Gekennzeichnete allgemeine Projektbeispiele und belegbare Portalvorteile.
-8. [ ] Navigation, Canonicals/Metadaten, Sitemap, Responsivität und Tastaturbedienung.
-9. [ ] Bestehende Kunden- und Adminprozesse auf Regressionen prüfen.
-10. [ ] TypeScript, ESLint, vollständige Tests, Build, Integration, Browser, Barrierefreiheit und Performance.
+2. [x] Home und Positionierung nach Wortlaut des Auftrags, Originalbild und zwei klare CTAs.
+3. [x] Drei Servicekategorien; alle sieben bisherigen Detailseiten mit konkretem Aufbau.
+4. [x] Pakete mit sichtbarem Umfang und Ergebnis, unveränderten zentralen Preisen.
+5. [x] Sichere Gastbuchung mit gemeinsamer Kollisionsprüfung, echten gespeicherten Terminen und CRM-/Mail-/Reminderintegration. Reguläre Kontobuchung erhalten.
+6. [x] Persönliche Über-Avelsorn-Seite ohne erfundene Erfahrung oder Fotos.
+7. [x] Gekennzeichnete allgemeine Projektbeispiele und belegbare Portalvorteile.
+8. [x] Navigation, Canonicals/Metadaten, Sitemap, Responsivität und Tastaturbedienung.
+9. [x] Bestehende Kunden- und Adminprozesse auf Regressionen prüfen.
+10. [x] TypeScript, ESLint, vollständige Tests, Build, Integration, Browser, Barrierefreiheit und Performance.
 11. [ ] Vollständige Dokumentation, isolierte Preview und konkrete abschließende Freigabevorlage.
 
 ## Verbindliche Freigabegrenze
 
 Die frühere Freigabe für den damaligen Stand gilt nicht als Freigabe dieses neuen Auftrags. Kein Push auf main, keine produktive Migration, keine Änderung produktiver Stammdaten oder Zugangsdaten. Änderungen bleiben lokal und in einer isolierten Preview bis zur neuen ausdrücklichen Freigabe. Fehlende externe Nachweise werden benannt.
+
+
+## Implementierter Entwicklungsstand (05.11.2026)
+
+- Startseite mit vorgegebenem Hero-Wortlaut, originalem Bild, zwei CTAs und ruhigen Vertrauensangaben. Drei Kategorien, Zusammenarbeit, ausdrücklich allgemeine Beispiele und belegbare Portalvorteile statt erfundener Referenzen.
+- Alle sieben Leistungen behalten ihre kanonischen URLs. Zielgruppe, Problem, konkrete Aufgaben, Ablauf, Ergebnis, benötigte Angaben und passende Preis-/Anfragelinks sind je Leistung hinterlegt. Trading/ETF ist ein ergänzender Informationsbereich.
+- Alle sieben Preise und Leistungsumfänge unverändert aus derselben Datenquelle. Drei wichtige Leistungsbestandteile und ein passendes Ergebnis sind je Karte ohne Aufklappen sichtbar.
+- Persönliche Vorstellung mit tatsächlichem Erfahrungsbericht aus der bestehenden Geschäftskonfiguration. Kein erfundenes Portrait, keine neuen Qualifikationen oder Erfolgszahlen.
+- Flache Navigation nach Auftrag; mobile Navigation schließt bei Auswahl oder Escape. Ablaufseite im Footer und Kontext verlinkt. Eindeutige Meta-Beschreibungen, Open Graph, sachliche Unternehmensdaten, Über-Seite in Sitemap und dauerhafte Alias-Weiterleitungen. Bing-XML und Meta erhalten.
+- Gastbuchung ohne Kundenkonto mit gemeinsamem transaktionalem Kollisionsschutz, serverseitiger Validierung, separaten Datensätzen, eng begrenztem HttpOnly-Zugang, verschlüsselter Outbox, ICS, Revisionen, Erinnerungen und Adminverwaltung. Registrierung und Verifizierung regulärer Konten bleiben erhalten. Datenschutz-/Cookiehinweise beschreiben den neuen Vorgang.
+
+## Bisherige konkrete Prüfnachweise
+
+- npm run check: Typprüfung, Lint, 73 Tests und Produktionsbuild bestanden. 12 Gast-/Sitemap-Tests und 4 Inhalts-/Preis-/Origin-Tests ergänzen die bisherigen 57 Tests. Die Browserprüfdatei erhielt anschließend eine reine Lint-Bereinigung; deren Abschlussprüfung folgt separat.
+- tests/output/website-guest-http.json: neun echte lokale API-Prüfungen mit Konto-/Gasttrennung, Konflikt, Bestätigungs-Outbox, geschütztem E-Mail-Link, Verschiebung, veraltetem Versionsstand und Absage.
+- tests/output/calendar-api-e2e.json: bestehende Registrierung, E-Mail-Verifizierung, Kontobuchung, Wiederholungsschutz, Adminfreigabe, private Notiz und ICS erneut erfolgreich.
+- tests/output/service-packages-http.json: 16 echte lokale Schritte für Anfrage, konkretes Angebot, Beauftragung, Überweisung und Projektanlage erfolgreich. 50 Portal-/Zugriffsprüfungen in admin-workspace-http.json erfolgreich.
+- Mobiler Gastablauf im Browser tatsächlich gebucht, verschoben und abgesagt (Revision 2). Admin-Gastdialog zeigt Kontakt und interne Notiz ohne Kundendetail-Link oder künstliches Kundenkonto.
+- 138 Layoutprüfungen über 46 öffentliche Seiten bei 320/768/1440 px ohne horizontalen Überlauf. Eine zu kleine Verlinkung auf /widerruf in der WCAG-2.2-Prüfung korrigiert. Die vollständige Prüfung des korrigierten Builds läuft; keine Vollkonformität aus automatischen Prüfungen abgeleitet.
+- tests/output/website-local-migration.json: bestehende lokale Datenbank vor Upgrade authentifiziert verschlüsselt gesichert, Entschlüsselung geprüft und bisherige Tabellenzeilenzahlen nach Migration unverändert.
+- tests/output/website-preview-isolation.json: neue eingeschränkte Rolle und Schema avel_preview_20261105 im vorhandenen Supabase-Projekt. SELECT auf public.users und UPDATE auf public.settings werden serverseitig verweigert. Keine Kundendaten kopiert; produktive Gasttabelle weiterhin nicht angelegt.
+- tests/output/website-preview-storage.json: tatsächlicher privater S3-Schreib-/Lese-/Löschdurchlauf ausschließlich unter eigenem Preview-Präfix, keine Produktionsobjekte verändert.
+
+## Veröffentlichung und Rücknahme
+
+1. Erst den fertigen Preview-Stand und die vollständigen Prüfungen dem Inhaber vorlegen. Eine eigene abschließende Freigabe ist zwingend. Der bisherige Produktionsstand bleibt bis dahin unverändert.
+2. Nach Freigabe unmittelbar vor der produktiven Migration eine aktuelle verschlüsselte Sicherung über den vorhandenen Sicherungsprozess erstellen und prüfen. Migration 0008 ist rein additiv; keine Änderung oder Löschung bestehender Kunden-, Buchungs- oder Zahlungszeilen.
+3. Migration bewusst über den bestehenden Produktionsmigrationsprozess anwenden, danach den freigegebenen Commit über main/GitHub/Vercel veröffentlichen. Keine automatische Migration während des Builds. Bestehenden minütlichen Aufgabenlauf beibehalten.
+4. Bereits vorbereiteter Rücknahmestand 3653ca7 enthält die neue Gaststrecke, Kalenderprüfung, Verwaltung, Sicherheit und Datenschutzhinweise, jedoch die bisherige öffentliche Gestaltung. Eine Rücknahme der öffentlichen Optimierung darf nur auf einen gastfähigen Stand erfolgen. Nicht auf den alten Main-Stand ohne Gastkollisionsprüfung zurückspringen, sobald echte Gasttermine vorliegen. Die neue Tabelle bleibt bei einer Rücknahme erhalten.
+5. Nach Freigabe und Veröffentlichung Domain, Buchungsseiten, Zugriffe und bestehenden Aufgabenlauf nachprüfen. Keine künstlichen Kunden, Zahlungen oder Testaufträge in Produktion anlegen.
+
+## Grenzen der Vorschau
+
+Die bestehende produktive SMTP-Anbindung bleibt unverändert; neue Gastmails werden vor Freigabe nur lokal als gespeicherte Outbox und am Mailadapter einschließlich ICS geprüft. Die Vercel-Preview versendet ausdrücklich keine E-Mails und hat keinen eigenen Zeitplan oder Videodienst. Das ist keine produktiv eingerichtete neue Integration. Die Preview nutzt vorhandene Vercel-/Supabase-Dienste; es wurde keine Hosting- oder Serverinfrastruktur bestellt oder aufgebaut.
+
+
+### Öffentliche Browserabnahme
+
+tests/output/website-public-validation.json: 138 Layoutprüfungen, 38 interne Verlinkungen und 17 automatisierte WCAG-A/AA-Prüfungen einschließlich WCAG 2.2 ohne gemeldete Verletzung. Zwei Hinweise auf /kalender wurden zusätzlich behandelt: die beschriftete Slotgruppe erhält eine explizite Gruppenrolle; Monatsnavigation verwendet beschriftete Schaltflächen mit dekorativen SVG-Pfeilen. Die gezielte Prüfung des abschließenden Kalenderstands folgt nach dem Build. Automatische Prüfungen ersetzen keine vollständige manuelle Barrierefreiheitsprüfung.

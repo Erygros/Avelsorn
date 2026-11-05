@@ -11,6 +11,15 @@ export const metadata: Metadata = {
     title: "Leistungspaket anfragen",
     description:
         "Beschreibe Deine Aufgabe und frage ein Avelsorn-Leistungspaket unverbindlich an. Vor einer Beauftragung erhältst Du Umfang und Gesamtpreis.",
+    openGraph: {
+        title: "Leistungspaket unverbindlich anfragen · Avelsorn",
+        description:
+            "Beschreibe Deine Aufgabe. Du erhältst vor einer Beauftragung ein individuelles Angebot mit Umfang und Gesamtpreis.",
+        url: "/paket-anfragen",
+        type: "website",
+        locale: "de_DE",
+        siteName: "Avelsorn",
+    },
     alternates: { canonical: baseUrl() + "/paket-anfragen" },
 };
 export default async function PackageInquiry({

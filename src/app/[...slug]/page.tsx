@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import Link from "next/link";
 import { eq, and, lte, desc } from "drizzle-orm";
 import type { Metadata } from "next";
@@ -18,6 +18,9 @@ import { EditorialPhoto } from "@/components/editorial-photo";
 import { articleImages } from "@/content/editorial-images";
 import { audiences, audiencePath } from "@/content/audiences";
 import { ProfessionalNetwork } from "@/components/professional-network";
+
+import { ServiceGroups } from "@/components/service-groups";
+import { ServiceDetail } from "@/components/service-detail";
 
 const authTitles: Record<string, string> = {
     anmelden: "Anmelden",
@@ -64,6 +67,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         blog: "Artikel zu Websites, Arbeitsabläufen und Selbstständigkeit",
         widerruf: "Vertrag widerrufen",
     };
+    const descriptions: Record<string, string> = {
+        preise: "Sieben Leistungspakete mit Einstiegspreisen, enthaltenen Aufgaben und konkreten Ergebnissen. Individuelles Angebot vor der Beauftragung, Zahlung per Überweisung.",
+        leistungen:
+            "Unternehmensberatung, digitale Unternehmenslösungen und Onlinepräsenz: konkrete Aufgaben, persönliche Abstimmung und praktische Umsetzung durch Avelsorn.",
+        erstgespraech:
+            "Buche Dein kostenloses 15-minütiges Telefonat mit Enrico Gross. Termin auswählen und Kontaktdaten angeben – auch ohne Kundenkonto.",
+        kontakt:
+            "Besprich Deine Frage mit Enrico Gross bei Avelsorn. Kontakt per Telefon, E-Mail oder Formular; für Projektfragen steht Kunden der geschützte Chat zur Verfügung.",
+        ablauf: "So entsteht Dein Auftrag bei Avelsorn: Erstgespräch, konkretes Angebot, vereinbarte Umsetzung und dokumentierte Ergebnisse im Kundenportal.",
+        zielgruppen:
+            "Beratung und Projektarbeit für Unternehmen, Selbstständige, Gründer, Freelancer und Creator. Finde die Unterstützung passend zu Deiner Situation.",
+        "ueber-mich":
+            "Enrico Gross ist Dein persönlicher Ansprechpartner bei Avelsorn. Erfahre, welche Arbeiten ich übernehme und wie wir Beratung und digitale Umsetzung verbinden.",
+        blog: "Praktische Beiträge zu Websites, digitalen Arbeitsabläufen, Social Media, Gründung und Selbstständigkeit von Avelsorn.",
+    };
     const [custom] = await db()
         .select()
         .from(pages)
@@ -93,11 +111,39 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             post?.metaDescription ??
             post?.excerpt ??
             custom?.description ??
-            service?.description ??
+            service?.short ??
             document?.description ??
-            (path === "zielgruppen"
-                ? "Beratung und Projektarbeit für Unternehmen, Selbstständige, Gründer, Freelancer und Creator. Finde die Unterstützung passend zu Deiner Situation."
-                : "Avelsorn unterstützt Dich bei Websites, digitalen Arbeitsabläufen und der Vorbereitung Deiner Selbstständigkeit."),
+            descriptions[path] ??
+            "Informationen von Avelsorn zu persönlicher Beratung und digitaler Umsetzung.",
+        openGraph: {
+            type: post ? "article" : "website",
+            locale: "de_DE",
+            siteName: "Avelsorn",
+            title:
+                post?.title ??
+                custom?.title ??
+                service?.title ??
+                document?.title ??
+                names[path] ??
+                "Avelsorn",
+            description:
+                post?.metaDescription ??
+                post?.excerpt ??
+                custom?.description ??
+                service?.short ??
+                document?.description ??
+                descriptions[path] ??
+                "Persönliche Beratung und praktische Umsetzung bei Avelsorn.",
+            url: "/" + (service ? "leistungen/" + service.slug : path),
+            images: [
+                {
+                    url: "/brand/avelsorn-logo.png",
+                    width: 3200,
+                    height: 712,
+                    alt: "Avelsorn",
+                },
+            ],
+        },
         alternates: {
             canonical:
                 baseUrl() +
@@ -110,6 +156,9 @@ export default async function PublicPage({ params, searchParams }: Props) {
     const requestedPath = (await params).slug.join("/");
     const path = publicAliases[requestedPath] ?? requestedPath;
     const query = await searchParams;
+    if (publicAliases[requestedPath]) permanentRedirect("/" + path);
+    const aliasService = services.find((item) => item.slug === requestedPath);
+    if (aliasService) permanentRedirect("/leistungen/" + aliasService.slug);
     if (authSlugs.includes(path))
         return (
             <AuthPage slug={path} token={query.token} returnTo={query.next} />
@@ -148,44 +197,26 @@ export default async function PublicPage({ params, searchParams }: Props) {
         title = service.headline;
         intro = service.description;
 
-        body = (
-            <div className="detail-grid">
-                <section>
-                    <h2>Mögliche Aufgaben</h2>
-                    <ul className="editorial-list">
-                        {service.topics.map((topic) => (
-                            <li key={topic}>{topic}</li>
-                        ))}
-                    </ul>
-                </section>
-                <aside className="quiet-panel">
-                    <h2>Auftrag und Ergebnis</h2>
-                    <p>{service.outcome}</p>
-                    <Link href="/erstgespraech" className="button primary">
-                        Aufgabe im Erstgespräch besprechen{" "}
-                        <ArrowUpRight size={17} />
-                    </Link>
-                </aside>
-            </div>
-        );
+        body = <ServiceDetail service={service} />;
     } else if (path === "leistungen") {
-        title = "Leistungen";
+        title = "Beratung und digitale Umsetzung";
         intro =
-            "Hier findest Du die Aufgaben, zu denen Du Beratung oder Projektarbeit beauftragen kannst. Auf der jeweiligen Seite beschreibe ich den möglichen Umfang und die benötigten Vorbereitungen.";
+            "Unternehmensberatung, digitale Unternehmenslösungen und Onlinepräsenz: Finde den Bereich, der zu Deiner Aufgabe passt. Umfang und Ergebnis stimmen wir vor einer Beauftragung ab.";
         body = (
-            <div className="service-grid">
-                {services.map((s) => (
-                    <Link
-                        className="service-card"
-                        href={"/leistungen/" + s.slug}
-                        key={s.slug}
-                    >
-                        <h2>{s.title}</h2>
-                        <p>{s.description}</p>
-                        <ArrowUpRight size={22} />
+            <>
+                <ServiceGroups overview />
+                <section className="supplementary-service">
+                    <h2>Ergänzend: Finanzgrundlagen</h2>
+                    <p>
+                        Allgemeine Wissensvermittlung zu Märkten, Kosten und
+                        Risiken. Keine individuelle Anlageberatung oder
+                        persönlichen Produktempfehlungen.
+                    </p>
+                    <Link className="arrow-link" href="/leistungen/trading-etf">
+                        Trading- und ETF-Grundlagen ansehen ↗
                     </Link>
-                ))}
-            </div>
+                </section>
+            </>
         );
     } else if (path === "preise") {
         title = "Preise und Buchung";
@@ -214,11 +245,11 @@ export default async function PublicPage({ params, searchParams }: Props) {
                     <li>
                         <span>02</span>
                         <div>
-                            <h2>Anmelden oder Konto erstellen</h2>
+                            <h2>Kontaktdaten angeben</h2>
                             <p>
-                                Nutze Dein vorhandenes Konto oder registriere
-                                Dich direkt im Buchungsablauf und bestätige
-                                Deine E-Mail-Adresse.
+                                Gib Vorname, Nachname, E-Mail-Adresse,
+                                Telefonnummer und Dein Anliegen an. Ein
+                                Kundenkonto ist dafür nicht erforderlich.
                             </p>
                         </div>
                     </li>
@@ -253,14 +284,14 @@ export default async function PublicPage({ params, searchParams }: Props) {
     } else if (path === "ablauf") {
         title = "So läuft ein Auftrag ab";
         intro =
-            "Vom ersten Termin bis zur Prüfung der Arbeitsergebnisse nutzen wir Dein Kundenkonto. Dort findest Du Buchungen, Projektdateien, Rückfragen und Dokumente zum Auftrag.";
+            "Das Erstgespräch kannst Du ohne Kundenkonto buchen. Für einen anschließenden Auftrag nutzen wir Dein Kundenkonto: Dort findest Du Projektdateien, Rückfragen und Dokumente.";
 
         body = (
             <ol className="process-list wide-process">
                 {[
                     [
                         "Kennenlernen",
-                        "Nach Registrierung, E-Mail-Bestätigung und Fragebogen wählen wir einen ersten Termin. In 15 kostenlosen Minuten besprechen wir Deine Ausgangslage.",
+                        "Du wählst einen freien Termin und bestätigst die benötigten Kontaktdaten. In 15 kostenlosen Minuten besprechen wir Deine Ausgangslage.",
                     ],
                     [
                         "Auftrag festlegen",
@@ -311,7 +342,7 @@ export default async function PublicPage({ params, searchParams }: Props) {
         const values = await business();
         title = "Über Avelsorn";
         intro =
-            "Avelsorn verbindet Beratung mit der Arbeit an Websites, digitalen Abläufen und Gründungsvorhaben. Du kannst eine konkrete Aufgabe besprechen und die vereinbarte Umsetzung beauftragen.";
+            "Ich bin Enrico Gross, Dein Ansprechpartner bei Avelsorn. Ich unterstütze Dich bei unternehmerischen Fragen und übernehme vereinbarte Arbeiten an Websites und digitalen Abläufen persönlich.";
         body = (
             <div className="prose">
                 {values.about_text && !values.about_text.includes("{{") ? (
@@ -327,11 +358,13 @@ export default async function PublicPage({ params, searchParams }: Props) {
                     </section>
                 ) : (
                     <p>
-                        Die persönliche Vorstellung wird vor der
-                        Veröffentlichung ergänzt.
+                        Bei Avelsorn besprichst Du Dein Vorhaben direkt mit mir.
+                        Wir klären gemeinsam, welche Aufgabe ich für Dich
+                        übernehmen kann und welche Fragen andere Fachpersonen
+                        benötigen.
                     </p>
                 )}
-                <h2>Beratung oder Umsetzung beauftragen</h2>
+                <h2>Was ich persönlich übernehme</h2>
                 <p>
                     Du kannst Beratung zu einer Aufgabe buchen oder die
                     Bearbeitung beauftragen. Bei einer Website legen wir
@@ -341,9 +374,24 @@ export default async function PublicPage({ params, searchParams }: Props) {
                     und zusätzliche Kosten besprechen wir, bevor ich daran
                     arbeite.
                 </p>
+                <h2>Wie wir zusammenarbeiten</h2>
+                <p>
+                    Du erhältst vorab ein konkretes Angebot. Während der
+                    Bearbeitung halten wir Aufgaben, Rückfragen und Freigaben im
+                    Kundenportal fest. Wenn sich der Umfang ändert, stimmen wir
+                    das ab, bevor zusätzliche Arbeit entsteht.
+                </p>
+                <h2>Warum Beratung und Umsetzung zusammengehören</h2>
+                <p>
+                    Ein Vorschlag hilft erst, wenn er zu Deinem Alltag passt.
+                    Deshalb klären wir schon in der Planung, welche Inhalte,
+                    Daten und Entscheidungen für die Umsetzung gebraucht werden.
+                    Ich kann die vereinbarten digitalen Arbeiten anschließend
+                    selbst übernehmen.
+                </p>
                 <ProfessionalNetwork />
-                <Link href="/kontakt" className="button">
-                    Kontakt aufnehmen ↗
+                <Link href="/kalender" className="button">
+                    Kostenloses Erstgespräch vereinbaren ↗
                 </Link>
             </div>
         );
@@ -594,7 +642,9 @@ export default async function PublicPage({ params, searchParams }: Props) {
                     submit="Widerruf bestätigen"
                     success="Dein Widerruf wurde dokumentiert. Die Eingangsbestätigung wurde für den Versand bereitgestellt."
                 />
-                <Link href="/widerrufsbelehrung">Widerrufsbelehrung lesen</Link>
+                <Link href="/widerrufsbelehrung" className="button mt-6">
+                    Widerrufsbelehrung lesen
+                </Link>
             </section>
         );
     } else if (path === "blog") {

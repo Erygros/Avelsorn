@@ -416,3 +416,12 @@ Abschließender Prüfnachtrag (27.10.2026): `npm run check` vollständig erfolgr
 ## Bing-Metatag (05.11.2026)
 
 - Auf ergänzenden ausdrücklichen Nutzerauftrag die dauerhafte Bing-Verifizierung msvalidate.01 über die Next.js-Metadaten der Startseite ergänzt. Derselbe vom Nutzer gelieferte Code wie in BingSiteAuth.xml; bestehende Metadaten bleiben erhalten.
+
+
+## Öffentliche Optimierung implementiert – abschließende Preview-Abnahme läuft (05.11.2026)
+
+- Hero und Positionierung gemäß neuem Auftrag, drei Leistungskategorien, alle sieben Detailseiten, sichtbare Paketergebnisse, persönliche Vorstellung, allgemeine Leistungsbeispiele und echte Portalvorteile umgesetzt. Branding, Bilder, Preise, URLs und bestehende Kontofunktionen erhalten. Navigation und SEO überarbeitet; Bing bleibt eingebunden.
+- Sichere Gastbuchung integriert: getrennte Kontaktdatensätze, gemeinsame Kalendersperre, Bestätigungs-/Erinnerungs-Outbox und ICS, geschützter Zugang, Verschiebung/Absage, Adminansicht und Notizen. Keine ungesicherten Kundenkonten. Additive Migration 0008 lokal mit Sicherung und im isolierten Preview-Schema geprüft; keine produktive Migration.
+- Typprüfung, Lint, 73 Funktionstests und Produktionsbuild bestanden. Neun neue echte Gast-HTTP-Prüfungen, bestehende Konto-/Kalenderstrecke, 16 Paket-/Projektaktionen und 50 Portalprüfungen erfolgreich. Mobile Buchung, Verschiebung und Absage im Browser tatsächlich durchgeführt.
+- 46 öffentliche Seiten bei drei Breiten ohne horizontalen Überlauf geprüft. WCAG-2.2-Prüfung fand einen zu kleinen Link auf der Widerrufsseite; korrigiert. Vollständige Abnahme des korrigierten Builds und Vercel-Preview wird abschließend dokumentiert.
+- Preview-Rolle kann produktive Tabellen weder lesen noch ändern. Nur öffentliche Geschäftsinhalte übernommen; private Speicherung nutzt einen eigenen Präfix. Tatsächlicher S3-Rundlauf geprüft. Preview-SMTP bleibt ausgeschaltet, keine neuen produktiven Kundendaten oder Integrationen vorgetäuscht.
