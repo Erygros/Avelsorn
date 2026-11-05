@@ -76,3 +76,7 @@ Zusätzliche optionale Stammdaten contact_hours und about_text werden im Adminbe
 ## Kalender und Erinnerungen (05.11.2026)
 
 Öffentliche Buchung und CRM-Ansichten verwenden weiterhin denselben Kalenderdienst. calendar_blocks ergänzt zeitlich begrenzte Sperren und Zusatzzeiten. Kontakt-Snapshots an Buchungen bewahren die bestätigte Rufnummer; Datenschutzbearbeitung berücksichtigt diese Zusatzfelder. intro_credits ist eine auditiert vergebene, transaktional verbrauchte Freigabe für weitere Erstgespräche. Die Outbox referenziert Kalender-ID und Revision, damit stornierte oder verschobene Erinnerungen verworfen werden. Supabase pg_cron/pg_net ruft die vorhandene authentifizierte Vercel-Aufgabenfunktion auf; der Token liegt in Vault. Einzelheiten in docs/CALENDAR_EXTENSION.md.
+
+## Nachtrag: Rechtstexte und Datenintegrität
+
+Zentrale Anbieterangaben bleiben bei redaktionellen Änderungen von Rechtstexten erhalten. Eine Widerrufserklärung wird mit Bestätigungs-Outbox, Adminhinweis und Audit atomar gespeichert. Rechnungsfinalisierung prüft Pflichtangaben; eine Zahlung wird nicht wegen fehlender Rechnungsstammdaten verworfen. Ältere Backups müssen in das aktuelle Schema unter Erhalt neu eingeführter Standardwerte wiederherstellbar sein. Prüfstand und fachliche Grenzen: docs/LEGAL_OPERATIONAL_AUDIT.md.

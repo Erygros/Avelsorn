@@ -57,7 +57,7 @@ export function PublicCalendar({ user }: { user: Contact | null }) {
                 setDay(key);
                 setMonth(key.slice(0, 7));
                 setSelected(saved);
-            }
+            } else if (saved) rememberSlot(null);
         });
         return () => cancelAnimationFrame(frame);
     }, []);

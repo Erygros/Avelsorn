@@ -2170,3 +2170,7 @@ Die vom Inhaber übermittelten Angaben werden in der lokalen Hauptkonfiguration 
 ## Kalender-Erweiterung vom 05.11.2026
 
 Der vom Nutzer ausdrücklich beauftragte Erweiterungsauftrag in docs/CALENDAR_EXTENSION_REQUEST.txt ergänzt die bestehende Anwendung. Die technische Zuordnung und Nachweise stehen in docs/CALENDAR_EXTENSION.md. Öffentliche Direktbuchung unter /kalender, 15-minütiges telefonisches Erstgespräch, Standardzeiten werktags 08:30–17:00 und am Wochenende 12:00–17:00 in Europe/Berlin. Die vorhandene Kundenauthentifizierung, Kalendertransaktionen, E-Mail-Outbox, ICS-Schnittstelle und Dashboards werden erweitert. Pausen, Zusatzzeiten, Monats-/Wochen-/Tages-/Listenansicht und Erinnerungen gehören zur Erweiterung. Der Nutzer hat die Veröffentlichung nach erfolgreichen Tests ausdrücklich bestätigt.
+
+## Präzisierung rechtlicher Betriebsfunktionen (05.11.2026)
+
+Rechtstexte müssen tatsächliche Anbieter und Datenverarbeitungen beschreiben. Unfertige Hinweise auf zukünftige Konfigurationen gehören nicht in veröffentlichte Rechtstexte. CMS-Bearbeitung darf zentrale Anbieterangaben nicht entfernen. Unvollständige Rechnungen bleiben Entwürfe, ohne bestätigte Zahlungen zu verlieren. Elektronischer Widerruf benötigt eine dauerhaft übermittelbare vollständige Eingangsbestätigung und transaktionalen Nachweis. Eine technische Prüfung ersetzt keine juristische Einzelfallprüfung; verbleibende Abnahmen werden ausdrücklich fortgeschrieben.

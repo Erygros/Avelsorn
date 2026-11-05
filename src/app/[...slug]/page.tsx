@@ -119,7 +119,7 @@ export default async function PublicPage({ params, searchParams }: Props) {
         .from(pages)
         .where(eq(pages.slug, path));
     const customHtml = customPage ? await publicHtml(customPage.body) : "";
-    if (customPage)
+    if (customPage && !legal[path])
         return (
             <SiteShell>
                 <main id="main">
@@ -437,13 +437,15 @@ export default async function PublicPage({ params, searchParams }: Props) {
             </div>
         );
     } else if (document) {
-        title = document.title;
-        intro = document.description;
+        title = customPage?.title ?? document.title;
+        intro = customPage?.description ?? document.description;
 
         const values = await business();
         body = (
             <div className="prose legal-prose">
-                {path === "impressum" && (
+                {["impressum", "datenschutz", "widerrufsbelehrung"].includes(
+                    path,
+                ) && (
                     <address>
                         {values.legal_full_name}
                         <br />
@@ -476,14 +478,78 @@ export default async function PublicPage({ params, searchParams }: Props) {
                                     {values.contact_hours}
                                 </>
                             )}
+                        {path === "impressum" &&
+                            values.vat_id_if_available &&
+                            !values.vat_id_if_available.includes("{{") && (
+                                <p>
+                                    Umsatzsteuer-Identifikationsnummer:{" "}
+                                    {values.vat_id_if_available}
+                                </p>
+                            )}
                     </address>
                 )}
-                {document.sections.map((section) => (
-                    <section key={section.title}>
-                        <h2>{section.title}</h2>
-                        <p>{section.text}</p>
+                {customPage ? (
+                    <div dangerouslySetInnerHTML={{ __html: customHtml }} />
+                ) : (
+                    document.sections.map((section) => (
+                        <section key={section.title}>
+                            <h2>{section.title}</h2>
+                            <p>{section.text}</p>
+                            {section.links && (
+                                <ul>
+                                    {section.links.map((link) => (
+                                        <li key={link.href}>
+                                            <a href={link.href}>{link.label}</a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </section>
+                    ))
+                )}
+                {path === "impressum" && (
+                    <section>
+                        <h2>Verantwortlich für redaktionelle Inhalte</h2>
+                        <p>
+                            Verantwortlich im Sinne von § 18 Abs. 2 MStV:{" "}
+                            {values.legal_full_name}, {values.business_street},{" "}
+                            {values.business_postcode} {values.business_city}.
+                        </p>
                     </section>
-                ))}
+                )}
+                {path === "widerrufsbelehrung" && (
+                    <section>
+                        <h2>Muster-Widerrufsformular</h2>
+                        <p>
+                            Wenn Du den Vertrag widerrufen möchtest, kannst Du
+                            die folgende Erklärung übernehmen und ausgefüllt an
+                            uns senden:
+                        </p>
+                        <blockquote>
+                            <p>
+                                An {values.legal_full_name} (Avelsorn),{" "}
+                                {values.business_street},{" "}
+                                {values.business_postcode}{" "}
+                                {values.business_city}, {values.contact_email}.
+                            </p>
+                            <p>
+                                Hiermit widerrufe ich den von mir
+                                abgeschlossenen Vertrag über die Erbringung der
+                                folgenden Dienstleistung:
+                            </p>
+                            <p>
+                                Bezeichnung der Dienstleistung und
+                                gegebenenfalls Bestellnummer:
+                            </p>
+                            <p>Bestellt am:</p>
+                            <p>Name und Anschrift des Verbrauchers:</p>
+                            <p>
+                                Datum und Unterschrift des Verbrauchers (nur bei
+                                Mitteilung auf Papier).
+                            </p>
+                        </blockquote>
+                    </section>
+                )}
                 {["widerrufsbelehrung", "agb"].includes(path) && (
                     <Link className="button" href="/widerruf">
                         Vertrag widerrufen ↗

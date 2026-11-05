@@ -364,23 +364,36 @@ async function dispatch(action: string, input: unknown): Promise<unknown> {
             .parse(input);
         await limit("withdrawal:" + data.email, 10, 3600);
         const reference = "WI-" + secretToken().slice(0, 16);
-        const [row] = await db()
-            .insert(s.withdrawals)
-            .values({ ...data, reference })
-            .returning();
-        await queueMail(
-            data.email,
-            "Eingangsbestätigung Deines Widerrufs",
-            `Dein Widerruf ist am ${row.createdAt.toISOString()} eingegangen. Referenz: ${reference}. Vertrag: ${data.contractReference}. Erklärung: ${data.statement}`,
-            "withdrawal:" + row.id,
-        );
-        await notifyAdmin(
-            "withdrawal",
-            "Widerruf eingegangen",
-            reference,
-            "withdrawal:" + row.id,
-            "/admin/widerrufe",
-        );
+        await db().transaction(async (tx) => {
+            const [row] = await tx
+                .insert(s.withdrawals)
+                .values({ ...data, reference })
+                .returning();
+            await queueMail(
+                data.email,
+                "Eingangsbestätigung Deines Widerrufs",
+                `Dein Widerruf ist am ${row.createdAt.toISOString()} eingegangen.\n\nReferenz: ${reference}\nName: ${data.name}\nE-Mail für die Bestätigung: ${data.email}\nVertrag: ${data.contractReference}\nErklärung: ${data.statement}`,
+                "withdrawal:" + row.id,
+                {},
+                tx,
+            );
+            await notifyAdmin(
+                "withdrawal",
+                "Widerruf eingegangen",
+                reference,
+                "withdrawal:" + row.id,
+                "/admin/widerrufe",
+                tx,
+            );
+            await audit(
+                null,
+                "withdrawal.received",
+                "withdrawal",
+                row.id,
+                { reference },
+                tx,
+            );
+        });
         return {
             message: `Dein Widerruf wurde gespeichert. Eingangsreferenz: ${reference}. Die Eingangsbestätigung wurde für den Versand bereitgestellt.`,
         };
@@ -1131,17 +1144,30 @@ async function dispatch(action: string, input: unknown): Promise<unknown> {
             id = post.id;
         }
         await audit(user.id, "post.saved", "post", id, { status: data.status });
-        return { ok: true };
+        return { ok: true, id };
     }
     if (action === "page-save") {
         const data = z
             .object({
-                slug: z.string().regex(/^[a-z0-9/-]+$/),
+                slug: z.string().regex(/^[a-z0-9]+(?:[-/][a-z0-9]+)*$/),
                 title: str.max(200),
                 description: str.max(1000),
                 body: str.max(100000),
             })
             .parse(input);
+        assert(
+            !/^(admin|konto|api|entwicklung|kalender|paket-anfragen|beruflich-neu-starten|anmelden|registrieren|passwort-vergessen|passwort-zuruecksetzen|email-bestaetigen|zustimmung|vertragszustimmung|otp|einrichtung)(\/|$)/.test(
+                data.slug,
+            ) &&
+                !/^zielgruppen\//.test(data.slug) &&
+                ![
+                    "terminbuchung",
+                    "datenschutzerklaerung",
+                    "widerrufsformular",
+                    "widerruf",
+                ].includes(data.slug),
+            "Dieser Pfad gehört zu einer Systemseite oder Weiterleitung. Verwende für einen redaktionellen Inhalt einen eigenen Seitenpfad; Rechtstexte bearbeitest Du unter ihrem Hauptpfad.",
+        );
         await db()
             .insert(s.pages)
             .values({ ...data, body: cleanHtml(data.body) })

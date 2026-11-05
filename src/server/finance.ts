@@ -16,7 +16,7 @@ import { assert, audit, lock, owns, readyCustomer } from "./security";
 import { products, price } from "./config";
 import { notify, notifyAdmin } from "./events";
 import { randomUUID } from "node:crypto";
-import { business } from "./settings";
+import { business, invoiceIssuerMissing } from "./settings";
 import {
     catalogSelection,
     catalogFromSnapshot,
@@ -296,6 +296,27 @@ export async function confirmPayment(
                 .from(users)
                 .where(eq(users.id, order.userId));
             for (const doc of invoice) {
+                const missing = invoiceIssuerMissing(values, doc.amountCents);
+                if (
+                    doc.status === "draft" &&
+                    (missing.length || !customer.billingAddress)
+                ) {
+                    await notifyAdmin(
+                        "invoice",
+                        "Rechnungsangaben vervollständigen",
+                        "Die Zahlung wurde erfasst. Die Rechnung bleibt ein Entwurf, bis die fehlenden Aussteller- oder Kundenangaben ergänzt sind: " +
+                            [
+                                ...missing,
+                                ...(!customer.billingAddress
+                                    ? ["Kundenanschrift"]
+                                    : []),
+                            ].join(", "),
+                        "invoice-details:" + doc.id,
+                        "/admin/rechnungen",
+                        tx,
+                    );
+                    continue;
+                }
                 if (doc.status === "issued")
                     await tx
                         .update(documents)
@@ -534,6 +555,13 @@ export async function issueInvoice(admin: User, id: string) {
             customer.billingAddress,
             "Die Rechnungsanschrift des Kunden fehlt.",
         );
+        const issuer = await business(tx);
+        const missing = invoiceIssuerMissing(issuer, doc.amountCents);
+        assert(
+            !missing.length,
+            "Die Rechnung bleibt ein Entwurf. Fehlende Angaben: " +
+                missing.join(", "),
+        );
         const [order] = doc.orderId
             ? await tx.select().from(orders).where(eq(orders.id, doc.orderId))
             : [];
@@ -555,7 +583,7 @@ export async function issueInvoice(admin: User, id: string) {
                 finalizedAt: new Date(),
                 snapshot: {
                     catalogPackage: catalogFromSnapshot(doc.snapshot),
-                    business: await business(tx),
+                    business: issuer,
                     customer: {
                         name: customer.name,
                         billingAddress: customer.billingAddress,

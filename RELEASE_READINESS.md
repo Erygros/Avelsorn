@@ -7,8 +7,8 @@ Stand 05.11.2026: Der Nutzer hat die Veröffentlichung ausdrücklich beauftragt.
 - [ ] PostgreSQL-Netzwerkadapter unter Produktionsbedingungen geprüft, parallele Buchungen und Kontingentverbrauch geprüft.
 - [ ] Echte Browserprüfungen auf Mobilgerät, Tablet und Desktop; Tastatur- und Kontrastprüfung.
 - [ ] PDFs und E-Mail-Vorlagen visuell geprüft; PDF-Zugänglichkeit bewertet.
-- [ ] Backup erstellt, entschlüsselt und in isolierter Umgebung wiederhergestellt.
-- [ ] Domain, Firmenidentität, Kontakt, Steuern und Bankverbindung verbindlich eingetragen.
+- [x] Backup erstellt, entschlüsselt und in isolierter Umgebung wiederhergestellt. Nachweis: tests/output/legal-production-restore.json; private Dateien zusätzlich im Funktionstest.
+- [x] Domain, Firmenidentität, Kontakt, Kleinunternehmerstatus und Bankverbindung nach Inhaberangaben eingetragen; korrigierte USt-IdNr. mit VIES gültig geprüft. Keine persönliche Steuernummer veröffentlicht.
 - [ ] Rechtstexte am tatsächlichen Geschäftsmodell und aktuellen Quellen geprüft.
 - [ ] SMTP mit echtem Checkdomain-Konto geprüft; SPF/DKIM/DMARC eingerichtet.
 - [ ] Admin-E-Mail-OTP, Wiederherstellung und Geheimnisverwaltung geprüft.
@@ -18,4 +18,5 @@ Stand 05.11.2026: Der Nutzer hat die Veröffentlichung ausdrücklich beauftragt.
 - [x] Explizite Veröffentlichungsfreigabe des Nutzers liegt vor.
 
 Der Zieltermin 01.11.2026 ersetzt keine Prüfung. Fehlende externe Werte sind Konfigurationsabhängigkeiten; ungeprüfte Integrationen bleiben ungeprüft.
+
 

@@ -40,6 +40,30 @@ export async function business(database: Db = db()) {
         ]),
     ) as Record<(typeof publicKeys)[number], string>;
 }
+// § 34a UStDV in conjunction with the small-invoice rule (§ 33 UStDV).
+// No tax number is published or introduced here; the existing optional issuer IDs suffice.
+export function invoiceIssuerMissing(
+    values: Record<string, string>,
+    amountCents: number,
+) {
+    const present = (key: string) =>
+        Boolean(values[key]?.trim() && !values[key].includes("{{"));
+    const missing = [
+        "legal_full_name",
+        "business_street",
+        "business_postcode",
+        "business_city",
+    ].filter((key) => !present(key));
+    if (
+        amountCents > 25000 &&
+        !present("vat_id_if_available") &&
+        !present("small_business_id_if_available")
+    )
+        missing.push(
+            "Steuerliche Rechnungskennung (USt-IdNr. oder Kleinunternehmer-IdNr.)",
+        );
+    return missing;
+}
 export async function readiness() {
     const values = await business();
     const required = publicKeys.filter(

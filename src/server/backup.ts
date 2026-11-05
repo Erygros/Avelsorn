@@ -2,7 +2,7 @@ import { randomBytes, createCipheriv, createDecipheriv } from "node:crypto";
 import { gzipSync, gunzipSync } from "node:zlib";
 import { sql, eq } from "drizzle-orm";
 import type { AnyPgTable } from "drizzle-orm/pg-core";
-import { getTableName } from "drizzle-orm";
+import { getTableName, getTableColumns } from "drizzle-orm";
 import { db, type Database } from "./db";
 import * as s from "./schema";
 import { storage } from "./storage";
@@ -138,10 +138,33 @@ export async function restoreEmpty(snapshot: Snapshot, database: Database) {
         for (const table of tables) {
             const name = getTableName(table);
             const rows = snapshot.tables[name];
-            if (rows?.length)
-                await tx.execute(
-                    sql`INSERT INTO ${sql.identifier(name)} SELECT * FROM jsonb_populate_recordset(NULL::${sql.identifier(name)},${JSON.stringify(rows)}::jsonb)`,
+            if (rows?.length) {
+                // Older snapshots omit columns introduced by later migrations.
+                // Leave these out of INSERT so database defaults remain effective.
+                const first = rows[0] as Record<string, unknown>;
+                const columns = Object.values(getTableColumns(table))
+                    .map((column) => column.name)
+                    .filter((name) => Object.hasOwn(first, name));
+                assert(
+                    columns.length > 0 &&
+                        rows.every(
+                            (row) =>
+                                row &&
+                                typeof row === "object" &&
+                                columns.every((name) =>
+                                    Object.hasOwn(row, name),
+                                ),
+                        ),
+                    "Ungültige Tabellendaten im Backup.",
                 );
+                const names = sql.join(
+                    columns.map((name) => sql.identifier(name)),
+                    sql`, `,
+                );
+                await tx.execute(
+                    sql`INSERT INTO ${sql.identifier(name)} (${names}) SELECT ${names} FROM jsonb_populate_recordset(NULL::${sql.identifier(name)},${JSON.stringify(rows)}::jsonb)`,
+                );
+            }
         }
     });
     // Files are restored only after all database constraints passed.

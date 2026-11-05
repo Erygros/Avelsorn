@@ -11,6 +11,7 @@ import {
     issueInvoice,
     editDocument,
     recordRefund,
+    confirmPayment,
 } from "../src/server/finance";
 import { correctTime, manualTime, timer } from "../src/server/projects";
 
@@ -29,6 +30,12 @@ beforeAll(async () => {
         close: () => local.close(),
     };
     await migrate(db, { migrationsFolder: "drizzle" });
+    await db.insert(s.settings).values([
+        { key: "legal_full_name", value: "Rechnungsprüfung" },
+        { key: "business_street", value: "Prüfstraße 1" },
+        { key: "business_postcode", value: "12345" },
+        { key: "business_city", value: "Prüfort" },
+    ]);
     const shared = {
         passwordHash: "unused-test-hash",
         birthDate: "1990-01-01",
@@ -116,6 +123,81 @@ async function fixture() {
         .returning();
     return { order, pkg, project, invoice };
 }
+it("erfasst Zahlungen trotz fehlender Rechnungskennung, stellt aber keine unvollständige Rechnung über 250 € aus", async () => {
+    const [order] = await db
+        .insert(s.orders)
+        .values({
+            userId: customer.id,
+            reference: crypto.randomUUID(),
+            product: "offer",
+            amountCents: 39900,
+            acceptedAt: new Date(),
+            contract: {},
+        })
+        .returning();
+    const [invoice] = await db
+        .insert(s.documents)
+        .values({
+            userId: customer.id,
+            orderId: order.id,
+            kind: "invoice",
+            status: "draft",
+            amountCents: 39900,
+            description: "Vereinbarte Website",
+            items: [{ description: "Website", quantity: 1, unitCents: 39900 }],
+        })
+        .returning();
+    await expect(issueInvoice(customer, invoice.id)).rejects.toThrow(
+        "Administratorzugang",
+    );
+    await expect(issueInvoice(admin, invoice.id)).rejects.toThrow(
+        "Rechnungskennung",
+    );
+    await confirmPayment(admin, {
+        orderId: order.id,
+        amountCents: 39900,
+        bankReference: "Prüfung Bankeingang",
+        receivedAt: new Date().toISOString(),
+        idempotencyKey: crypto.randomUUID(),
+    });
+    const [paidOrder] = await db
+        .select()
+        .from(s.orders)
+        .where(eq(s.orders.id, order.id));
+    const [draft] = await db
+        .select()
+        .from(s.documents)
+        .where(eq(s.documents.id, invoice.id));
+    expect(paidOrder.paidCents).toBe(39900);
+    expect(draft.status).toBe("draft");
+    expect(draft.number).toBeNull();
+    expect(draft.finalizedAt).toBeNull();
+    const notices = await db
+        .select()
+        .from(s.notifications)
+        .where(
+            eq(s.notifications.eventKey, "admin:invoice-details:" + invoice.id),
+        );
+    expect(notices).toHaveLength(1);
+    expect(notices[0].userId).toBe(admin.id);
+    await db
+        .insert(s.settings)
+        .values({ key: "vat_id_if_available", value: "DE123456789" });
+    try {
+        await issueInvoice(admin, invoice.id);
+        const [issued] = await db
+            .select()
+            .from(s.documents)
+            .where(eq(s.documents.id, invoice.id));
+        expect(issued.status).toBe("paid");
+        expect(issued.number).toMatch(/^RE-/);
+        expect(issued.finalizedAt).toBeInstanceOf(Date);
+    } finally {
+        await db
+            .delete(s.settings)
+            .where(eq(s.settings.key, "vat_id_if_available"));
+    }
+});
 it("berichtigt eine bezahlte Rechnung ohne Leistungssperre oder erneuten Zahlungseingang", async () => {
     const { order, pkg, invoice } = await fixture();
     const correction = await cancelInvoice(
@@ -153,7 +235,12 @@ it("berichtigt eine bezahlte Rechnung ohne Leistungssperre oder erneuten Zahlung
         .where(eq(s.documents.id, correction.replacementId!));
     expect(replacement.status).toBe("paid");
     expect(replacement.number).toMatch(/^RE-/);
-    expect(await db.select().from(s.payments)).toHaveLength(0);
+    expect(
+        await db
+            .select()
+            .from(s.payments)
+            .where(eq(s.payments.orderId, order.id)),
+    ).toHaveLength(0);
     await expect(
         cancelInvoice(admin, invoice.id, "Doppelte Korrektur verhindern."),
     ).rejects.toThrow();
@@ -192,7 +279,12 @@ it("storniert Vertrag, Paket und zukünftige Termine gemeinsam; Rückzahlung ble
         (await db.select().from(s.orders).where(eq(s.orders.id, order.id)))[0]
             .paidCents,
     ).toBe(9900);
-    expect(await db.select().from(s.payments)).toHaveLength(0);
+    expect(
+        await db
+            .select()
+            .from(s.payments)
+            .where(eq(s.payments.orderId, order.id)),
+    ).toHaveLength(0);
     await recordRefund(admin, {
         orderId: order.id,
         amountCents: 9900,
@@ -329,17 +421,15 @@ it("berücksichtigt reservierte Paketzeiten bei Korrekturen und rollt abgelehnte
         .update(s.packages)
         .set({ allowanceSeconds: 900 })
         .where(eq(s.packages.id, pkg.id));
-    await db
-        .insert(s.bookings)
-        .values({
-            userId: customer.id,
-            packageId: pkg.id,
-            product: "regular",
-            channel: "phone",
-            startsAt: new Date(Date.now() + 86400_000),
-            endsAt: new Date(Date.now() + 86900_000),
-            status: "confirmed",
-        });
+    await db.insert(s.bookings).values({
+        userId: customer.id,
+        packageId: pkg.id,
+        product: "regular",
+        channel: "phone",
+        startsAt: new Date(Date.now() + 86400_000),
+        endsAt: new Date(Date.now() + 86900_000),
+        status: "confirmed",
+    });
     await expect(
         correctTime(admin, {
             id: entry.id,
@@ -428,19 +518,17 @@ it("bewahrt Timerpausen bei Textkorrekturen und erlaubt manuelle Arbeit nur inne
 it("beendet einen Timer nach Vertragsstorno und belastet nur bis zum Stornierungszeitpunkt", async () => {
     const { order, pkg, project } = await fixture();
     const start = ago(120);
-    await db
-        .insert(s.timeEntries)
-        .values({
-            userId: customer.id,
-            projectId: project.id,
-            adminId: admin.id,
-            packageId: pkg.id,
-            startsAt: start,
-            segmentAt: start,
-            activity: "Laufende Arbeit",
-            source: "timer",
-            status: "running",
-        });
+    await db.insert(s.timeEntries).values({
+        userId: customer.id,
+        projectId: project.id,
+        adminId: admin.id,
+        packageId: pkg.id,
+        startsAt: start,
+        segmentAt: start,
+        activity: "Laufende Arbeit",
+        source: "timer",
+        status: "running",
+    });
     await cancelOrder(
         admin,
         order.id,

@@ -37,6 +37,13 @@ beforeAll(async () => {
         close: () => local.close(),
     };
     await migrate(database, { migrationsFolder: "drizzle" });
+    await database.insert(s.settings).values([
+        { key: "legal_full_name", value: "Testanbieter" },
+        { key: "business_street", value: "Teststraße 1" },
+        { key: "business_postcode", value: "12345" },
+        { key: "business_city", value: "Teststadt" },
+        { key: "vat_id_if_available", value: "DE123456789" },
+    ]);
     const shared = {
         passwordHash: "unused-test-hash",
         birthDate: "1990-01-01",

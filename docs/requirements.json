@@ -12504,5 +12504,56 @@
       "45 öffentliche Seiten auf Produktionsdomain, 135 lokale Layoutprüfungen und 50 Portal-/Zugriffsprüfungen erfolgreich.",
       "Echte Browserbuchung, Verschiebung und Absage ausschließlich in separater QA-Instanz geprüft."
     ]
+  },
+  {
+    "id": "54",
+    "title": "Rechtstexte, redaktionelle Datenintegrität und Betriebsabnahme",
+    "status": "in Arbeit",
+    "acceptance": [
+      {
+        "id": "54.1",
+        "text": "Konkrete Rechtstexte mit zentralen Anbieterangaben, tatsächlichen Diensten, Fristen und Cookie-Informationen.",
+        "status": "erledigt",
+        "evidence": [
+          "docs/LEGAL_OPERATIONAL_AUDIT.md",
+          "tests/output/legal-responsive.json: 21 Layoutprüfungen",
+          "tests/output/legal-a11y-*.json"
+        ]
+      },
+      {
+        "id": "54.2",
+        "text": "Widerruf mit vollständiger transaktional gespeicherter Eingangsbestätigung.",
+        "status": "erledigt",
+        "evidence": [
+          "tests/output/legal-cms-e2e.json",
+          "src/app/api/action/[action]/route.ts"
+        ]
+      },
+      {
+        "id": "54.3",
+        "text": "Rechnungen bei fehlenden Pflichtangaben als Entwurf erhalten und tatsächliche Zahlung unverändert erfassen.",
+        "status": "erledigt",
+        "evidence": [
+          "tests/ledger-corrections.test.ts: Zahlung, Entwurf und spätere Finalisierung geprüft."
+        ]
+      },
+      {
+        "id": "54.4",
+        "text": "CMS-Inhalte veröffentlichen und ändern, Entwürfe/Archive schützen und zentrale Anbieterangaben erhalten.",
+        "status": "erledigt",
+        "evidence": [
+          "tests/output/legal-cms-e2e.json: zehn echte HTTP-Aktionen ausschließlich in QA."
+        ]
+      },
+      {
+        "id": "54.5",
+        "text": "Produktiven Inhaberzugang einrichten und die vollständige Geschäftsablaufabnahme beider Dashboards durchführen.",
+        "status": "in Arbeit",
+        "evidence": [
+          "tests/output/admin-workspace-http.json: 50 Seiten-/Berechtigungsprüfungen; keine vollständige Ablaufabnahme.",
+          "Produktionskonto noch durch den Inhaber einzurichten."
+        ]
+      }
+    ]
   }
 ]

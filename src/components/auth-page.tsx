@@ -146,7 +146,7 @@ export async function AuthPage({
         },
         einrichtung: {
             title: "Administration einrichten",
-            intro: "Dieser Zugang benötigt den lokal erzeugten Einrichtungsschlüssel. Nach der Anlage eines Administratorkontos ist die Ersteinrichtung gesperrt. Geschäftliche Angaben pflegst Du anschließend im geschützten Adminbereich.",
+            intro: "Lege Deinen Inhaberzugang mit dem privaten Einrichtungsschlüssel an. Verwende Deine geschäftliche E-Mail-Adresse und ein eigenes sicheres Passwort.",
             action: "setup",
             fields: [
                 field("key", "Einrichtungsschlüssel", "password"),

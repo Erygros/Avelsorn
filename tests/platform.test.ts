@@ -88,6 +88,13 @@ beforeAll(async () => {
         close: () => local.close(),
     };
     await migrate(database, { migrationsFolder: "drizzle" });
+    await database.insert(schema.settings).values([
+        { key: "legal_full_name", value: "Testanbieter" },
+        { key: "business_street", value: "Teststraße 1" },
+        { key: "business_postcode", value: "12345" },
+        { key: "business_city", value: "Teststadt" },
+        { key: "vat_id_if_available", value: "DE123456789" },
+    ]);
     const hash = await passwordHash("Test-Passwort-2026!");
     const common = {
         passwordHash: hash,
@@ -634,6 +641,23 @@ describe("Dateien, Hintergrundaufgaben und Wiederherstellung", () => {
             ).rejects.toThrow("leere");
         } finally {
             await restoreLocal.close();
+        }
+        const legacy = structuredClone(opened);
+        for (const row of legacy.tables.users as Record<string, unknown>[]) {
+            delete row.intro_credits;
+            delete row.company;
+        }
+        delete legacy.tables.calendar_blocks;
+        const legacyLocal = new PGlite();
+        const legacyTarget = drizzle(legacyLocal, { schema });
+        try {
+            await migrate(legacyTarget, { migrationsFolder: "drizzle" });
+            await restoreEmpty(legacy, legacyTarget as unknown as Database);
+            const users = await legacyTarget.select().from(schema.users);
+            expect(users.length).toBeGreaterThan(0);
+            expect(users.every((user) => user.introCredits === 0)).toBe(true);
+        } finally {
+            await legacyLocal.close();
         }
     });
 });
