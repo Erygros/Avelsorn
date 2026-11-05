@@ -1,5 +1,9 @@
 # Verbindliche Architekturkorrektur vom 26.10.2026
 
+## Vorrangiger öffentlicher Optimierungsauftrag (05.11.2026)
+
+Der neue Auftrag in docs/WEBSITE_OPTIMIZATION_REQUEST.txt gilt für die bestehende öffentliche Website, klarere Positionierung, drei Leistungskategorien, unveränderte Pakete, sichere Gastbuchung und vollständige Abnahme. Branding, bestehende URLs, Kunden-/Adminfunktionen und technische Architektur erhalten. Neue Homepage-Texte gemäß diesem Auftrag ersetzen widersprechende ältere Textvorgaben. Umsetzung und Status: docs/WEBSITE_OPTIMIZATION.md. Ausschließlich Entwicklung/Preview; eine Produktionsveröffentlichung oder Produktionsmigration benötigt nach den Tests eine neue ausdrückliche Freigabe. Produktive Stammdaten, Bank- und Zugangsdaten bleiben unverändert.
+
 ## Präzisierung vom 03.11.2026: Veröffentlichung und Geschäftsfelder
 
 Hostingziel ist Vercel, der Quellcode soll über GitHub übertragen werden. Die Domain avelsorn.de ist laut Inhaber bei Checkdomain gekauft. Checkdomain bleibt ausschließlich für Domain/E-Mail vorgesehen. GitHub-Ziel ist https://github.com/Erygros/Avelsorn.git; lokal als origin auf main hinterlegt. Noch kein Commit oder Push, kein Vercel-Projekt und keine produktiven externen Dienste eingerichtet. Details: docs/DEPLOYMENT_PLAN.md.

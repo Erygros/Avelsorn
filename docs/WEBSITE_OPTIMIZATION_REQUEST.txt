@@ -1,0 +1,850 @@
+AUFTRAG: AVELSORN.DE – VOLLSTÄNDIGE OPTIMIERUNG DER BESTEHENDEN PRODUKTIVEN WEBSITE
+
+Du arbeitest an der bestehenden Unternehmenswebsite https://avelsorn.de/.
+
+ZIEL:
+Optimiere die gesamte öffentliche Website von Avelsorn hinsichtlich Positionierung, Kundenverständlichkeit, Vertrauen, Benutzerführung, Buchungsquote und professioneller Außendarstellung.
+
+WICHTIG:
+Dies ist KEIN MVP, KEIN Prototyp, KEINE Demo und KEIN experimenteller Entwurf.
+
+Sämtliche Änderungen müssen vollständig entwickelt, technisch integriert, getestet und für den unmittelbaren Produktiveinsatz geeignet sein.
+
+Die bestehende Website wird direkt für reale Kunden verwendet.
+
+Arbeite deshalb mit höchster Sorgfalt.
+
+==================================================
+1. VERBINDLICHE GRUNDREGELN
+==================================================
+
+1. Analysiere vor jeder Änderung die vollständige bestehende Projektstruktur.
+
+2. Prüfe sämtliche vorhandenen Komponenten, Seiten, Styles, Konfigurationen, Datenmodelle, API-Routen und Geschäftsprozesse.
+
+3. Erhalte die bestehende technische Architektur:
+   - Next.js
+   - React
+   - TypeScript
+   - Tailwind CSS
+   - Vercel
+   - bestehende Datenbank- und Backendintegration
+   - vorhandene Authentifizierung
+   - bestehendes Kunden-Dashboard
+   - bestehendes Admin-Dashboard
+
+4. Verwende ausschließlich das vorhandene Avelsorn-Branding:
+   - Originales Logo mit a-Signet
+   - Vorhandene Typografie
+   - Bestehende Farbpalette
+   - Vorhandene Designkomponenten
+   - Bestehende Abstände und Designkonventionen
+
+5. Erstelle keine neue Markenidentität.
+
+6. Verwende keine generischen Templates.
+
+7. Vermeide unnötige neue Abhängigkeiten.
+
+8. Bestehende Funktionen dürfen nicht beschädigt, entfernt oder unbrauchbar werden.
+
+9. Keine Platzhalter, Fake-Daten oder funktionslosen Schaltflächen im produktiven Ergebnis.
+
+10. Keine erfundenen Kundenreferenzen, Bewertungen, Qualifikationen, Zertifizierungen oder Erfolgszahlen.
+
+11. Alle Inhalte müssen professionell, verständlich, glaubwürdig und sprachlich einwandfrei sein.
+
+12. Die Website richtet sich an deutsche Kunden. Verwende einheitlich die bereits bestehende Du-Ansprache.
+
+13. Die Website muss vollständig responsiv und auf Desktop, Tablet und Smartphone nutzbar sein.
+
+14. Bestehende SEO-Strukturen, URLs und relevante Metadaten müssen erhalten bleiben.
+
+15. Änderungen an bestehenden URLs dürfen nur erfolgen, wenn Weiterleitungen und interne Verlinkungen vollständig berücksichtigt werden.
+
+16. Keine eigenständige Bestellung, Konfiguration oder Bereitstellung zusätzlicher Hostingdienste.
+
+17. Keine kostenpflichtigen Dienste ohne meine vorherige Zustimmung.
+
+18. Keine eigenständige Änderung produktiver Zugangsdaten, Bankdaten oder rechtlicher Unternehmensinformationen.
+
+19. Sämtliche Änderungen zunächst im bestehenden Entwicklungs- beziehungsweise Preview-Prozess umsetzen und prüfen. Eine produktive Veröffentlichung darf ausschließlich nach erfolgreicher Validierung und meiner ausdrücklichen Freigabe erfolgen.
+
+==================================================
+2. NEUE POSITIONIERUNG VON AVELSORN
+==================================================
+
+Avelsorn soll als persönliche Unternehmensberatung mit direkter praktischer Umsetzung positioniert werden.
+
+Die Kernbotschaft lautet:
+
+„Unternehmensberatung, die weiterdenkt und mit anpackt.“
+
+Avelsorn unterstützt Gründer, Selbstständige, Freelancer, Creator und kleine Unternehmen dabei:
+
+- Geschäftsideen zu entwickeln
+- Unternehmensstrukturen aufzubauen
+- Bestehende Arbeitsabläufe zu verbessern
+- Digitale Prozesse einzurichten
+- Websites zu entwickeln
+- Individuelle Softwarelösungen umzusetzen
+- Die digitale Sichtbarkeit zu verbessern
+- Konkrete unternehmerische Herausforderungen zu bearbeiten
+
+Das entscheidende Leistungsversprechen:
+
+Avelsorn unterstützt Kunden nicht ausschließlich mit Empfehlungen und Konzepten, sondern kann vereinbarte digitale Lösungen auch praktisch entwickeln und umsetzen.
+
+WICHTIG:
+
+Es dürfen keine garantierten Umsatzsteigerungen, Kosteneinsparungen oder Geschäftserfolge versprochen werden.
+
+Formuliere die Positionierung professionell, verständlich und nachvollziehbar.
+
+==================================================
+3. STARTSEITE VOLLSTÄNDIG OPTIMIEREN
+==================================================
+
+Überarbeite die Startseite unter Beibehaltung des bestehenden Designs.
+
+HERO-BEREICH
+
+Neue Hauptüberschrift:
+
+„Dein Unternehmen. Klare Strukturen. Digitale Lösungen.“
+
+Unterüberschrift:
+
+„Avelsorn unterstützt Gründer, Selbstständige und Unternehmen dabei, Geschäftsideen zu entwickeln, Arbeitsabläufe zu verbessern und individuelle digitale Lösungen umzusetzen.
+
+Von der persönlichen Beratung bis zur praktischen Umsetzung – alles aus einer Hand.“
+
+Primärer CTA:
+
+„Kostenloses Erstgespräch vereinbaren“
+
+Sekundärer CTA:
+
+„Leistungen entdecken“
+
+Ergänze unterhalb der CTAs drei zurückhaltende Vertrauenselemente:
+
+- Kostenloses Erstgespräch
+- Individuelle Projektpreise
+- Persönliche Beratung & Umsetzung
+
+Die Elemente müssen zur bestehenden Designsprache passen.
+
+Keine überladenen Badge-Sammlungen.
+
+Keine unnötigen Animationen.
+
+HERO-GESTALTUNG
+
+- Originales Avelsorn-Branding verwenden.
+- Bestehende Bildsprache beibehalten.
+- Hochwertige Typografie.
+- Klare visuelle Hierarchie.
+- Ausreichend Weißraum.
+- Optimale Darstellung auf Mobilgeräten.
+- CTA bereits ohne langes Scrollen erreichbar.
+
+==================================================
+4. LEISTUNGEN NEU STRUKTURIEREN
+==================================================
+
+Die bestehende Website besitzt mehrere einzelne Leistungsbereiche.
+
+Diese Leistungen dürfen nicht gelöscht werden.
+
+Stattdessen werden sie auf der öffentlichen Website verständlicher strukturiert.
+
+Erstelle drei Hauptkategorien.
+
+KATEGORIE 1:
+UNTERNEHMENSBERATUNG
+
+Enthaltene Leistungen:
+
+- Unternehmensentwicklung
+- Gründung & Selbstständigkeit
+- Geschäftsmodelle
+- Positionierung
+- Unternehmensstrukturen
+- Optimierung bestehender Arbeitsabläufe
+
+Beschreibung:
+
+„Wir schaffen Klarheit bei unternehmerischen Entscheidungen, entwickeln tragfähige Strukturen und erarbeiten konkrete nächste Schritte.“
+
+KATEGORIE 2:
+DIGITALE UNTERNEHMENSLÖSUNGEN
+
+Enthaltene Leistungen:
+
+- Websites
+- Individuelle Webanwendungen
+- Softwareentwicklung
+- Digitale Formulare
+- Prozessoptimierung
+- Automatisierungen
+- Geeignete KI-Anwendungen
+
+Beschreibung:
+
+„Wir entwickeln digitale Lösungen, die zu Deinem Unternehmen passen und wiederkehrende Aufgaben vereinfachen.“
+
+KATEGORIE 3:
+MARKETING & ONLINEPRÄSENZ
+
+Enthaltene Leistungen:
+
+- Social-Media-Planung
+- Digitale Positionierung
+- Creator- und Influencer-Beratung
+- Onlineauftritte
+- Profiloptimierung
+- Contentplanung
+
+Beschreibung:
+
+„Wir unterstützen Dich dabei, Deine Leistungen verständlich zu präsentieren und Deine digitale Präsenz gezielt weiterzuentwickeln.“
+
+TECHNISCHE UMSETZUNG:
+
+1. Die bestehenden Leistungsseiten bleiben erhalten.
+2. Die zentrale Leistungsübersicht wird nach den drei Kategorien organisiert.
+3. Jeder Leistungsbereich erhält eine klare Zuordnung.
+4. Bestehende interne Verlinkungen bleiben funktionsfähig.
+5. Bestehende SEO-Inhalte dürfen nicht verloren gehen.
+6. Keine doppelten oder konkurrierenden Leistungsseiten erzeugen.
+
+TRADING- UND ETF-GRUNDLAGEN:
+
+Diese Leistung soll nicht mehr als gleichrangige Kernleistung innerhalb der allgemeinen Unternehmensberatung erscheinen.
+
+Falls sie weiterhin angeboten wird, ordne sie einem geeigneten separaten Informationsbereich zu.
+
+Die bisherige Seite darf nicht ersatzlos gelöscht werden.
+
+Prüfe bestehende Verlinkungen und vermeide SEO-Verluste.
+
+==================================================
+5. LEISTUNGSSEITEN VERBESSERN
+==================================================
+
+Überarbeite sämtliche bestehenden Leistungsseiten nach einem einheitlichen inhaltlichen Aufbau.
+
+Jede Leistungsseite soll folgende Fragen beantworten:
+
+1. Für wen ist die Leistung geeignet?
+2. Welches Problem wird damit angesprochen?
+3. Was übernimmt Avelsorn konkret?
+4. Wie läuft die Zusammenarbeit ab?
+5. Welche Ergebnisse erhält der Kunde?
+6. Welche Informationen benötigt Avelsorn?
+7. Was kostet die Leistung beziehungsweise wo findet der Kunde die Preise?
+8. Wie kann der Kunde die Leistung anfragen?
+
+Verwende bestehende Inhalte weiter, sofern sie korrekt sind.
+
+Vermeide unnötige Wiederholungen.
+
+Jede Leistungsseite benötigt:
+
+- Eine eindeutige H1
+- Verständliche Einleitung
+- Konkrete Leistungsbeschreibung
+- Kundennutzen
+- Ablauf
+- Passenden CTA
+- Interne Verlinkungen
+- Eindeutige SEO-Metadaten
+
+WICHTIG:
+
+Keine erfundenen Leistungsbestandteile.
+
+Alle beschriebenen Leistungen müssen tatsächlich durch Avelsorn erbracht werden können.
+
+==================================================
+6. STARTSEITE – NEUER ABSCHNITT ZUR UMSETZUNG
+==================================================
+
+Ergänze einen hochwertigen Abschnitt mit folgender Überschrift:
+
+„Von der Idee bis zur fertigen Lösung.“
+
+Beschreibung:
+
+„Manche Herausforderungen benötigen zunächst eine klare Strategie. Andere lassen sich durch eine konkrete technische Umsetzung lösen.
+
+Bei Avelsorn besprechen wir gemeinsam, welche Schritte sinnvoll sind. Anschließend kann ich die vereinbarten digitalen Lösungen direkt für Dich umsetzen.“
+
+Darunter drei Schritte:
+
+01 – VERSTEHEN
+
+„Wir besprechen Deine Ausgangssituation, Deine Ziele und die Herausforderungen, die Du lösen möchtest.“
+
+02 – PLANEN
+
+„Wir legen fest, welche Maßnahmen sinnvoll sind, welche Ergebnisse entstehen sollen und welchen Umfang das Projekt hat.“
+
+03 – UMSETZEN
+
+„Ich setze die vereinbarten Aufgaben um. Ergebnisse, Rückfragen und Freigaben werden transparent dokumentiert.“
+
+Gestalte den Abschnitt passend zur bestehenden Website.
+
+Verwende hochwertige Typografie, klare Abstände und dezente grafische Elemente.
+
+==================================================
+7. NEUER ABSCHNITT: KONKRETE PROJEKTBEISPIELE
+==================================================
+
+Ergänze eine Sektion:
+
+„So können wir Dein Unternehmen unterstützen.“
+
+Erstelle drei nachvollziehbare Anwendungsbeispiele.
+
+BEISPIEL 1:
+DIGITALER ANFRAGEPROZESS
+
+Problem:
+
+„Kundenanfragen erreichen das Unternehmen über unterschiedliche Kanäle. Informationen müssen mehrfach übertragen werden.“
+
+Mögliche Lösung:
+
+„Ein digitales Anfrageformular erfasst die benötigten Angaben und überträgt sie strukturiert an die zuständige Stelle.“
+
+Ziel:
+
+„Weniger manuelle Arbeit und eine übersichtlichere Bearbeitung.“
+
+BEISPIEL 2:
+PROFESSIONELLER WEBSEITENAUFTRITT
+
+Problem:
+
+„Ein Unternehmen besitzt keine passende Website oder der vorhandene Auftritt erklärt die Leistungen nicht verständlich.“
+
+Mögliche Lösung:
+
+„Entwicklung einer modernen Website mit klarer Leistungsdarstellung, Kontaktmöglichkeiten und responsivem Design.“
+
+Ziel:
+
+„Interessenten können sich schneller informieren und einfacher Kontakt aufnehmen.“
+
+BEISPIEL 3:
+GRÜNDUNG STRUKTURIEREN
+
+Problem:
+
+„Eine Geschäftsidee ist vorhanden, aber Zielgruppe, Leistungsangebot und nächste Schritte sind noch unklar.“
+
+Mögliche Lösung:
+
+„Gemeinsame Ausarbeitung des Angebots, Eingrenzung der Zielgruppe und Entwicklung eines konkreten Maßnahmenplans.“
+
+Ziel:
+
+„Eine verständliche Ausgangsbasis für die weiteren Gründungsschritte.“
+
+WICHTIG:
+
+Diese Inhalte sind allgemeine Leistungsbeispiele.
+
+Sie dürfen nicht als tatsächlich abgeschlossene Kundenprojekte, Referenzen oder Case Studies ausgegeben werden.
+
+Kennzeichne sie entsprechend.
+
+Sobald echte Kundenprojekte vorliegen, muss die Sektion später durch verifizierte Projektberichte erweitert werden können.
+
+==================================================
+8. PREISSEITE OPTIMIEREN
+==================================================
+
+Die aktuellen Pakete und Einstiegspreise bleiben unverändert.
+
+BESTEHENDE PAKETE:
+
+- Creator-Profilcheck: ab 199 €
+- Selbstständigkeit vorbereiten: ab 249 €
+- Freelancer-Auftritt: ab 349 €
+- Gründungsangebot ausarbeiten: ab 399 €
+- Social-Media-Planung: ab 499 €
+- Digitalen Ablauf verbessern: ab 699 €
+- Website erstellen: ab 1.290 €
+
+Übernimm die bestehenden Preise aus der zentralen Preisverwaltung beziehungsweise der vorhandenen Datenquelle.
+
+Keine separaten, fest einprogrammierten Kopien der Preise erzeugen.
+
+PREISDARSTELLUNG:
+
+Jedes Paket soll bereits ohne Aufklappen drei Informationen enthalten:
+
+1. Das Problem beziehungsweise die Ausgangssituation.
+2. Die wichtigsten enthaltenen Leistungen.
+3. Das konkrete Ergebnis für den Kunden.
+
+Vorhandene ausklappbare Leistungsbeschreibungen bleiben erhalten.
+
+Ergänze innerhalb der Karten eine kurze Ergebnisübersicht.
+
+BEISPIEL:
+
+PAKET:
+„Selbstständigkeit vorbereiten“
+
+PREIS:
+„ab 249 € einmalig“
+
+ERGEBNIS:
+„Du erhältst eine strukturierte Einschätzung Deiner Ausgangssituation und einen nachvollziehbaren Plan für Deine nächsten Schritte.“
+
+Die tatsächlichen Ergebnisse müssen mit dem bestehenden Paketumfang übereinstimmen.
+
+WICHTIG:
+
+- Keine Stundenzahlen ergänzen.
+- Keine Laufzeiten erfinden.
+- Keine unbegrenzten Leistungen versprechen.
+- Keine automatischen Verlängerungen einführen.
+- Bestehende individuelle Angebotserstellung beibehalten.
+- Bestehenden Überweisungsprozess beibehalten.
+- Bestehende Kundenkonten und Projektzuordnungen erhalten.
+
+==================================================
+9. ERSTGESPRÄCH UND BUCHUNG VEREINFACHEN
+==================================================
+
+Aktuell erfolgt die Terminbuchung über die vorhandenen Seiten:
+
+/erstgespraech
+/kalender
+
+Das kostenlose Erstgespräch dauert 15 Minuten.
+
+ZIEL:
+
+Die Terminbuchung soll möglichst einfach erfolgen.
+
+Ein Kunde soll zunächst einen freien Termin auswählen und anschließend nur die notwendigen Kontaktdaten angeben müssen.
+
+ERFORDERLICHE DATEN:
+
+- Vorname
+- Nachname
+- E-Mail-Adresse
+- Telefonnummer
+- Kurze Beschreibung des Anliegens
+
+Die Terminbuchung soll grundsätzlich ohne vorherige vollständige Kundenregistrierung möglich sein.
+
+WICHTIG:
+
+Die bestehende Registrierung und das Kunden-Dashboard dürfen dadurch nicht beschädigt werden.
+
+TECHNISCHE ANFORDERUNGEN:
+
+1. Gastbuchungen ermöglichen.
+2. Bestehende registrierte Kunden weiterhin unterstützen.
+3. Freie Termine aus dem bestehenden Kalendersystem laden.
+4. Doppelbuchungen serverseitig verhindern.
+5. Buchungen zuverlässig speichern.
+6. Kunden unmittelbar nach erfolgreicher Buchung eine Bestätigung anzeigen.
+7. Bestätigungs-E-Mail versenden.
+8. Termin im Admin-Dashboard anzeigen.
+9. Admin über die Buchung informieren.
+10. Bestehende Erinnerungsfunktionen beibehalten.
+11. Bestehende Stornierungs- und Verschiebungsregeln berücksichtigen.
+12. Zeitzone Europe/Berlin verwenden.
+
+Die Buchungsbestätigung muss deutlich machen:
+
+„Ich melde mich zum gebuchten Termin telefonisch bei Dir.“
+
+Ergänze die geschäftliche Rufnummer aus der vorhandenen zentralen Konfiguration.
+
+Keine Rufnummer erfinden.
+
+Die bestehende E-Mail-Verifizierung für reguläre Kundenkonten bleibt bestehen.
+
+Gastbuchungen dürfen keine ungesicherten Kundenkonten erzeugen.
+
+Verwende dafür einen sicheren, getrennten Buchungsprozess.
+
+Falls eine Gastbuchung technisch noch nicht sicher realisierbar ist, darf die bisherige funktionierende Buchungsstrecke nicht entfernt werden.
+
+Stelle die neue Strecke erst bereit, wenn alle Anforderungen erfüllt sind.
+
+==================================================
+10. ÜBER AVELSORN ÜBERARBEITEN
+==================================================
+
+Die bestehende Seite /ueber-mich soll deutlich mehr Vertrauen schaffen.
+
+Erhalte sämtliche korrekten Informationen.
+
+Stelle den persönlichen Ansprechpartner stärker heraus.
+
+NAME:
+Enrico Gross
+
+MARKE:
+Avelsorn
+
+INHALTLICHER AUFBAU:
+
+1. Persönliche Vorstellung
+2. Welche Erfahrungen ich mitbringe
+3. Welche Leistungen ich persönlich übernehme
+4. Wie ich mit meinen Kunden zusammenarbeite
+5. Warum Beratung und Umsetzung zusammengehören
+6. Einladung zum kostenlosen Erstgespräch
+
+Verwende einen professionellen, authentischen Schreibstil.
+
+Keine übertriebenen Selbstdarstellungen.
+
+Keine erfundenen Qualifikationen.
+
+Keine erfundenen Unternehmensjahre.
+
+Keine erfundenen Mitarbeiter.
+
+Keine erfundenen Projekterfolge.
+
+FOTO:
+
+Falls ein echtes, freigegebenes Foto von Enrico Gross bereits im Projekt vorhanden ist, verwende dieses.
+
+Falls kein geeignetes Foto existiert, erfinde keines.
+
+Das Design muss auch ohne persönliches Foto professionell funktionieren.
+
+Der Bereich mit beruflichen Kontakten und möglichen Empfehlungen an externe Fachpersonen darf erhalten bleiben, soll aber nicht wichtiger erscheinen als die eigenen Leistungen von Avelsorn.
+
+==================================================
+11. KUNDENPORTAL ALS VORTEIL PRÄSENTIEREN
+==================================================
+
+Ergänze auf der öffentlichen Website einen Abschnitt:
+
+„Dein Projekt. Jederzeit im Blick.“
+
+Beschreibung:
+
+„Während unserer Zusammenarbeit kannst Du wichtige Informationen zu Deinem Auftrag zentral einsehen. Projektfortschritt, Dokumente, Rückfragen und Freigaben werden übersichtlich zusammengeführt.“
+
+Stelle folgende Funktionen dar, sofern sie bereits produktiv implementiert sind:
+
+- Projektübersicht
+- Aufgaben und Fortschritt
+- Dokumente und Dateien
+- Direkte Kommunikation
+- Projektfreigaben
+- Nachvollziehbare Arbeitsnachweise
+
+WICHTIG:
+
+Nur tatsächlich funktionsfähige Funktionen als verfügbar bewerben.
+
+Keine erfundenen Dashboard-Screenshots.
+
+Falls echte Screenshots vorhandener produktiver Dashboard-Ansichten verwendet werden, müssen sämtliche personenbezogenen Daten entfernt beziehungsweise durch eigens angelegte, eindeutig gekennzeichnete Demonstrationsdaten ersetzt werden.
+
+Die bestehenden Kunden- und Admin-Dashboards bleiben technisch unverändert, soweit keine Anpassung für die neuen Prozesse zwingend notwendig ist.
+
+==================================================
+12. NAVIGATION OPTIMIEREN
+==================================================
+
+Passe die Hauptnavigation wie folgt an:
+
+- Leistungen
+- Für wen
+- Preise
+- Über Avelsorn
+- Blog
+
+Rechts weiterhin:
+
+- Mein Konto
+- Kostenloses Erstgespräch
+
+Der Erstgespräch-Button soll sich visuell vom übrigen Navigationsbereich abheben.
+
+Bestehende Seite /ablauf erhalten.
+
+Sie soll weiterhin über passende interne Verlinkungen und den Footer erreichbar sein.
+
+Die Zielgruppenseiten bleiben erhalten.
+
+Die Navigation muss auf Mobilgeräten vollständig funktionieren.
+
+Keine unnötigen verschachtelten Menüs erstellen.
+
+==================================================
+13. VERTRAUEN UND GLAUBWÜRDIGKEIT
+==================================================
+
+Ergänze auf geeigneten öffentlichen Seiten nachvollziehbare Vertrauenselemente.
+
+Beispiele:
+
+- Persönlicher Ansprechpartner
+- Transparente Projektpreise
+- Individuelle Angebote
+- Dokumentierte Arbeitsergebnisse
+- Direkte Kommunikation
+- Klare Projektabsprachen
+
+Keine erfundenen Bewertungen.
+
+Keine künstlichen Kundenzahlen.
+
+Keine unbelegten Erfolgsversprechen.
+
+Keine nicht vorhandenen Zertifikate.
+
+Keine fiktiven Partnerschaften.
+
+Echte Bewertungen und Referenzen dürfen später über eine erweiterbare Komponente ergänzt werden.
+
+Solange keine freigegebenen Referenzen existieren, darf keine leere Referenzsektion erscheinen.
+
+==================================================
+14. SEO UND TECHNISCHE QUALITÄT
+==================================================
+
+Prüfe und optimiere sämtliche betroffenen öffentlichen Seiten.
+
+SEO:
+
+- Eindeutige Seitentitel
+- Individuelle Meta-Descriptions
+- Korrekte Überschriftenhierarchie
+- Aussagekräftige interne Verlinkungen
+- Canonical-URLs
+- Sitemap
+- robots.txt
+- Open-Graph-Metadaten
+- Strukturierte Daten, soweit passend und sachlich korrekt
+- Keine doppelten indexierbaren Inhalte
+- Keine fehlerhaften Weiterleitungen
+
+TECHNIK:
+
+- Keine Hydration-Fehler
+- Keine TypeScript-Fehler
+- Keine fehlerhaften Imports
+- Keine defekten internen Links
+- Keine nicht erreichbaren Seiten
+- Keine funktionslosen Formulare
+- Keine unnötigen JavaScript-Pakete
+- Keine unkontrollierten Client-Side-Requests
+- Keine Sicherheitslücken durch neue öffentliche API-Routen
+
+PERFORMANCE:
+
+- Optimierte Bilder
+- Vermeidung unnötiger Layoutverschiebungen
+- Gute Ladezeiten
+- Responsives Design
+- Barrierearme Bedienung
+- Tastaturnavigation
+- Verständliche Formularfehlermeldungen
+- Sichtbare Fokuszustände
+
+DATENSCHUTZ:
+
+Bestehende Datenschutzeinstellungen und Einwilligungsmechanismen erhalten.
+
+Keine zusätzlichen Trackingdienste ohne separate Freigabe integrieren.
+
+==================================================
+15. VERBINDLICHE QUALITÄTSSICHERUNG
+==================================================
+
+Nach der Implementierung überprüfst Du sämtliche Änderungen systematisch.
+
+Erstelle beziehungsweise erweitere automatisierte Tests für:
+
+- Navigation
+- Leistungsseiten
+- Preisdarstellung
+- Paket-Anfragen
+- Registrierung
+- Gastbuchung
+- Terminverfügbarkeit
+- Schutz vor Doppelbuchungen
+- Terminbestätigung
+- E-Mail-Bestätigung
+- Admin-Benachrichtigung
+- Fehlerbehandlung
+- Mobile Navigation
+- Responsivität
+- Zugriffsberechtigungen
+- Bestehende Kundenprozesse
+
+Prüfe zusätzlich:
+
+- TypeScript
+- ESLint
+- Produktionsbuild
+- Relevante Integrationstests
+- Kritische End-to-End-Prozesse
+- Barrierefreiheit
+- Performance
+- SEO
+- Fehlerbehandlung
+
+Verwende vorhandene Testinfrastruktur.
+
+Erweitere sie nur dort, wo es tatsächlich notwendig ist.
+
+Keine Tests entfernen oder umgehen, um einen erfolgreichen Build zu erzwingen.
+
+Keine Fehler unterdrücken.
+
+Keine fehlenden Integrationen durch vermeintlich erfolgreiche Simulationen verschleiern.
+
+Alle neu eingeführten Komponenten müssen vor dem Produktiveinsatz zuverlässig funktionieren.
+
+==================================================
+16. LIVEBETRIEB UND VERÖFFENTLICHUNG
+==================================================
+
+Diese Anwendung ist für den direkten realen Geschäftsbetrieb bestimmt.
+
+Es handelt sich ausdrücklich nicht um einen Prototyp.
+
+Trotzdem gilt:
+
+Änderungen dürfen nicht ungeprüft auf die produktive Domain veröffentlicht werden.
+
+Verwende die vorhandenen Entwicklungs- und Preview-Möglichkeiten von Vercel.
+
+Prüfe die Änderungen vollständig.
+
+Sichere bestehende produktive Daten und berücksichtige notwendige Datenbankmigrationen.
+
+Bei Änderungen an produktiven Datenmodellen:
+
+- Rückwärtskompatibilität prüfen
+- Migrationen vorbereiten
+- Bestehende Datensätze erhalten
+- Rollback-Möglichkeit sicherstellen
+
+Erst wenn sämtliche erforderlichen Tests erfolgreich sind und keine kritischen Probleme mehr bestehen, darf das Ergebnis als bereit für den Produktiveinsatz gekennzeichnet werden.
+
+Die abschließende Veröffentlichung erfolgt erst nach meiner Freigabe.
+
+==================================================
+17. DOKUMENTATION
+==================================================
+
+Aktualisiere die bestehenden Projektdokumentationen.
+
+Insbesondere, sofern vorhanden:
+
+- MASTER_SPEC.md
+- ARCHITECTURE.md
+- PROGRESS.md
+- README.md
+
+Dokumentiere:
+
+1. Welche Seiten geändert wurden.
+2. Welche neuen Komponenten entstanden sind.
+3. Welche bestehenden Komponenten wiederverwendet wurden.
+4. Welche Buchungsprozesse angepasst wurden.
+5. Welche Datenbankänderungen notwendig waren.
+6. Welche Tests durchgeführt wurden.
+7. Welche Fehler festgestellt und behoben wurden.
+8. Welche externen Integrationen tatsächlich produktiv funktionieren.
+9. Welche Punkte gegebenenfalls noch meine Freigabe benötigen.
+
+Keine abgeschlossenen Aufgaben als offen kennzeichnen.
+
+Keine unvollständigen Funktionen als fertig deklarieren.
+
+==================================================
+18. ABSCHLIESSENDER ENTWICKLUNGSAUFTRAG
+==================================================
+
+Setze sämtliche Anforderungen vollständig um.
+
+Arbeite eigenständig und strukturiert.
+
+Beachte dabei folgende Reihenfolge:
+
+PHASE 1:
+Bestehendes Projekt vollständig analysieren.
+
+PHASE 2:
+Startseite und Positionierung optimieren.
+
+PHASE 3:
+Leistungsübersicht und Leistungsseiten strukturieren.
+
+PHASE 4:
+Preisseite und Paketdarstellung verbessern.
+
+PHASE 5:
+Buchungsprozess für kostenlose Erstgespräche optimieren.
+
+PHASE 6:
+Über-Avelsorn-Seite und Vertrauensaufbau überarbeiten.
+
+PHASE 7:
+Projektbeispiele und Kundenportal-Vorteile integrieren.
+
+PHASE 8:
+Navigation, SEO, Responsivität und Barrierefreiheit optimieren.
+
+PHASE 9:
+Sämtliche betroffenen Geschäftsprozesse überprüfen.
+
+PHASE 10:
+Vollständige technische Qualitätssicherung durchführen.
+
+PHASE 11:
+Dokumentation aktualisieren und produktionsbereiten Stand herstellen.
+
+WICHTIGE ABSCHLUSSREGEL:
+
+Beende die Entwicklung nicht nach einer oberflächlichen Implementierung.
+
+Arbeite sämtliche Anforderungen ab und behebe festgestellte Fehler.
+
+Prüfe die Anwendung so lange, bis alle innerhalb der vorhandenen Entwicklungsumgebung überprüfbaren Anforderungen erfolgreich erfüllt sind.
+
+Falls externe Zugangsdaten, fehlende Dienste, geschäftliche Entscheidungen oder meine Freigabe notwendig sind, dokumentiere diese Punkte präzise.
+
+Erfinde keine erfolgreichen Tests.
+
+Übernehme keine nicht autorisierten Änderungen am Livebetrieb.
+
+Erhalte alle bereits bestehenden Funktionen.
+
+Verändere das vorhandene visuelle Erscheinungsbild nur dort, wo die beschriebenen Optimierungen es erforderlich machen.
+
+Das endgültige Ergebnis muss wie eine professionelle, vollständig ausgearbeitete Unternehmensplattform wirken.
+
+KEIN MVP.
+KEIN PROTOTYP.
+KEINE DEMO.
+KEINE PLATZHALTERFUNKTIONEN.
+
+ZIEL:
+
+Eine vollständig optimierte, technisch zuverlässige und professionell positionierte Avelsorn-Website, die reale Interessenten überzeugt und den Weg vom Erstkontakt bis zur tatsächlichen Zusammenarbeit möglichst einfach gestaltet.
+
+Beginne jetzt mit der Bestandsanalyse und arbeite anschließend alle Phasen selbstständig ab.

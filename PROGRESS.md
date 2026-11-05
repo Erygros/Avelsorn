@@ -402,3 +402,9 @@ Abschließender Prüfnachtrag (27.10.2026): `npm run check` vollständig erfolgr
 
 - Stand 7cbe852 über GitHub/Vercel als dpl_CVxm4DbGsFWcr6KcncVQNLBZo8e2 veröffentlicht, Ready/Production und öffentliche Domainzuordnung verifiziert. Zehn produktive Seiten-/Zugriffsprüfungen bestanden. Ersteinrichtungsseite liefert nach echter Inhabereinrichtung 404, erneute Einrichtung wird serverseitig mit 409 abgewiesen. Lokale aktuelle Anwendung erneut erfolgreich gestartet; QA-Server nach den Prüfungen beendet.
 - Kein Testkunde, Testauftrag oder künstlicher Zahlungseingang in Produktion angelegt. Der Inhaberzugang ist ein beauftragtes echtes Konto; die eigene Passwortwahl erfolgt über die geschäftliche E-Mail-Adresse. Gesamtziel bleibt bis zur weiteren Projekt-/Datei-/Datenschutzabnahme in Arbeit.
+
+## Neuer Auftrag: Öffentliche Optimierung mit Freigabe-Preview (05.11.2026)
+
+- Neuer Nutzerauftrag bytegetreu in docs/WEBSITE_OPTIMIZATION_REQUEST.txt bewahrt. Altes Entwicklungsziel wurde vom Nutzer beendet; dieser Auftrag betrifft die öffentliche Positionierung und sichere Gastbuchung unter Erhalt der bestehenden Plattform.
+- Bestandsanalyse und Schnittstelleninventar in docs/WEBSITE_OPTIMIZATION.md. Alle 57 Ausgangstests erfolgreich. Produktive Startseite im Browser geprüft und dokumentiert. Noch keine funktionalen Änderungen vorgenommen.
+- Separater Branch codex/website-optimierung. Neue ausdrückliche Freigabe erst nach vollständiger Validierung und Review-Vorschau einholen. Keine produktiven Daten, Zugangsdaten, Bankdaten oder Stammdaten geändert.
