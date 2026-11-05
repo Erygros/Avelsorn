@@ -12,12 +12,6 @@ export async function SiteShell({
 }) {
     return (
         <>
-            {process.env.PRODUCTION_APPROVED !== "true" && (
-                <aside aria-label="Entwicklungsstatus" className="preview-note">
-                    Lokale Entwicklungsvorschau · Unternehmensangaben und
-                    Veröffentlichung stehen noch aus.
-                </aside>
-            )}
             <header className="site-header">
                 <Brand />
                 <nav aria-label="Hauptnavigation">
@@ -30,10 +24,7 @@ export async function SiteShell({
                     <Link className="login-link" href="/anmelden">
                         Mein Konto ↗
                     </Link>
-                    <Link
-                        className="button primary small"
-                        href="/erstgespraech"
-                    >
+                    <Link className="button primary small" href="/kalender">
                         Erstgespräch <span aria-hidden="true">↗</span>
                     </Link>
                 </div>
@@ -46,7 +37,7 @@ export async function SiteShell({
                         <Link href="/zielgruppen">Für wen ich arbeite</Link>
                         <Link href="/blog">Blog</Link>
                         <Link href="/anmelden">Mein Konto</Link>
-                        <Link href="/erstgespraech">Erstgespräch</Link>
+                        <Link href="/kalender">Erstgespräch</Link>
                     </nav>
                 </details>
             </header>

@@ -18,6 +18,7 @@ import { PortalShell, adminNav, customerNav } from "./portal-shell";
 import { ActionForm, type Field } from "./action-form";
 import { OnboardingForm } from "./onboarding-form";
 import { BookingForm } from "./booking-form";
+import { AdminCalendar } from "./admin-calendar";
 import { LiveRefresh } from "./live-refresh";
 import { UploadForm } from "./upload-form";
 import { CmsEditor } from "./cms-editor";
@@ -559,74 +560,185 @@ export async function PortalPage({
             .from(s.bookings)
             .where(scope(s.bookings.userId))
             .orderBy(desc(s.bookings.startsAt));
+        const owners = admin
+            ? await db()
+                  .select({
+                      id: s.users.id,
+                      name: s.users.name,
+                      email: s.users.email,
+                      phone: s.users.phone,
+                      company: s.users.company,
+                  })
+                  .from(s.users)
+            : [];
+        const intervals = admin
+            ? await db()
+                  .select()
+                  .from(s.calendarBlocks)
+                  .orderBy(s.calendarBlocks.startsAt)
+            : [];
         body = (
             <>
-                <Table
-                    heads={[
-                        ...(admin ? ["Kunde"] : []),
-                        "Beratung",
-                        "Termin · Europe/Berlin",
-                        "Status",
-                        "Aktionen",
-                    ]}
-                    rows={rows.map((b) => [
-                        ...(admin ? [customerLabel(b.userId)] : []),
-                        <div key="title">
-                            {products[b.product as ProductKey]?.name ??
-                                b.product}
-                            <small className="block text-[9px]">{b.id}</small>
-                        </div>,
-                        <div key="time">
-                            {date(b.startsAt)}
-                            <br />
-                            {b.channel === "phone" ? "Telefon" : "Video"}
-                        </div>,
-                        <Status key="status" value={b.status} />,
-                        <div key="actions">
-                            <a href={"/api/bookings/" + b.id + "/ics"}>
-                                Kalendereinladung ↓
-                            </a>
-                            {b.channel === "video" &&
-                                b.status === "confirmed" && (
-                                    <Link
-                                        className="block mt-2"
-                                        href={base + "/video?id=" + b.id}
-                                    >
-                                        Videoraum öffnen ↗
-                                    </Link>
-                                )}
-                            {["reserved", "confirmed"].includes(b.status) && (
-                                <div className="record-actions">
-                                    <ActionForm
-                                        action="booking-change"
-                                        values={{ id: b.id, action: "cancel" }}
-                                        submit="Absagen"
-                                    />
-                                    <RescheduleForm
-                                        id={b.id}
-                                        minutes={Math.round(
-                                            (b.endsAt.getTime() -
-                                                b.startsAt.getTime()) /
-                                                60000,
-                                        )}
-                                    />
-                                    {admin && (
+                {admin ? (
+                    <AdminCalendar
+                        initialBooking={query.booking}
+                        appointments={rows.map((b) => {
+                            const owner = owners.find((o) => o.id === b.userId);
+                            return {
+                                id: b.id,
+                                userId: b.userId,
+                                name:
+                                    b.contactName ??
+                                    owner?.name ??
+                                    "Kundenkonto",
+                                email: b.contactEmail ?? owner?.email ?? "",
+                                phone: b.contactPhone ?? owner?.phone ?? "",
+                                company: b.company ?? owner?.company ?? "",
+                                topic: b.topic ?? "",
+                                notes: b.notes ?? "",
+                                startsAt: b.startsAt.toISOString(),
+                                endsAt: b.endsAt.toISOString(),
+                                createdAt: b.createdAt.toISOString(),
+                                status: b.status,
+                                product: b.product,
+                            };
+                        })}
+                    />
+                ) : (
+                    <Table
+                        heads={[
+                            ...(admin ? ["Kunde"] : []),
+                            "Beratung",
+                            "Termin · Europe/Berlin",
+                            "Status",
+                            "Aktionen",
+                        ]}
+                        rows={rows.map((b) => [
+                            ...(admin ? [customerLabel(b.userId)] : []),
+                            <div key="title">
+                                {products[b.product as ProductKey]?.name ??
+                                    b.product}
+                                <small className="block text-[9px]">
+                                    {b.id}
+                                </small>
+                            </div>,
+                            <div key="time">
+                                {date(b.startsAt)}
+                                <br />
+                                {b.channel === "phone" ? "Telefon" : "Video"}
+                            </div>,
+                            <Status key="status" value={b.status} />,
+                            <div key="actions">
+                                <a href={"/api/bookings/" + b.id + "/ics"}>
+                                    Kalendereinladung ↓
+                                </a>
+                                {b.channel === "video" &&
+                                    b.status === "confirmed" && (
+                                        <Link
+                                            className="block mt-2"
+                                            href={base + "/video?id=" + b.id}
+                                        >
+                                            Videoraum öffnen ↗
+                                        </Link>
+                                    )}
+                                {["reserved", "confirmed"].includes(
+                                    b.status,
+                                ) && (
+                                    <div className="record-actions">
                                         <ActionForm
                                             action="booking-change"
                                             values={{
                                                 id: b.id,
-                                                action: "complete",
+                                                action: "cancel",
                                             }}
-                                            submit="Als durchgeführt markieren"
+                                            submit="Absagen"
                                         />
-                                    )}
-                                </div>
-                            )}
-                        </div>,
-                    ])}
-                />
+                                        <RescheduleForm
+                                            id={b.id}
+                                            minutes={Math.round(
+                                                (b.endsAt.getTime() -
+                                                    b.startsAt.getTime()) /
+                                                    60000,
+                                            )}
+                                        />
+                                        {admin && (
+                                            <ActionForm
+                                                action="booking-change"
+                                                values={{
+                                                    id: b.id,
+                                                    action: "complete",
+                                                }}
+                                                submit="Als durchgeführt markieren"
+                                            />
+                                        )}
+                                    </div>
+                                )}
+                            </div>,
+                        ])}
+                    />
+                )}
                 {admin ? (
                     <>
+                        <section className="panel mt-6">
+                            <h2>Pausen, Urlaub und zusätzliche Zeiten</h2>
+                            <ActionForm
+                                action="calendar-block"
+                                fields={[
+                                    {
+                                        name: "startsAt",
+                                        label: "Beginn · Europe/Berlin",
+                                        type: "datetime-local",
+                                        required: true,
+                                    },
+                                    {
+                                        name: "endsAt",
+                                        label: "Ende · Europe/Berlin",
+                                        type: "datetime-local",
+                                        required: true,
+                                    },
+                                    {
+                                        name: "kind",
+                                        label: "Verfügbarkeit",
+                                        options: [
+                                            {
+                                                value: "blocked",
+                                                label: "Zeit sperren",
+                                            },
+                                            {
+                                                value: "open",
+                                                label: "Zusätzliche Zeit freigeben",
+                                            },
+                                        ],
+                                        required: true,
+                                    },
+                                    {
+                                        name: "reason",
+                                        label: "Bezeichnung",
+                                        required: true,
+                                    },
+                                ]}
+                                submit="Zeitfenster speichern"
+                            />
+                            <div className="calendar-intervals">
+                                {intervals.map((interval) => (
+                                    <article key={interval.id}>
+                                        <strong>{interval.reason}</strong>
+                                        <p>
+                                            {date(interval.startsAt)}–
+                                            {date(interval.endsAt)} ·{" "}
+                                            {interval.kind === "open"
+                                                ? "Freigegeben"
+                                                : "Gesperrt"}
+                                        </p>
+                                        <ActionForm
+                                            action="calendar-block-remove"
+                                            values={{ id: interval.id }}
+                                            submit="Zeitregel entfernen"
+                                        />
+                                    </article>
+                                ))}
+                            </div>
+                        </section>
                         <section className="panel mt-6">
                             <h2 className="mb-6 text-2xl">
                                 Termin für einen Kunden anlegen
@@ -708,7 +820,7 @@ export async function PortalPage({
                         </section>
                     </>
                 ) : (
-                    <Link href="/konto/buchen" className="button primary mt-6">
+                    <Link href="/kalender" className="button primary mt-6">
                         Neuen Termin buchen ↗
                     </Link>
                 )}

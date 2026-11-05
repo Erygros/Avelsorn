@@ -12,7 +12,7 @@ export const legal: Record<
         sections: [
             {
                 title: "Anbieter und Kontakt",
-                text: "Die rechtsverbindlichen Anbieter- und Kontaktdaten werden aus den zentralen Geschäftseinstellungen übernommen. Solange diese fehlen, bleibt die öffentliche Produktionsfreigabe gesperrt.",
+                text: "Bei Fragen zu Avelsorn erreichst Du Enrico Gross über die oben genannten Kontaktdaten.",
             },
             {
                 title: "Tätigkeit und Einordnung",
@@ -39,11 +39,11 @@ export const legal: Record<
             },
             {
                 title: "Empfänger und technische Dienste",
-                text: "Nur berechtigte Personen erhalten Zugriff. Die tatsächlich ausgewählten Datenbank-, Speicher-, E-Mail- und Videodienste sowie deren Verarbeitungsorte und Auftragsverarbeitungsverträge werden vor Produktionsfreigabe ergänzt und geprüft. Checkdomain ist für geschäftliche E-Mail und Domain vorgesehen. Es werden keine ungeprüften produktiven Dienstanbindungen behauptet.",
+                text: "Für das Webhosting verwenden wir Vercel, für Datenbank und privaten Dateispeicher Supabase und für geschäftliche E-Mails Checkdomain. Das Supabase-Projekt speichert Daten in der Region Irland. Vercel verarbeitet Anwendungsanfragen auch in den USA. Zugriff auf Kundeninhalte erhalten nur berechtigte Personen. Auskunft zu Empfängern und den für Deinen Vorgang geltenden Übermittlungen erhältst Du über den angegebenen Datenschutzkontakt.",
             },
             {
                 title: "Video ohne Aufzeichnung",
-                text: "Audio und Video werden für die Verbindung zwischen den Gesprächsteilnehmern verarbeitet. Eine Aufzeichnung ist nicht vorgesehen. Erforderliche Signalisierungs- und Verbindungsdienste werden vor ihrer Aktivierung benannt.",
+                text: "Kostenlose Erstgespräche finden telefonisch statt. Eine integrierte Videofunktion ist derzeit deaktiviert. Gespräche werden von Avelsorn nicht aufgezeichnet.",
             },
             {
                 title: "Aufbewahrung",
@@ -98,7 +98,7 @@ export const legal: Record<
             },
             {
                 title: "Gesetzliche Rechte",
-                text: "Gesetzliche Verbraucherrechte, insbesondere das Widerrufsrecht und zwingende Haftungsregeln, werden durch diese Bedingungen nicht pauschal ausgeschlossen. Vor dem Produktionsstart müssen die Bedingungen anhand der endgültigen Anbieter- und Vertragsgestaltung überprüft werden.",
+                text: "Gesetzliche Verbraucherrechte, insbesondere das Widerrufsrecht und zwingende Haftungsregeln, gelten unabhängig von diesen Bedingungen.",
             },
         ],
     },

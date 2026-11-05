@@ -2706,3 +2706,109 @@ address {
     border-top: 1px solid var(--line);
     font-size: 26px;
 }
+
+/* Appointment booking and CRM calendar share the existing Avelsorn tokens. */
+.calendar-page { padding-bottom: 72px; }
+.calendar-page .page-heading { max-width: 900px; }
+.appointment-layout { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:32px; align-items:start; }
+.calendar-picker,.calendar-details { min-width:0; padding:28px; border:1px solid var(--line); background:#fff; }
+.calendar-picker h2,.calendar-details h2,.crm-calendar h2 { margin:0 0 20px; font-size:24px; font-weight:400; line-height:1.3; }
+.calendar-picker h3 { margin:28px 0 8px; font-size:17px; font-weight:500; }
+.calendar-toolbar,.crm-toolbar,.calendar-date-controls { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+.calendar-toolbar h2 { margin:0; font-size:20px; text-align:center; }
+.month-picker { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:4px; margin-top:24px; }
+.month-picker button { min-width:0; min-height:44px; background:#fff; border:1px solid transparent; color:var(--ink); cursor:pointer; font:inherit; }
+.month-picker button:hover:not(:disabled) { border-color:var(--ink); }
+.month-picker button:disabled { color:#92968c; cursor:default; }
+.weekday-label { text-align:center; color:var(--muted); font-size:12px; padding:8px 0; }
+.month-picker [aria-pressed=true],.slot-grid [aria-pressed=true],.calendar-view-tabs [aria-pressed=true],.calendar-auth-tabs [aria-pressed=true] { color:#fff; background:var(--ink); }
+.calendar-timezone { font-size:12px; color:var(--muted); margin:0 0 18px; }
+.slot-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; }
+.slot-grid .button { padding:10px 4px; min-width:0; min-height:44px; justify-content:center; }
+.slot-grid p { grid-column:1/-1; }
+.selected-appointment { padding:16px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin-bottom:24px; }
+.calendar-details .action-form,.calendar-dialog .action-form { width:100%; max-width:none; min-width:0; }
+.calendar-page label:not(.check),.calendar-date-controls label { display:flex; flex-direction:column; gap:8px; font-size:13px; min-width:0; }
+.calendar-page input:not([type=checkbox]),.calendar-page textarea,.calendar-date-controls input { width:100%; max-width:100%; min-width:0; border:1px solid var(--line); border-radius:0; padding:12px; background:#fff; font:inherit; color:var(--ink); }
+.calendar-page input[type=checkbox] { flex-shrink:0; }
+.calendar-page .check { flex-wrap:wrap; font-size:12px; line-height:1.6; }
+.calendar-page .check a { text-decoration:underline; }
+.calendar-page .form-row { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.calendar-auth-tabs,.calendar-view-tabs { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
+.calendar-auth-tabs button { min-height:44px; padding:10px 14px; border:1px solid var(--line); background:#fff; color:var(--ink); font:inherit; cursor:pointer; }
+.calendar-message { margin-top:20px; padding:14px; border-left:2px solid var(--ink); overflow-wrap:anywhere; }
+.calendar-page .record-actions { flex-wrap:wrap; gap:12px; }
+.crm-calendar { min-width:0; }
+.crm-toolbar { margin-bottom:24px; align-items:flex-start; }
+.calendar-date-controls { justify-content:flex-start; }
+.calendar-date-controls label { max-width:180px; }
+.calendar-date-controls input { padding:8px; min-height:42px; }
+.crm-grid { display:grid; gap:1px; background:var(--line); border:1px solid var(--line); min-width:0; }
+.crm-month,.crm-week { grid-template-columns:repeat(7,minmax(0,1fr)); }
+.crm-day,.crm-calendar-empty { background:#fff; min-width:0; padding:8px; min-height:100px; }
+.crm-grid.crm-day { display:block; padding:0; }
+.crm-day.is-today { background:#f4f6f2; }
+.calendar-day-label { display:block; width:100%; text-align:left; background:transparent; border:0; font:inherit; padding:4px; min-height:36px; cursor:pointer; }
+.calendar-event { display:flex; flex-direction:column; align-items:flex-start; text-align:left; gap:3px; width:100%; min-width:0; padding:8px; margin-top:6px; border:1px solid var(--line); background:#f1f3ee; border-left:3px solid var(--ink); color:var(--ink); font:inherit; font-size:12px; cursor:pointer; overflow-wrap:anywhere; }
+.calendar-event time { font-weight:600; }
+.calendar-event small { color:var(--muted); font-size:10px; }
+.event-cancelled,.event-expired { opacity:.6; background:#fff; border-left-style:dotted; }
+.event-completed { background:#fff; }
+.calendar-agenda { display:grid; gap:10px; }
+.calendar-agenda>button { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto; gap:14px; padding:18px; width:100%; background:#fff; border:1px solid var(--line); color:var(--ink); text-align:left; font:inherit; cursor:pointer; overflow-wrap:anywhere; }
+.calendar-dialog { width:min(680px,calc(100vw - 32px)); max-height:calc(100dvh - 32px); padding:28px; border:1px solid var(--line); color:var(--ink); background:#fff; overflow:auto; }
+.calendar-dialog::backdrop { background:#22251f77; }
+.calendar-dialog .dialog-close { float:right; margin:0 0 12px 12px; }
+.appointment-facts { display:grid; grid-template-columns:120px minmax(0,1fr); gap:10px 20px; font-size:14px; line-height:1.6; clear:both; }
+.appointment-facts dt { color:var(--muted); }
+.appointment-facts dd { margin:0; overflow-wrap:anywhere; white-space:pre-wrap; }
+.calendar-dialog .record-actions { display:flex; flex-wrap:wrap; gap:12px; margin:24px 0; }
+.calendar-dialog details { width:100%; }
+.calendar-intervals { display:grid; gap:16px; margin-top:24px; }
+.calendar-intervals article { border-top:1px solid var(--line); padding-top:16px; overflow-wrap:anywhere; }
+.calendar-empty { font-size:12px; color:var(--muted); }
+.legal-prose,.page-body,.portal-main,.portal-content,.auth-layout>* { min-width:0; }
+.legal-prose { max-width:850px; font-size:15px; line-height:1.8; overflow-wrap:anywhere; }
+.legal-prose address { font-style:normal; padding-block:8px 24px; }
+.legal-prose section+section { margin-top:28px; }
+.legal-prose h2 { line-height:1.35; overflow-wrap:anywhere; }
+.legal-prose a { overflow-wrap:anywhere; }
+.data-table-wrap { max-width:100%; }
+.action-form .button { max-width:100%; white-space:normal; overflow-wrap:anywhere; }
+@media(max-width:1000px) {
+ .appointment-layout { gap:20px; }
+ .calendar-picker,.calendar-details { padding:22px; }
+ .crm-toolbar { display:grid; }
+ .crm-week { grid-template-columns:1fr; }
+ .crm-week .crm-day { min-height:60px; }
+}
+@media(max-width:760px) {
+ .appointment-layout { grid-template-columns:minmax(0,1fr); }
+ .calendar-page .page-heading { padding-block:40px 28px; }
+ .calendar-picker,.calendar-details { padding:18px; }
+ .slot-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+ .calendar-page input:not([type=checkbox]),.calendar-page textarea { font-size:16px; }
+ .crm-month .crm-day { padding:3px; min-height:76px; }
+ .crm-month .calendar-day-label { text-align:center; padding:2px; }
+ .crm-month .calendar-event { padding:4px 1px; border-left-width:2px; font-size:10px; align-items:center; min-height:30px; }
+ .crm-month .calendar-event span,.crm-month .calendar-event small { display:none; }
+ .calendar-agenda>button { grid-template-columns:minmax(0,1fr); gap:6px; }
+ .calendar-dialog { padding:20px; }
+ .appointment-facts { grid-template-columns:minmax(0,1fr); gap:3px; }
+ .appointment-facts dd { margin-bottom:10px; }
+ .legal-prose { font-size:15px; }
+ .legal-prose h2 { font-size:23px; }
+ .portal-compact .portal-sidebar>nav { grid-template-columns:repeat(4,minmax(0,1fr)); }
+}
+@media(max-width:380px) {
+ .calendar-page .form-row { grid-template-columns:minmax(0,1fr); }
+ .calendar-toolbar { gap:6px; }
+ .calendar-toolbar h2 { font-size:17px; }
+ .calendar-picker,.calendar-details { padding:14px; }
+ .calendar-page .button.primary { width:100%; justify-content:center; }
+}
+
+.calendar-details { overflow-wrap:anywhere; }
+
+:where(h1,h2,h3) { overflow-wrap:anywhere; hyphens:auto; }
+.calendar-dialog { margin:auto; }

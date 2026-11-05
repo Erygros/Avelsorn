@@ -9,16 +9,42 @@ import {
     documents,
     projects,
     timeEntries,
+    calendarBlocks,
+    users,
+    outbox,
+    notifications,
     type User,
 } from "./schema";
-import { assert, audit, lock, readyCustomer, owns } from "./security";
+import { assert, audit, lock, readyCustomer, owns, isMinor } from "./security";
 import { products, price, type ProductKey, berlin } from "./config";
-import { notify, notifyAdmin } from "./events";
+import { notify, notifyAdmin, queueMail } from "./events";
 import { randomUUID } from "node:crypto";
 import { videoConfigured } from "./video";
 import { consumeContractApproval } from "./guardian";
 import { assertNoTimeOverlap } from "./time-ledger";
 import { catalogFromSnapshot } from "./package-catalog";
+import { business } from "./settings";
+import { z } from "zod";
+
+export const phoneNumber = z
+    .string()
+    .trim()
+    .transform((v) => v.replace(/[\s()./-]/g, ""))
+    .pipe(
+        z
+            .string()
+            .regex(
+                /^\+?[0-9]{7,15}$/,
+                "Bitte gib eine gültige Telefonnummer an.",
+            ),
+    );
+export const introDetails = z.object({
+    firstName: z.string().trim().min(1).max(50),
+    lastName: z.string().trim().min(1).max(80),
+    phone: phoneNumber,
+    company: z.string().trim().max(200).default(""),
+    topic: z.string().trim().max(2000).default(""),
+});
 
 const active = () =>
     or(
@@ -29,7 +55,7 @@ const active = () =>
         ),
     );
 export async function windowFor(day: string, database: Db = db()) {
-    assert(/^\d{4}-\d{2}-\d{2}$/.test(day), "Ungültiges Datum.");
+    assert(z.iso.date().safeParse(day).success, "Ungültiges Datum.");
     const weekday = new Date(day + "T12:00:00Z").getUTCDay() || 7;
     const rules = await database
         .select()
@@ -48,40 +74,84 @@ export async function windowFor(day: string, database: Db = db()) {
         end: fromZonedTime(`${day}T${end}:00`, "Europe/Berlin"),
     };
 }
+async function dayWindows(day: string, database: Db) {
+    const base = await windowFor(day, database);
+    const start = fromZonedTime(day + "T00:00:00", "Europe/Berlin");
+    const nextDay = new Date(new Date(day + "T12:00:00Z").getTime() + 86400_000)
+        .toISOString()
+        .slice(0, 10);
+    const end = fromZonedTime(nextDay + "T00:00:00", "Europe/Berlin");
+    const blocks = await database
+        .select()
+        .from(calendarBlocks)
+        .where(
+            and(
+                lt(calendarBlocks.startsAt, end),
+                gt(calendarBlocks.endsAt, start),
+            ),
+        );
+    const windows = [
+        ...(base ? [base] : []),
+        ...blocks
+            .filter((b) => b.kind === "open")
+            .map((b) => ({
+                start: b.startsAt > start ? b.startsAt : start,
+                end: b.endsAt < end ? b.endsAt : end,
+            })),
+    ];
+    return { windows, blocked: blocks.filter((b) => b.kind === "blocked") };
+}
 export async function slots(day: string, minutes: number, database: Db = db()) {
     assert([15, 30, 45, 60, 90].includes(minutes), "Ungültige Dauer.");
-    const window = await windowFor(day, database);
-    if (!window) return [];
+    const { windows, blocked } = await dayWindows(day, database);
+    if (!windows.length) return [];
     const occupied = await database
         .select()
         .from(bookings)
         .where(
             and(
                 active(),
-                lt(bookings.startsAt, window.end),
-                gt(bookings.endsAt, window.start),
+                lt(
+                    bookings.startsAt,
+                    new Date(Math.max(...windows.map((w) => w.end.getTime()))),
+                ),
+                gt(
+                    bookings.endsAt,
+                    new Date(
+                        Math.min(...windows.map((w) => w.start.getTime())),
+                    ),
+                ),
             ),
         );
     const results: { value: string; label: string }[] = [];
-    for (
-        let at = window.start.getTime();
-        at + minutes * 60_000 <= window.end.getTime();
-        at += 15 * 60_000
-    ) {
-        const end = at + minutes * 60_000;
-        if (
-            at <= Date.now() ||
-            occupied.some(
-                (b) => b.startsAt.getTime() < end && b.endsAt.getTime() > at,
+    for (const window of windows)
+        for (
+            let at = Math.ceil(window.start.getTime() / 900_000) * 900_000;
+            at + minutes * 60_000 <= window.end.getTime();
+            at += 15 * 60_000
+        ) {
+            const end = at + minutes * 60_000;
+            if (
+                at <= Date.now() ||
+                formatInTimeZone(at, "Europe/Berlin", "yyyy-MM-dd") !== day ||
+                blocked.some(
+                    (b) =>
+                        b.startsAt.getTime() < end && b.endsAt.getTime() > at,
+                ) ||
+                occupied.some(
+                    (b) =>
+                        b.startsAt.getTime() < end && b.endsAt.getTime() > at,
+                )
             )
-        )
-            continue;
-        results.push({
-            value: new Date(at).toISOString(),
-            label: formatInTimeZone(at, "Europe/Berlin", "HH:mm"),
-        });
-    }
-    return results;
+                continue;
+            results.push({
+                value: new Date(at).toISOString(),
+                label: formatInTimeZone(at, "Europe/Berlin", "HH:mm"),
+            });
+        }
+    return [
+        ...new Map(results.map((slot) => [slot.value, slot])).values(),
+    ].sort((a, b) => a.value.localeCompare(b.value));
 }
 async function ensureFree(
     start: Date,
@@ -94,9 +164,16 @@ async function ensureFree(
         "Der Termin muss in der Zukunft liegen.",
     );
     const day = formatInTimeZone(start, "Europe/Berlin", "yyyy-MM-dd");
-    const window = await windowFor(day, database);
+    const { windows, blocked } = await dayWindows(day, database);
+    const minute = Number(formatInTimeZone(start, "Europe/Berlin", "mm"));
     assert(
-        window && start >= window.start && end <= window.end,
+        start.getUTCSeconds() === 0 &&
+            start.getUTCMilliseconds() === 0 &&
+            minute % 15 === 0 &&
+            windows.some(
+                (window) => start >= window.start && end <= window.end,
+            ) &&
+            !blocked.some((b) => b.startsAt < end && b.endsAt > start),
         "Der Termin liegt außerhalb der verfügbaren Zeiten.",
         409,
     );
@@ -126,15 +203,34 @@ export type BookingInput = {
     withdrawalAcknowledged: boolean;
     packageId?: string;
     serviceOrderId?: string;
+    details?: z.infer<typeof introDetails>;
 };
 export async function book(user: User, input: BookingInput, actorId = user.id) {
+    assert(!user.disabledAt, "Dieses Kundenkonto ist gesperrt.", 403);
     if (input.product === "project")
         return bookProjectMeeting(user, input, actorId);
     assert(
         !["package12", "unlimited"].includes(input.product) || input.packageId,
         "Pakete werden als eigenständige Leistung bestellt. Buche einen Beratungstermin anschließend aus Deinem aktiven Paket.",
     );
-    readyCustomer(user, input.product !== "intro" && !input.packageId);
+    if (input.product === "intro") {
+        assert(user.verifiedAt, "Bestätige zuerst Deine E-Mail-Adresse.", 403);
+        assert(
+            !isMinor(user) || user.guardianApprovedAt,
+            "Die überprüfte Zustimmung Deiner Erziehungsberechtigten fehlt.",
+            422,
+        );
+    } else readyCustomer(user, !input.packageId);
+    const details = input.details
+        ? introDetails.parse(input.details)
+        : undefined;
+    if (details)
+        user = {
+            ...user,
+            name: details.firstName + " " + details.lastName,
+            phone: details.phone,
+            company: details.company,
+        };
     assert(
         (products[input.product].durations as readonly number[]).includes(
             input.minutes,
@@ -148,6 +244,7 @@ export async function book(user: User, input: BookingInput, actorId = user.id) {
         422,
     );
     assert(user.phone, "Ergänze zuerst Deine Telefonnummer.");
+    phoneNumber.parse(user.phone);
     const start = new Date(input.startsAt);
     const end = new Date(start.getTime() + input.minutes * 60_000);
     if (
@@ -175,12 +272,34 @@ export async function book(user: User, input: BookingInput, actorId = user.id) {
                     ]),
                 ),
             );
-        if (input.product === "intro")
+        if (input.product === "intro") {
+            const [current] = await tx
+                .select()
+                .from(users)
+                .where(eq(users.id, user.id))
+                .for("update");
+            const repeated = existing.some((b) => b.product === "intro");
             assert(
-                !existing.some((b) => b.product === "intro"),
+                !repeated || current.introCredits > 0,
                 "Das kostenlose Erstgespräch kann einmal gebucht werden.",
                 409,
             );
+            if (repeated)
+                await tx
+                    .update(users)
+                    .set({ introCredits: current.introCredits - 1 })
+                    .where(eq(users.id, user.id));
+            if (details)
+                await tx
+                    .update(users)
+                    .set({
+                        name: user.name,
+                        phone: user.phone,
+                        company: user.company,
+                        updatedAt: new Date(),
+                    })
+                    .where(eq(users.id, user.id));
+        }
         if (input.product === "upgrade") {
             assert(
                 existing.some(
@@ -286,6 +405,11 @@ export async function book(user: User, input: BookingInput, actorId = user.id) {
                 endsAt: end,
                 status: orderId ? "reserved" : "confirmed",
                 reservedUntil,
+                contactName: user.name,
+                contactEmail: user.email,
+                contactPhone: user.phone,
+                company: user.company,
+                topic: details?.topic,
             })
             .returning();
         await audit(
@@ -296,25 +420,56 @@ export async function book(user: User, input: BookingInput, actorId = user.id) {
             { orderId },
             tx,
         );
-        await notify(
-            user.id,
-            "booking",
-            orderId
-                ? "Dein Termin ist reserviert"
-                : "Dein Termin ist bestätigt",
-            `${berlin(start)} · ${input.minutes} Minuten. ${orderId ? "Die Reservierung gilt bis " + berlin(reservedUntil!) + ". Bestätigt wird nach geprüftem Zahlungseingang." : "Du findest den Termin in Deinem Konto."}`,
-            "booking:" + booking.id,
-            "/konto/termine",
-            tx,
-        );
+        if (input.product === "intro")
+            await bookingNotice(booking, "confirmation", tx);
+        else
+            await notify(
+                user.id,
+                "booking",
+                orderId
+                    ? "Dein Termin ist reserviert"
+                    : "Dein Termin ist bestätigt",
+                `${berlin(start)} · ${input.minutes} Minuten. ${orderId ? "Die Reservierung gilt bis " + berlin(reservedUntil!) + ". Bestätigt wird nach geprüftem Zahlungseingang." : "Du findest den Termin in Deinem Konto."}`,
+                "booking:" + booking.id,
+                "/konto/termine",
+                tx,
+            );
+        const adminBody = `Kunde: ${user.name}\nDatum: ${berlin(start)}\nTelefon: ${user.phone}`;
         await notifyAdmin(
             "booking",
-            "Neue Terminbuchung",
-            `${user.name}: ${berlin(start)}`,
+            input.product === "intro"
+                ? "Neues Erstgespräch gebucht"
+                : "Neue Terminbuchung",
+            adminBody,
             "booking:" + booking.id,
             "/admin/kalender",
             tx,
         );
+        if (input.product === "intro") {
+            const values = await business(tx);
+            const [admin] = await tx
+                .select()
+                .from(users)
+                .where(eq(users.role, "admin"));
+            if (
+                values.contact_email &&
+                !values.contact_email.includes("{{") &&
+                values.contact_email !== admin?.email
+            )
+                await queueMail(
+                    values.contact_email,
+                    "Neues Erstgespräch gebucht",
+                    adminBody,
+                    "business-booking:" + booking.id,
+                    {
+                        url:
+                            values.public_base_url +
+                            "/admin/kalender?booking=" +
+                            booking.id,
+                    },
+                    tx,
+                );
+        }
         return booking;
     });
 }
@@ -441,7 +596,9 @@ export async function changeBooking(
             "Dieser Termin ist nicht mehr änderbar.",
         );
         assert(
-            user.role === "admin" || booking.startsAt > new Date(),
+            user.role === "admin" ||
+                action === "reschedule" ||
+                booking.startsAt > new Date(),
             "Der Termin hat bereits begonnen.",
         );
         if (action === "complete")
@@ -593,15 +750,35 @@ export async function changeBooking(
                     );
         }
         await audit(user.id, "booking." + action, "booking", id, undefined, tx);
-        await notify(
-            booking.userId,
-            "booking",
-            "Dein Termin wurde aktualisiert",
-            "Bitte prüfe die aktuellen Termindaten in Deinem Konto.",
-            `booking:${id}:${action}:${booking.sequence + 1}`,
-            "/konto/termine",
-            tx,
-        );
+        const [updated] = await tx
+            .select()
+            .from(bookings)
+            .where(eq(bookings.id, id));
+        await tx
+            .update(outbox)
+            .set({ status: "cancelled" })
+            .where(
+                and(
+                    eq(outbox.status, "queued"),
+                    sql`${outbox.calendarEvent}->>'bookingId' = ${id}`,
+                ),
+            );
+        if (booking.product === "intro" && action !== "complete")
+            await bookingNotice(
+                updated,
+                action === "cancel" ? "cancellation" : "confirmation",
+                tx,
+            );
+        else
+            await notify(
+                booking.userId,
+                "booking",
+                "Dein Termin wurde aktualisiert",
+                "Bitte prüfe die aktuellen Termindaten in Deinem Konto.",
+                `booking:${id}:${action}:${booking.sequence + 1}`,
+                "/konto/termine",
+                tx,
+            );
         return { ok: true };
     });
 }
@@ -611,21 +788,136 @@ export function ics(booking: typeof bookings.$inferSelect): string {
             .toISOString()
             .replace(/[-:]/g, "")
             .replace(/\.\d{3}/, "");
-    return [
+    const lines = [
         "BEGIN:VCALENDAR",
         "VERSION:2.0",
-        "PRODID:-//Beratungsplattform//DE",
-        "METHOD:PUBLISH",
+        "PRODID:-//Avelsorn//Terminbuchung//DE",
+        booking.status === "cancelled" ? "METHOD:CANCEL" : "METHOD:PUBLISH",
         "BEGIN:VEVENT",
-        `UID:${booking.id}@platform`,
+        `UID:${booking.id}@avelsorn.de`,
         `DTSTAMP:${stamp(new Date())}`,
+        `LAST-MODIFIED:${stamp(booking.updatedAt)}`,
         `DTSTART:${stamp(booking.startsAt)}`,
         `DTEND:${stamp(booking.endsAt)}`,
         `SEQUENCE:${booking.sequence}`,
         `SUMMARY:${products[booking.product as ProductKey]?.name ?? "Beratung"}`,
+        booking.channel === "phone"
+            ? "DESCRIPTION:Avelsorn ruft den Kunden zum vereinbarten Termin telefonisch an."
+            : "DESCRIPTION:Videogespräch im geschützten Kundenkonto.",
+        booking.channel === "phone"
+            ? "LOCATION:Telefonisch"
+            : "LOCATION:Videogespräch",
         `STATUS:${booking.status === "cancelled" ? "CANCELLED" : booking.status === "reserved" ? "TENTATIVE" : "CONFIRMED"}`,
         "END:VEVENT",
         "END:VCALENDAR",
         "",
-    ].join("\r\n");
+    ];
+    return lines
+        .map((line) => {
+            let folded = "",
+                current = "";
+            for (const character of line) {
+                if (Buffer.byteLength(current + character, "utf8") > 75) {
+                    folded += current + "\r\n";
+                    current = " ";
+                }
+                current += character;
+            }
+            return folded + current;
+        })
+        .join("\r\n");
+}
+
+export async function bookingMessage(
+    booking: typeof bookings.$inferSelect,
+    database: Db = db(),
+) {
+    const values = await business(database);
+    const [owner] = booking.contactPhone
+        ? []
+        : await database
+              .select()
+              .from(users)
+              .where(eq(users.id, booking.userId));
+    const duration = Math.round(
+        (booking.endsAt.getTime() - booking.startsAt.getTime()) / 60000,
+    );
+    return [
+        booking.status === "cancelled"
+            ? "Dein Termin wurde abgesagt."
+            : "Vielen Dank für Deine Terminbuchung und Dein Interesse an Avelsorn.",
+        booking.product === "intro"
+            ? "Dein kostenloses und unverbindliches Erstgespräch"
+            : "Dein Beratungstermin",
+        "Datum: " +
+            formatInTimeZone(booking.startsAt, "Europe/Berlin", "dd.MM.yyyy"),
+        "Uhrzeit: " +
+            formatInTimeZone(booking.startsAt, "Europe/Berlin", "HH:mm") +
+            "–" +
+            formatInTimeZone(booking.endsAt, "Europe/Berlin", "HH:mm") +
+            " Uhr (Europe/Berlin)",
+        "Dauer: " + duration + " Minuten",
+        "Beratungsart: Telefonisch",
+        booking.status === "cancelled"
+            ? "Zu diesem Termin erfolgt kein Anruf."
+            : "Du musst uns nicht selbst anrufen. Ich melde mich zum vereinbarten Termin persönlich telefonisch bei Dir.",
+        "Deine hinterlegte Telefonnummer: " +
+            (booking.contactPhone ?? owner?.phone ?? ""),
+        booking.status === "cancelled"
+            ? "Einen neuen Termin kannst Du über Deinen Kalender auswählen."
+            : "Bitte stelle sicher, dass Du unter dieser Nummer erreichbar bist.",
+        "Du erreichst mich bei Rückfragen unter: " + values.public_phone,
+        "Du kannst den Termin in Deinem Kundenkonto verschieben oder absagen.",
+        "Freundliche Grüße\n" +
+            values.legal_full_name +
+            "\nAvelsorn – Digitale Unternehmensberatung",
+    ].join("\n\n");
+}
+
+export async function bookingNotice(
+    booking: typeof bookings.$inferSelect,
+    kind: "confirmation" | "cancellation",
+    database: Db,
+) {
+    const [owner] = await database
+        .select()
+        .from(users)
+        .where(eq(users.id, booking.userId));
+    const title =
+        kind === "cancellation"
+            ? "Dein Erstgespräch bei Avelsorn – Terminabsage"
+            : booking.sequence > 0
+              ? "Dein Erstgespräch bei Avelsorn – Aktualisierte Terminbestätigung"
+              : "Dein kostenloses Erstgespräch bei Avelsorn – Terminbestätigung";
+    const eventKey = `intro:${booking.id}:${booking.sequence}:${kind}`;
+    await database
+        .insert(notifications)
+        .values({
+            userId: booking.userId,
+            type: "booking",
+            title,
+            body: berlin(booking.startsAt),
+            eventKey,
+            url: "/konto/termine",
+        })
+        .onConflictDoNothing();
+    await queueMail(
+        owner.email,
+        title,
+        "Hallo " +
+            (booking.contactName ?? owner.name).split(" ")[0] +
+            ",\n\n" +
+            (await bookingMessage(booking, database)),
+        eventKey,
+        {
+            userId: owner.id,
+            url: (await business(database)).public_base_url + "/konto/termine",
+            calendarEvent: {
+                bookingId: booking.id,
+                sequence: booking.sequence,
+                kind,
+            },
+        },
+        database,
+    );
 }

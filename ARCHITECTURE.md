@@ -72,3 +72,7 @@ Die Kundenübersicht hat wie die Administration vier Kennzahlen und vier Inhalts
 
 Zusätzliche optionale Stammdaten contact_hours und about_text werden im Adminbereich unter Stammdaten bearbeitet; Vorstellung als Textarea. Öffentliche Seiten rendern den Vorstellungstext als escaped Text. Bank- und Steuerdaten bleiben von den öffentlichen Kontaktangaben getrennt. Der lokale Eigentümerimport verwendet eine private Eingabedatei, prüft IBAN/BIC und Kalenderregeln, erstellt eine Sicherung und protokolliert die transaktionale Änderung. Keine Schema- oder Infrastrukturänderung. Einzelheiten und Freigaberestpunkte: docs/BUSINESS_PROFILE_SETUP.md.
 
+
+## Kalender und Erinnerungen (05.11.2026)
+
+Öffentliche Buchung und CRM-Ansichten verwenden weiterhin denselben Kalenderdienst. calendar_blocks ergänzt zeitlich begrenzte Sperren und Zusatzzeiten. Kontakt-Snapshots an Buchungen bewahren die bestätigte Rufnummer; Datenschutzbearbeitung berücksichtigt diese Zusatzfelder. intro_credits ist eine auditiert vergebene, transaktional verbrauchte Freigabe für weitere Erstgespräche. Die Outbox referenziert Kalender-ID und Revision, damit stornierte oder verschobene Erinnerungen verworfen werden. Supabase pg_cron/pg_net ruft die vorhandene authentifizierte Vercel-Aufgabenfunktion auf; der Token liegt in Vault. Einzelheiten in docs/CALENDAR_EXTENSION.md.

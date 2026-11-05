@@ -22,6 +22,7 @@ async function main() {
             "/leistungen",
             "/preise",
             "/erstgespraech",
+            "/kalender",
             "/ablauf",
             "/zielgruppen",
             "/ueber-mich",
@@ -61,6 +62,12 @@ async function main() {
             path + " decorative templates",
         );
         assert.ok(html.includes("Avelsorn"), path + " brand");
+        assert.ok(
+            !/Lokale Entwicklungsvorschau|Entwicklungsfassung:|Keine Produktionsfreigabe/.test(
+                html,
+            ),
+            path + " developer notes absent",
+        );
         const service = services.find((s) => path === "/leistungen/" + s.slug);
         if (service) {
             assert.ok(

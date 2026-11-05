@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer";
 import { and, eq, lte } from "drizzle-orm";
 import { db } from "./db";
-import { outbox, files, documents } from "./schema";
+import { outbox, files, documents, bookings, users } from "./schema";
 import { decrypt, audit } from "./security";
 import { business } from "./settings";
 import { storage } from "./storage";
@@ -10,6 +10,7 @@ import { notifyAdmin } from "./events";
 import { BRAND } from "../content/brand";
 import { baseUrl } from "./config";
 import { brandLogoBytes } from "./brand";
+import { ics } from "./calendar";
 
 export const escape = (value: string) =>
     value.replace(
@@ -81,6 +82,35 @@ export async function sendOutboxBatch(max = 15, eventKey?: string) {
         });
         if (!row) break;
         try {
+            const [calendarBooking] = row.calendarEvent
+                ? await db()
+                      .select()
+                      .from(bookings)
+                      .where(eq(bookings.id, row.calendarEvent.bookingId))
+                : [];
+            const [calendarOwner] = calendarBooking
+                ? await db()
+                      .select({ disabledAt: users.disabledAt })
+                      .from(users)
+                      .where(eq(users.id, calendarBooking.userId))
+                : [];
+            if (
+                row.calendarEvent &&
+                (!calendarBooking ||
+                    !calendarOwner ||
+                    calendarOwner.disabledAt ||
+                    calendarBooking.sequence !== row.calendarEvent.sequence ||
+                    calendarBooking.status !==
+                        (row.calendarEvent.kind === "cancellation"
+                            ? "cancelled"
+                            : "confirmed"))
+            ) {
+                await db()
+                    .update(outbox)
+                    .set({ status: "cancelled" })
+                    .where(eq(outbox.id, row.id));
+                continue;
+            }
             const body = decrypt(row.encryptedBody);
             const attachments = await Promise.all(
                 row.attachmentKeys.map(async (key) => {
@@ -115,6 +145,16 @@ export async function sendOutboxBatch(max = 15, eventKey?: string) {
                 },
                 to: row.to,
                 subject: row.subject,
+                icalEvent: calendarBooking
+                    ? {
+                          filename: "avelsorn-termin.ics",
+                          method:
+                              calendarBooking.status === "cancelled"
+                                  ? "CANCEL"
+                                  : "PUBLISH",
+                          content: ics(calendarBooking),
+                      }
+                    : undefined,
                 text:
                     (body.startsWith("HTML:")
                         ? body.slice(5).replace(/<[^>]*>/g, " ")

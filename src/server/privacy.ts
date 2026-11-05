@@ -67,6 +67,16 @@ export async function resolvePrivacy(
         await tx.delete(s.tokens).where(eq(s.tokens.userId, target.id));
         await tx.delete(s.onboarding).where(eq(s.onboarding.userId, target.id));
         await tx
+            .update(s.bookings)
+            .set({
+                company: null,
+                topic: null,
+                contactName: null,
+                contactEmail: null,
+                contactPhone: null,
+            })
+            .where(eq(s.bookings.userId, target.id));
+        await tx
             .delete(s.guardianConsents)
             .where(eq(s.guardianConsents.userId, target.id));
         await tx
@@ -122,6 +132,7 @@ export async function resolvePrivacy(
                 email: target.id + "@deleted.invalid",
                 passwordHash: await passwordHash(secretToken()),
                 phone: null,
+                company: null,
                 birthDate: "1900-01-01",
                 billingAddress: null,
                 disabledAt: new Date(),

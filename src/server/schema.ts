@@ -28,6 +28,8 @@ export const users = pgTable(
         passwordHash: text("password_hash").notNull(),
         role: text().notNull().default("customer"),
         phone: text(),
+        company: text(),
+        introCredits: integer("intro_credits").notNull().default(0),
         birthDate: text("birth_date").notNull(),
         customerType: text("customer_type").notNull().default("consumer"),
         billingAddress: text("billing_address"),
@@ -123,6 +125,22 @@ export const availability = pgTable("availability", {
     blocked: boolean().notNull().default(false),
     reason: text(),
 });
+export const calendarBlocks = pgTable(
+    "calendar_blocks",
+    {
+        id: id(),
+        startsAt: date("starts_at").notNull(),
+        endsAt: date("ends_at").notNull(),
+        kind: text().notNull().default("blocked"),
+        reason: text().notNull().default(""),
+        createdAt: created(),
+    },
+    (t) => [
+        check("calendar_block_duration", sql`${t.endsAt} > ${t.startsAt}`),
+        check("calendar_block_kind", sql`${t.kind} IN ('blocked','open')`),
+        index("calendar_blocks_range").on(t.startsAt, t.endsAt),
+    ],
+);
 export const orders = pgTable(
     "orders",
     {
@@ -168,6 +186,11 @@ export const bookings = pgTable(
         reservedUntil: date("reserved_until"),
         sequence: integer().notNull().default(0),
         notes: text(),
+        company: text(),
+        topic: text(),
+        contactName: text("contact_name"),
+        contactEmail: text("contact_email"),
+        contactPhone: text("contact_phone"),
         createdAt: created(),
         updatedAt: updated(),
     },
@@ -422,6 +445,11 @@ export const outbox = pgTable("mail_outbox", {
     encryptedBody: text("encrypted_body").notNull(),
     ctaUrl: text("cta_url"),
     eventKey: text("event_key").notNull().unique(),
+    calendarEvent: jsonb("calendar_event").$type<{
+        bookingId: string;
+        sequence: number;
+        kind: "confirmation" | "reminder" | "cancellation";
+    }>(),
     attachmentKeys: jsonb("attachment_keys")
         .$type<string[]>()
         .notNull()

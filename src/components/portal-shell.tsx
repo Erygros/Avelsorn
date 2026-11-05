@@ -37,7 +37,7 @@ import { PortalSectionSelect } from "./portal-section-select";
 
 export const customerNav = [
     ["", "Übersicht"],
-    ["termine", "Termine"],
+    ["termine", "Meine Termine"],
     ["buchen", "Buchen"],
     ["pakete", "Pakete"],
     ["zeit", "Zeitnachweise"],
@@ -58,7 +58,7 @@ export const adminNav = [
     ["", "Übersicht"],
     ["kunden", "Kunden"],
     ["onboarding", "Fragebögen"],
-    ["kalender", "Termine"],
+    ["kalender", "Kalender"],
     ["beratungen", "Beratungen"],
     ["projekte", "Projekte"],
     ["aufgaben", "Aufgaben"],
@@ -97,13 +97,17 @@ const adminGroups = [
         sections: ["kunden", "onboarding"],
     },
     {
+        title: "Kalender",
+        slug: "kalender",
+        icon: CalendarDays,
+        sections: ["kalender", "beratungen"],
+    },
+    {
         title: "Aufträge",
         slug: "projekte",
         icon: FolderOpen,
         sections: [
             "projekte",
-            "kalender",
-            "beratungen",
             "aufgaben",
             "zeit",
             "pakete",

@@ -16,9 +16,11 @@ const field = (
 export async function AuthPage({
     slug,
     token,
+    returnTo,
 }: {
     slug: string;
     token?: string;
+    returnTo?: string;
 }) {
     const configurations: Record<
         string,
@@ -96,7 +98,10 @@ export async function AuthPage({
             intro: "Mit Deiner Bestätigung ordnen wir diese E-Mail-Adresse Deinem Konto zu.",
             action: "verify",
             fields: [],
-            values: { token: token ?? "" },
+            values: {
+                token: token ?? "",
+                ...(returnTo === "/kalender" ? { next: returnTo } : {}),
+            },
             submit: "E-Mail-Adresse bestätigen",
         },
         zustimmung: {

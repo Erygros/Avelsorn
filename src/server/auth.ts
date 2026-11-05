@@ -29,12 +29,14 @@ export const registrationSchema = z.object({
     terms: z.literal(true),
     guardianEmail: z.union([emailSchema, z.literal("")]).optional(),
     guardianName: z.string().trim().max(100).optional(),
+    returnTo: z.literal("/kalender").optional(),
 });
 type Purpose = "verify" | "reset" | "admin_otp" | "guardian";
 export async function issueToken(
     userId: string,
     purpose: Purpose,
     database: Db = db(),
+    returnTo?: "/kalender",
 ) {
     const token =
         purpose === "admin_otp"
@@ -50,16 +52,14 @@ export async function issueToken(
                 isNull(tokens.usedAt),
             ),
         );
-    await database
-        .insert(tokens)
-        .values({
-            userId,
-            purpose,
-            hash: digest(token),
-            expiresAt: new Date(
-                Date.now() + (purpose === "admin_otp" ? 10 : 60) * 60_000,
-            ),
-        });
+    await database.insert(tokens).values({
+        userId,
+        purpose,
+        hash: digest(token),
+        expiresAt: new Date(
+            Date.now() + (purpose === "admin_otp" ? 10 : 60) * 60_000,
+        ),
+    });
     const [user] = await database
         .select()
         .from(users)
@@ -96,7 +96,7 @@ export async function issueToken(
             url:
                 purpose === "admin_otp"
                     ? undefined
-                    : `${baseUrl()}/${route}?token=${token}`,
+                    : `${baseUrl()}/${route}?token=${token}${purpose === "verify" && returnTo ? "&next=%2Fkalender" : ""}`,
         },
         database,
     );
@@ -171,17 +171,15 @@ export async function register(input: unknown) {
             })
             .returning();
         if (minor) {
-            await tx
-                .insert(guardianConsents)
-                .values({
-                    userId: user.id,
-                    email: data.guardianEmail!,
-                    name: data.guardianName!,
-                    scope: "registration",
-                });
+            await tx.insert(guardianConsents).values({
+                userId: user.id,
+                email: data.guardianEmail!,
+                name: data.guardianName!,
+                scope: "registration",
+            });
             await issueToken(user.id, "guardian", tx);
         }
-        await issueToken(user.id, "verify", tx);
+        await issueToken(user.id, "verify", tx, data.returnTo);
         await audit(user.id, "registered", "user", user.id, undefined, tx);
         await notifyAdmin(
             "registration",
@@ -215,13 +213,11 @@ export async function login(email: string, password: string) {
     );
     const token = secretToken();
     await db().transaction(async (tx) => {
-        await tx
-            .insert(sessions)
-            .values({
-                userId: user.id,
-                tokenHash: digest(token),
-                expiresAt: new Date(Date.now() + 12 * 3600_000),
-            });
+        await tx.insert(sessions).values({
+            userId: user.id,
+            tokenHash: digest(token),
+            expiresAt: new Date(Date.now() + 12 * 3600_000),
+        });
         if (user.role === "admin") await issueToken(user.id, "admin_otp", tx);
         await audit(user.id, "login", "session", undefined, undefined, tx);
     });

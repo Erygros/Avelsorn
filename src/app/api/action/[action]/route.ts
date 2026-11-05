@@ -1,7 +1,7 @@
 import { after, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { z, ZodError } from "zod";
-import { and, eq, inArray } from "drizzle-orm";
+import { and, eq, inArray, sql } from "drizzle-orm";
 import { db } from "@/server/db";
 import * as s from "@/server/schema";
 import {
@@ -23,7 +23,7 @@ import {
 import { register, login, consumeToken, issueToken } from "@/server/auth";
 import { setSetting, getSetting } from "@/server/settings";
 import { productKey, publicKeys } from "@/server/config";
-import { book, changeBooking } from "@/server/calendar";
+import { book, changeBooking, introDetails } from "@/server/calendar";
 import {
     confirmPayment,
     createOffer,
@@ -216,7 +216,9 @@ async function dispatch(action: string, input: unknown): Promise<unknown> {
         return { redirect: "/anmelden" };
     }
     if (action === "verify") {
-        const { token } = z.object({ token: str }).parse(input);
+        const { token, next } = z
+            .object({ token: str, next: z.literal("/kalender").optional() })
+            .parse(input);
         await db().transaction(async (tx) => {
             const userId = await consumeToken(token, "verify", undefined, tx);
             assert(userId, "Der Link ist ungültig.", 422);
@@ -234,7 +236,7 @@ async function dispatch(action: string, input: unknown): Promise<unknown> {
             );
         });
         return {
-            redirect: "/konto",
+            redirect: next ?? "/konto",
             message: "Deine E-Mail-Adresse ist bestätigt.",
         };
     }
@@ -600,6 +602,23 @@ async function dispatch(action: string, input: unknown): Promise<unknown> {
         assertCurrentBooking(data);
         return book(user, data);
     }
+    if (action === "intro-booking") {
+        const data = z
+            .object({
+                startsAt: z.iso.datetime(),
+                terms: z.literal(true),
+                details: introDetails,
+            })
+            .parse(input);
+        return book(user, {
+            ...data,
+            product: "intro",
+            minutes: 15,
+            channel: "phone",
+            earlyStart: false,
+            withdrawalAcknowledged: false,
+        });
+    }
     if (action === "booking-change") {
         const data = z
             .object({
@@ -777,6 +796,110 @@ async function dispatch(action: string, input: unknown): Promise<unknown> {
         return { ok: true };
     }
     await requireUser(true);
+    if (action === "calendar-note") {
+        const data = z
+            .object({ id: uuid, notes: z.string().max(5000) })
+            .parse(input);
+        await db().transaction(async (tx) => {
+            const [saved] = await tx
+                .update(s.bookings)
+                .set({ notes: data.notes })
+                .where(eq(s.bookings.id, data.id))
+                .returning({ id: s.bookings.id });
+            assert(saved, "Termin nicht gefunden.", 404);
+            await audit(
+                user.id,
+                "booking.note",
+                "booking",
+                data.id,
+                undefined,
+                tx,
+            );
+        });
+        return { ok: true };
+    }
+    if (action === "intro-credit") {
+        const data = z
+            .object({ userId: uuid, count: z.number().int().min(1).max(10) })
+            .parse(input);
+        await db().transaction(async (tx) => {
+            await lock("calendar", tx);
+            const [saved] = await tx
+                .update(s.users)
+                .set({
+                    introCredits: sql`${s.users.introCredits}+${data.count}`,
+                })
+                .where(
+                    and(
+                        eq(s.users.id, data.userId),
+                        eq(s.users.role, "customer"),
+                    ),
+                )
+                .returning({ id: s.users.id });
+            assert(saved, "Kunde nicht gefunden.", 404);
+            await audit(
+                user.id,
+                "booking.intro_credit",
+                "user",
+                data.userId,
+                { count: data.count },
+                tx,
+            );
+        });
+        return { ok: true };
+    }
+    if (action === "calendar-block") {
+        const data = z
+            .object({
+                startsAt: z.iso.datetime(),
+                endsAt: z.iso.datetime(),
+                kind: z.enum(["blocked", "open"]),
+                reason: z.string().trim().max(300),
+            })
+            .parse(input);
+        assert(
+            new Date(data.endsAt) > new Date(data.startsAt),
+            "Das Ende muss nach dem Beginn liegen.",
+        );
+        await db().transaction(async (tx) => {
+            await lock("calendar", tx);
+            const [row] = await tx
+                .insert(s.calendarBlocks)
+                .values({
+                    ...data,
+                    startsAt: new Date(data.startsAt),
+                    endsAt: new Date(data.endsAt),
+                })
+                .returning();
+            await audit(
+                user.id,
+                "calendar.interval_added",
+                "calendar",
+                row.id,
+                { kind: data.kind },
+                tx,
+            );
+        });
+        return { ok: true };
+    }
+    if (action === "calendar-block-remove") {
+        const data = z.object({ id: uuid }).parse(input);
+        await db().transaction(async (tx) => {
+            await lock("calendar", tx);
+            await tx
+                .delete(s.calendarBlocks)
+                .where(eq(s.calendarBlocks.id, data.id));
+            await audit(
+                user.id,
+                "calendar.interval_removed",
+                "calendar",
+                data.id,
+                undefined,
+                tx,
+            );
+        });
+        return { ok: true };
+    }
     if (action === "media-save") {
         const data = z
             .object({
@@ -860,22 +983,27 @@ async function dispatch(action: string, input: unknown): Promise<unknown> {
             data.blocked || data.start < data.end,
             "Das Ende muss nach dem Beginn liegen.",
         );
-        const [existing] = await db()
-            .select()
-            .from(s.availability)
-            .where(eq(s.availability.weekday, data.weekday));
-        if (existing)
-            await db()
-                .update(s.availability)
-                .set(data)
-                .where(eq(s.availability.id, existing.id));
-        else await db().insert(s.availability).values(data);
-        await audit(
-            user.id,
-            "availability.week_changed",
-            "calendar",
-            String(data.weekday),
-        );
+        await db().transaction(async (tx) => {
+            await lock("calendar", tx);
+            const [existing] = await tx
+                .select()
+                .from(s.availability)
+                .where(eq(s.availability.weekday, data.weekday));
+            if (existing)
+                await tx
+                    .update(s.availability)
+                    .set(data)
+                    .where(eq(s.availability.id, existing.id));
+            else await tx.insert(s.availability).values(data);
+            await audit(
+                user.id,
+                "availability.week_changed",
+                "calendar",
+                String(data.weekday),
+                undefined,
+                tx,
+            );
+        });
         return { ok: true };
     }
     if (action === "guardian-contract-review") {
@@ -1282,8 +1410,8 @@ async function dispatch(action: string, input: unknown): Promise<unknown> {
             .object({
                 day: z.iso.date(),
                 blocked: z.boolean(),
-                start: z.string().regex(/^\d{2}:\d{2}$/),
-                end: z.string().regex(/^\d{2}:\d{2}$/),
+                start: z.string().regex(/^(?:[01]\d|2[0-3]):[0-5]\d$/),
+                end: z.string().regex(/^(?:[01]\d|2[0-3]):[0-5]\d$/),
                 reason: z.string().max(200),
             })
             .parse(input);
@@ -1291,11 +1419,21 @@ async function dispatch(action: string, input: unknown): Promise<unknown> {
             data.blocked || data.start < data.end,
             "Das Ende muss nach dem Beginn liegen.",
         );
-        await db()
-            .insert(s.availability)
-            .values(data)
-            .onConflictDoUpdate({ target: s.availability.day, set: data });
-        await audit(user.id, "availability.changed", "calendar", data.day);
+        await db().transaction(async (tx) => {
+            await lock("calendar", tx);
+            await tx
+                .insert(s.availability)
+                .values(data)
+                .onConflictDoUpdate({ target: s.availability.day, set: data });
+            await audit(
+                user.id,
+                "availability.changed",
+                "calendar",
+                data.day,
+                undefined,
+                tx,
+            );
+        });
         return { ok: true };
     }
     if (action === "guardian-review") {

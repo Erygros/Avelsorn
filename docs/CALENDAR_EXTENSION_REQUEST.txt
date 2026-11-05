@@ -1,0 +1,414 @@
+ERWEITERUNGSAUFTRAG FÜR CODEX
+AVELSORN.DE – TERMINBUCHUNG UND CRM-KALENDER
+
+AUFGABE:
+Erweitere die bestehende Avelsorn-Plattform um ein vollständiges Online-Terminbuchungssystem für kostenlose Erstgespräche.
+
+WICHTIG:
+Prüfe zunächst die vorhandene Projektstruktur, bestehende Kalenderfunktionen, Authentifizierung, E-Mail-Anbindung, Datenbankmodelle sowie das Admin- und Kunden-Dashboard.
+
+Erweitere vorhandene Funktionen, statt unnötige neue Module zu erstellen.
+
+Die gesamte Erweiterung muss sich vollständig in das bestehende Layout und Design von Avelsorn integrieren.
+
+KEIN MVP, KEIN PROTOTYP.
+Alle Funktionen müssen produktionsreif umgesetzt werden.
+
+==================================================
+1. ÖFFENTLICHE KALENDERSEITE
+==================================================
+
+Erstelle beziehungsweise erweitere:
+
+https://www.avelsorn.de/kalender
+
+Diese Seite dient ausschließlich der direkten Terminvereinbarung.
+
+Seitentitel:
+„Kostenloses Erstgespräch vereinbaren“
+
+Beschreibung:
+„Lass uns gemeinsam herausfinden, wie wir dein Vorhaben oder Unternehmen weiterentwickeln können. Buche jetzt dein kostenloses und unverbindliches 15-minütiges Erstgespräch.“
+
+Zeige einen modernen, interaktiven Buchungskalender.
+
+Der Kunde muss:
+- Einen Tag auswählen
+- Verfügbare Uhrzeiten sehen
+- Eine freie Uhrzeit auswählen
+- Seine Kontaktdaten bestätigen
+- Den Termin verbindlich buchen können
+
+Der Kalender muss vollständig responsiv sein.
+
+Verwende das bestehende Avelsorn-Designsystem.
+
+==================================================
+2. MEINE VERFÜGBARKEIT
+==================================================
+
+Standardmäßige Verfügbarkeit:
+
+Montag bis Freitag:
+08:30–17:00 Uhr
+
+Samstag und Sonntag:
+12:00–17:00 Uhr
+
+Zeitzone:
+Europe/Berlin
+
+Berücksichtige Sommer- und Winterzeit.
+
+Dauer des kostenlosen Erstgesprächs:
+15 Minuten
+
+Die Termine werden in 15-Minuten-Zeitfenstern angeboten.
+
+Beispiel:
+08:30–08:45
+08:45–09:00
+09:00–09:15
+
+Es dürfen ausschließlich tatsächlich verfügbare Termine angezeigt werden.
+
+Keine Doppelbuchungen.
+
+Mindestvorlauf:
+0 Stunden
+
+Puffer zwischen Terminen:
+0 Minuten
+
+==================================================
+3. BUCHUNGSVORGANG
+==================================================
+
+Der Kunde wählt zunächst einen freien Termin.
+
+Anschließend werden folgende Informationen benötigt:
+
+- Vorname
+- Nachname
+- E-Mail-Adresse
+- Telefonnummer
+- Unternehmen (optional)
+- Anliegen beziehungsweise Beratungsthema (optional)
+
+Die Telefonnummer ist verpflichtend.
+
+Nutze die vorhandene Kundenregistrierung und Authentifizierung.
+
+Falls der Kunde noch kein Konto besitzt, kann er sich im Buchungsprozess registrieren.
+
+Bereits registrierte Kunden müssen ihre vorhandenen Daten nicht erneut eingeben.
+
+Verhindere mehrfaches kostenloses Erstgespräch pro Kundenkonto, sofern ich dies nicht administrativ freigebe.
+
+Anschließend:
+
+Button:
+„Kostenlosen Termin verbindlich buchen“
+
+Nach Bestätigung:
+- Termin in der Datenbank speichern
+- Zeitfenster sofort blockieren
+- Termin dem Kunden zuordnen
+- Termin im Admin-Kalender anzeigen
+- Bestätigungs-E-Mail versenden
+- Erfolgsseite anzeigen
+
+Die Buchung muss transaktionssicher erfolgen.
+
+Zwei Kunden dürfen niemals denselben Termin gleichzeitig buchen.
+
+==================================================
+4. BESTÄTIGUNGS-E-MAIL
+==================================================
+
+Sobald der Kunde seinen Termin erfolgreich gebucht hat, erhält er automatisch eine E-Mail.
+
+Verwende das bestehende E-Mail-System von Avelsorn.
+
+BETREFF:
+Dein kostenloses Erstgespräch bei Avelsorn – Terminbestätigung
+
+E-MAIL-INHALT:
+
+Hallo {{Vorname}},
+
+vielen Dank für deine Terminbuchung und dein Interesse an Avelsorn.
+
+Hiermit bestätigen wir dein kostenloses und unverbindliches 15-minütiges Erstgespräch.
+
+DEINE TERMINDETAILS
+
+Datum: {{Datum}}
+Uhrzeit: {{Uhrzeit}}
+Dauer: 15 Minuten
+Beratungsart: Telefonisch
+
+WICHTIG:
+Du musst uns nicht selbst anrufen.
+
+Ich werde mich zum vereinbarten Termin persönlich telefonisch bei dir melden.
+
+Bitte stelle sicher, dass du unter der von dir angegebenen Telefonnummer erreichbar bist.
+
+Deine hinterlegte Telefonnummer:
+{{Kundentelefonnummer}}
+
+Du erreichst mich bei Rückfragen unter:
+
+{{Avelsorn-Telefonnummer}}
+
+Solltest du deinen Termin verschieben müssen, kannst du dies jederzeit über dein Kundenkonto erledigen.
+
+Ich freue mich auf unser Gespräch!
+
+Freundliche Grüße
+
+Enrico Gross
+Avelsorn – Digitale Unternehmensberatung
+
+www.avelsorn.de
+
+WICHTIG:
+Die geschäftliche Telefonnummer muss aus den vorhandenen Unternehmenseinstellungen geladen werden.
+
+Keine Telefonnummer fest im Quellcode hinterlegen.
+
+Die E-Mail muss im bestehenden Avelsorn-Design gestaltet werden.
+
+==================================================
+5. ADMIN-DASHBOARD – KALENDER
+==================================================
+
+Ergänze das vorhandene Admin-Dashboard um einen Navigationspunkt:
+
+„Kalender“
+
+Falls bereits ein Kalender vorhanden ist, erweitere diesen entsprechend.
+
+Erstelle einen vollständigen Administrationskalender mit:
+
+- Monatsansicht
+- Wochenansicht
+- Tagesansicht
+- Terminliste
+
+Jede bestätigte Kundenbuchung muss automatisch im Kalender erscheinen.
+
+Termine müssen anklickbar sein.
+
+Beim Öffnen werden angezeigt:
+
+- Kundenname
+- Telefonnummer
+- E-Mail-Adresse
+- Unternehmen
+- Beratungsthema
+- Datum
+- Uhrzeit
+- Termindauer
+- Buchungszeitpunkt
+- Terminstatus
+
+Aktionen:
+
+- Kundendetails öffnen
+- Kunden anrufen
+- E-Mail senden
+- Termin verschieben
+- Termin absagen
+- Termin als abgeschlossen markieren
+- Interne Notiz hinzufügen
+
+Der Button „Anrufen“ muss auf Smartphones die Telefonfunktion öffnen.
+
+Auf Desktopgeräten soll ein geeigneter Telefonlink verwendet werden.
+
+==================================================
+6. ADMIN-VERFÜGBARKEIT
+==================================================
+
+Ich muss meine Verfügbarkeit vollständig im Admin-Dashboard verwalten können.
+
+Funktionen:
+
+- Arbeitszeiten ändern
+- Einzelne Tage sperren
+- Urlaub eintragen
+- Pausen hinterlegen
+- Termine manuell blockieren
+- Individuelle Zeitfenster hinzufügen
+- Einzelne Termine freigeben
+
+Alle Änderungen müssen unmittelbar die öffentlich verfügbaren Termine beeinflussen.
+
+Bereits gebuchte Termine dürfen bei Änderungen nicht unbeabsichtigt gelöscht werden.
+
+==================================================
+7. AUTOMATISCHE ERINNERUNGEN
+==================================================
+
+Der Kunde erhält zusätzlich automatische Erinnerungen.
+
+Erste Erinnerung:
+24 Stunden vor dem Termin.
+
+Zweite Erinnerung:
+1 Stunde vor dem Termin.
+
+Die Erinnerungen enthalten:
+
+- Datum
+- Uhrzeit
+- Dauer
+- Hinweis, dass ich den Kunden anrufe
+- Die hinterlegte Kundentelefonnummer
+- Meine geschäftliche Telefonnummer
+
+Stornierte Termine dürfen keine Erinnerungen mehr auslösen.
+
+Verschobene Termine müssen entsprechend aktualisiert werden.
+
+==================================================
+8. KUNDEN-DASHBOARD
+==================================================
+
+Erweitere das bestehende Kunden-Dashboard um:
+
+„Meine Termine“
+
+Der Kunde sieht:
+
+- Kommende Termine
+- Vergangene Termine
+- Terminstatus
+- Buchungsdetails
+
+Ermögliche:
+
+- Termin verschieben
+- Termin absagen
+- Neuen Termin buchen
+
+Terminverschiebungen sollen grundsätzlich jederzeit möglich sein.
+
+Bei einer Verschiebung wird der ursprüngliche Termin freigegeben und das neue Zeitfenster reserviert.
+
+Der Kunde erhält anschließend automatisch eine aktualisierte Bestätigung.
+
+==================================================
+9. ADMIN-BENACHRICHTIGUNGEN
+==================================================
+
+Sobald ein Kunde einen Termin bucht, erhalte ich eine Benachrichtigung im vorhandenen CRM.
+
+Beispiel:
+
+„Neues Erstgespräch gebucht“
+
+Darunter:
+
+Kunde: {{Name}}
+Datum: {{Datum}}
+Uhrzeit: {{Uhrzeit}}
+Telefon: {{Telefonnummer}}
+
+Button:
+„Termin öffnen“
+
+Zusätzlich erhalte ich eine Benachrichtigung über die bestehende geschäftliche E-Mail-Adresse.
+
+Verwende die bereits vorhandene Benachrichtigungsarchitektur.
+
+==================================================
+10. KALENDEREINLADUNGEN
+==================================================
+
+Erstelle für jede bestätigte Buchung eine ICS-Kalendereinladung.
+
+Diese muss mit üblichen Kalenderanwendungen kompatibel sein.
+
+Bei Terminverschiebungen oder Absagen muss die Einladung entsprechend aktualisiert werden.
+
+Die Kalendereinladung soll eindeutig darauf hinweisen:
+
+„Avelsorn ruft den Kunden zum vereinbarten Termin telefonisch an.“
+
+==================================================
+11. TECHNISCHE UMSETZUNG
+==================================================
+
+Verwende ausschließlich die bestehende Architektur:
+
+- Next.js
+- TypeScript
+- React
+- Tailwind CSS
+- Vorhandenes Backend
+- Supabase-kompatible Datenbankmodelle
+- Vercel-kompatible Serverfunktionen
+
+Berücksichtige:
+
+- Datenbanktransaktionen
+- Verhinderung von Doppelbuchungen
+- Zugriffsschutz
+- Sichere Authentifizierung
+- Validierung von Telefonnummern
+- Zeitzonen
+- Fehlerbehandlung
+- E-Mail-Versandstatus
+- Schutz vor missbräuchlichen Buchungen
+
+Falls Supabase oder SMTP noch nicht produktiv konfiguriert sind, bereite sämtliche erforderlichen Schnittstellen vollständig vor.
+
+Gib nicht vor, dass externe Funktionen bereits funktionieren, wenn notwendige Zugangsdaten fehlen.
+
+==================================================
+12. DESIGN UND QUALITÄT
+==================================================
+
+Die Kalenderseite und sämtliche Dashboard-Erweiterungen müssen vollständig zur vorhandenen Avelsorn-Markenidentität passen.
+
+Keine neuen Designrichtungen.
+
+Keine generischen Kalender-Templates.
+
+Verwende vorhandene Komponenten und Funktionen.
+
+Prüfe den vollständigen Ablauf:
+
+1. Kunde öffnet /kalender.
+2. Kunde wählt freien Termin.
+3. Kunde bestätigt seine Daten.
+4. Kunde bucht das Erstgespräch.
+5. Termin wird gespeichert.
+6. Zeitfenster ist nicht mehr buchbar.
+7. Kunde erhält Bestätigungs-E-Mail.
+8. Termin erscheint im Admin-Kalender.
+9. Ich erhalte eine CRM-Benachrichtigung.
+10. Kunde erhält automatische Erinnerungen.
+11. Ich rufe den Kunden zum vereinbarten Termin an.
+12. Ich markiere das Erstgespräch als abgeschlossen.
+
+Prüfe außerdem Terminverschiebungen, Stornierungen und parallele Buchungsversuche.
+
+Behebe festgestellte Fehler selbstständig.
+
+Erhalte sämtliche bisherigen Funktionen der Avelsorn-Plattform.
+
+ZIEL:
+
+Ein Kunde soll auf Avelsorn.de/kalender vollständig selbstständig ein kostenloses 15-minütiges Erstgespräch buchen können.
+
+Er erhält automatisch eine professionelle Bestätigungs-E-Mail mit meiner Telefonnummer und dem ausdrücklichen Hinweis, dass ICH IHN zum vereinbarten Zeitpunkt telefonisch kontaktieren werde.
+
+Ich sehe alle Termine übersichtlich in meinem vorhandenen Admin-Dashboard.
+
+Die gesamte Terminorganisation soll anschließend möglichst automatisiert funktionieren.
+
+Setze diese Erweiterung vollständig um.

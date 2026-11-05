@@ -2166,3 +2166,7 @@ Beginne jetzt mit der Analyse des Projektordners, erstelle die vollständige Auf
 
 Die vom Inhaber übermittelten Angaben werden in der lokalen Hauptkonfiguration hinterlegt; Testumgebung und produktive Dienstanbindungen bleiben getrennt. Die Vorstellung nennt ausschließlich die bestätigten Beratungsfelder und beschreibt die Online-Kundengewinnung als Ziel, ohne erfundene Resultate. Tägliche Verfügbarkeit 08:00–17:00 Uhr in Europe/Berlin. Fehlende Steueridentifikation bleibt offen; keine Veröffentlichung aus der Datenübernahme ableiten. Nachweise: docs/BUSINESS_PROFILE_SETUP.md.
 
+
+## Kalender-Erweiterung vom 05.11.2026
+
+Der vom Nutzer ausdrücklich beauftragte Erweiterungsauftrag in docs/CALENDAR_EXTENSION_REQUEST.txt ergänzt die bestehende Anwendung. Die technische Zuordnung und Nachweise stehen in docs/CALENDAR_EXTENSION.md. Öffentliche Direktbuchung unter /kalender, 15-minütiges telefonisches Erstgespräch, Standardzeiten werktags 08:30–17:00 und am Wochenende 12:00–17:00 in Europe/Berlin. Die vorhandene Kundenauthentifizierung, Kalendertransaktionen, E-Mail-Outbox, ICS-Schnittstelle und Dashboards werden erweitert. Pausen, Zusatzzeiten, Monats-/Wochen-/Tages-/Listenansicht und Erinnerungen gehören zur Erweiterung. Der Nutzer hat die Veröffentlichung nach erfolgreichen Tests ausdrücklich bestätigt.

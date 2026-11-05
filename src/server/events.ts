@@ -5,13 +5,24 @@ import { encrypt } from "./security";
 import { baseUrl } from "./config";
 
 export const inquiryPingKey = (eventKey: string) => "inquiry-ping:" + eventKey;
+export type MailOptions = {
+    userId?: string;
+    url?: string;
+    attachments?: string[];
+    calendarEvent?: {
+        bookingId: string;
+        sequence: number;
+        kind: "confirmation" | "reminder" | "cancellation";
+    };
+    availableAt?: Date;
+};
 
 export async function queueMail(
     to: string,
     subject: string,
     body: string,
     eventKey: string,
-    options: { userId?: string; url?: string; attachments?: string[] } = {},
+    options: MailOptions = {},
     database: Db = db(),
 ) {
     await database
@@ -24,7 +35,8 @@ export async function queueMail(
             userId: options.userId,
             ctaUrl: options.url ? "enc:" + encrypt(options.url) : null,
             attachmentKeys: options.attachments ?? [],
-            availableAt: new Date(),
+            calendarEvent: options.calendarEvent,
+            availableAt: options.availableAt ?? new Date(),
         })
         .onConflictDoNothing({ target: outbox.eventKey });
 }
@@ -36,6 +48,7 @@ export async function notify(
     eventKey: string,
     url = "/konto",
     database: Db = db(),
+    mailOptions: MailOptions = {},
 ) {
     await database
         .insert(notifications)
@@ -51,7 +64,7 @@ export async function notify(
             title,
             `Hallo ${user.name},\n\n${body}`,
             eventKey,
-            { userId, url: baseUrl() + url },
+            { ...mailOptions, userId, url: baseUrl() + url },
             database,
         );
 }

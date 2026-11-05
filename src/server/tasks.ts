@@ -8,6 +8,8 @@ import { sendOutboxBatch } from "./mail";
 import { documentPdf } from "./pdf";
 import { storage } from "./storage";
 import { createBackup } from "./backup";
+import { bookingMessage } from "./calendar";
+import { lock } from "./security";
 
 export async function runTasks() {
     const now = new Date();
@@ -63,21 +65,42 @@ export async function runTasks() {
     for (const booking of upcoming)
         for (const hours of [24, 1]) {
             const due = new Date(booking.startsAt.getTime() - hours * 3600_000);
-            if (due <= now && due >= booking.createdAt) {
+            if (due <= now && due >= booking.updatedAt) {
                 const event = `reminder:${booking.id}:${booking.sequence}:${hours}`;
                 const existing = await db()
                     .select()
                     .from(s.notifications)
                     .where(eq(s.notifications.eventKey, event));
                 if (!existing.length) {
-                    await notify(
-                        booking.userId,
-                        "reminder",
-                        `Dein Termin beginnt in weniger als ${hours} ${hours === 1 ? "Stunde" : "Stunden"}`,
-                        "Die aktuellen Termindaten findest Du im Kundenkonto.",
-                        event,
-                        "/konto/termine",
-                    );
+                    await db().transaction(async (tx) => {
+                        await lock("calendar", tx);
+                        const [current] = await tx
+                            .select()
+                            .from(s.bookings)
+                            .where(eq(s.bookings.id, booking.id));
+                        if (
+                            !current ||
+                            current.status !== "confirmed" ||
+                            current.sequence !== booking.sequence
+                        )
+                            return;
+                        await notify(
+                            booking.userId,
+                            "reminder",
+                            `Dein Termin beginnt in weniger als ${hours} ${hours === 1 ? "Stunde" : "Stunden"}`,
+                            await bookingMessage(booking, tx),
+                            event,
+                            "/konto/termine",
+                            tx,
+                            {
+                                calendarEvent: {
+                                    bookingId: booking.id,
+                                    sequence: booking.sequence,
+                                    kind: "reminder",
+                                },
+                            },
+                        );
+                    });
                     results.reminders++;
                 }
             }

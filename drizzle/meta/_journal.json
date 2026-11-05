@@ -50,6 +50,13 @@
       "when": 1793184230030,
       "tag": "0006_cynical_sally_floyd",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1793868981789,
+      "tag": "0007_intro-calendar",
+      "breakpoints": true
     }
   ]
 }

@@ -111,7 +111,9 @@ export default async function PublicPage({ params, searchParams }: Props) {
     const path = publicAliases[requestedPath] ?? requestedPath;
     const query = await searchParams;
     if (authSlugs.includes(path))
-        return <AuthPage slug={path} token={query.token} />;
+        return (
+            <AuthPage slug={path} token={query.token} returnTo={query.next} />
+        );
     const [customPage] = await db()
         .select()
         .from(pages)
@@ -202,33 +204,32 @@ export default async function PublicPage({ params, searchParams }: Props) {
                     <li>
                         <span>01</span>
                         <div>
-                            <h2>Dein Konto anlegen</h2>
+                            <h2>Freien Termin auswählen</h2>
                             <p>
-                                Registriere Dich und bestätige Deine
-                                E-Mail-Adresse. So bleiben Deine Daten und
-                                Termine geschützt.
+                                Wähle im Kalender einen Tag und eine freie
+                                Uhrzeit für Dein 15-minütiges Gespräch.
                             </p>
                         </div>
                     </li>
                     <li>
                         <span>02</span>
                         <div>
-                            <h2>Den Fragebogen ausfüllen</h2>
+                            <h2>Anmelden oder Konto erstellen</h2>
                             <p>
-                                Im Fragebogen beschreibst Du Deine Tätigkeit,
-                                Deine Stärken und Deine Wünsche. Du kannst
-                                zwischenspeichern.
+                                Nutze Dein vorhandenes Konto oder registriere
+                                Dich direkt im Buchungsablauf und bestätige
+                                Deine E-Mail-Adresse.
                             </p>
                         </div>
                     </li>
                     <li>
                         <span>03</span>
                         <div>
-                            <h2>Passenden Termin wählen</h2>
+                            <h2>Telefonnummer bestätigen</h2>
                             <p>
-                                Buche einen freien 15-Minuten-Termin per Telefon
-                                oder Video. Im Gespräch besprechen wir Deine
-                                Aufgabe und offene Fragen.
+                                Prüfe Deine Kontaktdaten und bestätige den
+                                kostenlosen Termin. Ich rufe Dich zur
+                                vereinbarten Uhrzeit an.
                             </p>
                         </div>
                     </li>
@@ -242,14 +243,8 @@ export default async function PublicPage({ params, searchParams }: Props) {
                         möchtest.
                     </p>
                     <div className="intro-actions">
-                        <Link className="button primary" href="/registrieren">
-                            Kostenloses Konto erstellen ↗
-                        </Link>
-                        <Link
-                            href="/konto/buchen?product=intro"
-                            className="arrow-link"
-                        >
-                            Schon registriert? Termin wählen ↗
+                        <Link className="button primary" href="/kalender">
+                            Freien Termin auswählen ↗
                         </Link>
                     </div>
                 </aside>
@@ -448,11 +443,6 @@ export default async function PublicPage({ params, searchParams }: Props) {
         const values = await business();
         body = (
             <div className="prose legal-prose">
-                <p className="notice">
-                    Entwicklungsfassung: Endgültige Anbieterangaben, eingesetzte
-                    Dienstleister und rechtliche Prüfung stehen aus. Keine
-                    Produktionsfreigabe.
-                </p>
                 {path === "impressum" && (
                     <address>
                         {values.legal_full_name}
