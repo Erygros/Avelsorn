@@ -407,3 +407,7 @@ Abschließender Prüfnachtrag (27.10.2026): `npm run check` vollständig erfolgr
 
 - Auf ausdrücklichen separaten Nutzerauftrag BingSiteAuth.xml bytegetreu aus der bereitgestellten Datei nach public/BingSiteAuth.xml übernommen. XML-Struktur und identischer SHA-256-Hash der Kopie geprüft.
 - Diese einzelne Veröffentlichung ist ausdrücklich angefordert. Die laufende Website-Optimierung verbleibt auf ihrem Entwicklungsbranch und benötigt weiterhin die eigene abschließende Freigabe.
+
+## Bing-Metatag (05.11.2026)
+
+- Auf ergänzenden ausdrücklichen Nutzerauftrag die dauerhafte Bing-Verifizierung msvalidate.01 über die Next.js-Metadaten der Startseite ergänzt. Derselbe vom Nutzer gelieferte Code wie in BingSiteAuth.xml; bestehende Metadaten bleiben erhalten.
