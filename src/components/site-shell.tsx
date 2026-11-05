@@ -12,10 +12,12 @@ export async function SiteShell({
 }) {
     return (
         <>
-            <aside aria-label="Entwicklungsstatus" className="preview-note">
-                Lokale Entwicklungsvorschau · Unternehmensangaben und
-                Veröffentlichung stehen noch aus.
-            </aside>
+            {process.env.PRODUCTION_APPROVED !== "true" && (
+                <aside aria-label="Entwicklungsstatus" className="preview-note">
+                    Lokale Entwicklungsvorschau · Unternehmensangaben und
+                    Veröffentlichung stehen noch aus.
+                </aside>
+            )}
             <header className="site-header">
                 <Brand />
                 <nav aria-label="Hauptnavigation">

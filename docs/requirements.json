@@ -12419,5 +12419,30 @@
         "evidence": []
       }
     ]
+  },
+  {
+    "id": "52",
+    "title": "Vercel-Inbetriebnahme und privater Anfrage-Ping",
+    "status": "in Arbeit",
+    "acceptance": [
+      {
+        "id": "52.1",
+        "text": "Öffentliche Website auf Vercel mit Supabase-Datenbank, privatem Speicher und Checkdomain-SMTP veröffentlichen und prüfen.",
+        "status": "erledigt",
+        "evidence": ["PROGRESS.md: Inbetriebnahme vom 05.11.2026; 44 öffentliche Seiten, drei Aliase und 404 geprüft.", "tests/output/production-api-checks.json: sieben API-, Domain- und Sitemapprüfungen erfolgreich.", "data/production-service-check.json: S3-Rundlauf und SMTP-Authentifizierung erfolgreich."]
+      },
+      {
+        "id": "52.2",
+        "text": "Kontakt- und Paketanfragen mit einem statischen Ping an die private Inhaberadresse melden.",
+        "status": "erledigt",
+        "evidence": ["tests/service-packages.test.ts prüft die einzelne Benachrichtigung ohne Kundeninhalt, Link oder Anhang.", "data/production-ping-check.json: Test-Ping vom echten SMTP-Server angenommen; tatsächlicher privater Posteingang ist nicht unabhängig bestätigt."]
+      },
+      {
+        "id": "52.3",
+        "text": "Inhaber legt das Produktionsadministratorkonto über die geschützte Ersteinrichtung an.",
+        "status": "offen",
+        "evidence": ["Produktionsdatenbank enthält zum Veröffentlichungszeitpunkt kein Administratorkonto."]
+      }
+    ]
   }
 ]
