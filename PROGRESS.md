@@ -332,3 +332,16 @@ Abschließender Prüfnachtrag (27.10.2026): `npm run check` vollständig erfolgr
 - Kontakt- und Paketanfragen speichern den privaten Mail-Ping gemeinsam mit der Anfrage. Der Versandversuch startet nach der HTTP-Antwort. Die Mail enthält ausschließlich eine feste Betreffzeile und den Eingangshinweis. Anfragedetails bleiben in der Adminansicht. Vorhandene Kundenbestätigungen nutzen weiterhin den separaten Versandweg.
 - Test verifiziert einen einzigen internen Ping je geprüfter Paketanfrage, mit statischem Inhalt und ohne Link oder Anhang. TypeScript, ESLint, alle 42 Tests und Produktionsbuild bestanden. SMTP-Zustellung an das private Postfach ist separat zu prüfen.
 - 16 vorhandene Geschäftsfelder und sieben Terminregeln über den verifizierten TLS-Adapter nach Supabase übernommen. Bestehende Zielwerte werden nicht überschrieben. Die Übernahme wurde transaktional auditiert.
+
+## Produktionsvariablen in Vercel übernommen (05.11.2026)
+
+- 21 bereits ausgefüllte Werte aus der ignorierten lokalen Vercel-Konfiguration über die authentifizierte CLI im Zielprojekt avelsorn für Production gespeichert. Datenbank-URI, Postfachpasswort und Anwendungsschlüssel als Secret übertragen. Eingaben ausschließlich über stdin; keine geheimen Werte im Übernahmebericht.
+- Vercel-Auflistung nach der Übernahme geprüft. Noch offen sind S3_ACCESS_KEY_ID, S3_SECRET_ACCESS_KEY und SMTP_HOST. PRODUCTION_APPROVED bleibt false bis zur erfolgreichen Dienstprüfung. Keine vollständige Produktionsfreigabe aus der Variablenübernahme abgeleitet.
+
+## Vercel-Inbetriebnahme mit echten Dienstzugängen (05.11.2026)
+
+- Nutzer hat die Website mehrfach ausdrücklich zur Veröffentlichung freigegeben. S3-Zugänge und postfachspezifischen SMTP-Host übernommen und als Vercel-Produktionsvariablen gespeichert.
+- Supabase Storage über den Anwendungsadapter mit zufälligem Prüfobjekt geschrieben, gelesen und bereinigt. Checkdomain-SMTP auf Port 465 mit TLS authentifiziert. Ein statischer Test-Ping an die vom Inhaber gewünschte Adresse wurde vom SMTP-Server angenommen. Bericht data/production-ping-check.json enthält keine Kundendaten. SMTP-Annahme ist kein unabhängiger Nachweis des Posteingangs.
+- Produktionsprüfung mit vollständiger Serverkonfiguration meldet keine fehlenden Werte. Vercel-Runtime auf Node 24 gesetzt. Bestehende Vercel-Domainzuordnung mit www.avelsorn.de als Hauptadresse beibehalten und zentrale URL sowie Datenbank-Stammdatum daran angeglichen. Fünf vorhandene Blogartikel ohne Überschreiben in die leere Zieldatenbank übernommen.
+- Nach erfolgreichen anderen Formularaktionen wird die vorhandene Outbox ebenfalls nach der Antwort abgearbeitet, damit Registrierungs- und Admin-OTP-Mails unmittelbar versendet werden können. Anfrage-Pings behalten ihren gezielten Versand und statischen Inhalt.
+- Das Produktionsadministratorkonto ist noch vom Inhaber unter /einrichtung mit dem privaten SETUP_KEY anzulegen. Die umfassenden noch offenen Abnahmen in RELEASE_READINESS.md werden durch die technische Inbetriebnahme nicht als erledigt markiert.

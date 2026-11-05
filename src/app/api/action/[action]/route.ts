@@ -90,6 +90,10 @@ export async function POST(
             : "local";
         await limit("request:" + action + ":" + remote, 120, 60);
         const result = await dispatch(action, data);
+        if (!["contact", "package-inquiry"].includes(action))
+            after(async () => {
+                await sendOutboxBatch(5);
+            });
         return NextResponse.json(result ?? { ok: true });
     } catch (error) {
         if (error instanceof ZodError)
