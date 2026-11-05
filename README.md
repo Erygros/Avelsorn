@@ -44,3 +44,14 @@ Reproduzierbare lokale QA: npm run qa:prepare, npm run build, npm run qa:serve. 
 
 
 Aktuelle Freigabevorschau: https://avelsorn-git-codex-website-optimierung-erygros-8437.vercel.app/ (Vercel-Anmeldung). Lokale laufende Ansicht: http://localhost:3001. Die neue Optimierung ist fertig entwickelt und in der Preview geprüft; die Veröffentlichung benötigt noch die ausdrückliche Freigabe. Lokale Produktionsserver vor einem erneuten Build beenden und anschließend neu starten, damit keine Build-Artefakte verschiedener Stände gemischt werden.
+
+## Suchanalyse und Inhaltskatalog
+
+Branchen, Lösungen und Ratgeber stehen in `src/content/search/`. [Der Inhaltskatalog](docs/SEARCH_CONTENT_MAP.md) ordnet jede Seite einem konkreten Anliegen zu. Der [SEO-, GEO- und AEO-Audit](docs/SEO_GEO_AEO_AUDIT.md) dokumentiert den bisherigen Live-Stand, die technischen Prüfungen, die Grenzen der Messung und die Schritte zur Freigabe.
+
+```powershell
+npm run seo:audit -- --base=http://localhost:3001 --catalog
+npm run seo:indexnow
+```
+
+Der erste Befehl prüft die laufende lokale Website. Der zweite liest die produktive Sitemap und meldet standardmäßig nur, was für IndexNow vorbereitet ist. Es gibt keinen automatischen Versand beim Build. Ergebnisse der Prüfungen stehen in `tests/output/`.

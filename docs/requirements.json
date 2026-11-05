@@ -12734,37 +12734,41 @@
       {
         "id": "56.1",
         "text": "Live- und Entwicklungsstand evidenzbasiert auditieren; Quellen und fehlende Leistungsdaten dokumentieren.",
-        "status": "in Arbeit",
+        "status": "erledigt",
         "evidence": [
-          "tests/output/search-live-baseline.json; docs/SEO_GEO_AEO_AUDIT.md"
+          "tests/output/search-production-audit.json: 36 Live-Seiten; search-local-audit.json und search-preview-audit.json: je 68 Seiten. Primärquellen und Datenlücken in docs/SEO_GEO_AEO_AUDIT.md."
         ]
       },
       {
         "id": "56.2",
         "text": "Alle benannten Branchen und angebotenen Bereiche mit eigenständigen hilfreichen Seiten, Vorlagen und Querverweisen abdecken.",
-        "status": "in Arbeit",
+        "status": "erledigt",
         "evidence": [
-          "src/content/search: 29 neue Detailinhalte und drei Hubs angelegt; noch keine vollständige Laufzeitabnahme."
+          "src/content/search: 29 Detailinhalte und drei Hubs; docs/SEARCH_CONTENT_MAP.md; vollständiger Preview-Crawl und tests/search-content.test.ts."
         ]
       },
       {
         "id": "56.3",
         "text": "Metadaten, Sitemap, Crawlerregeln, strukturierte Daten, CMS und IndexNow-Prozess korrekt integrieren und prüfen.",
-        "status": "in Arbeit",
-        "evidence": []
+        "status": "erledigt",
+        "evidence": [
+          "Preview: 68 Seiten noindex; Suchfreigabe isoliert: 61 Sitemap-URLs. JSON-LD, CMS-Filter, Schlüsseldatei und IndexNow-Trockenlauf geprüft. Keine produktive Einreichung."
+        ]
       },
       {
         "id": "56.4",
         "text": "Vollständige technische, inhaltliche und responsive Prüfung sowie isolierte Preview und Dokumentation.",
-        "status": "offen",
-        "evidence": []
+        "status": "erledigt",
+        "evidence": [
+          "Vercel-Preview dpl_Du7DCuRjoP9NKVXMzyCzUokbXQ7i; 96 Layout- und 32 automatische WCAG-Prüfungen; Tastatur- und Performance-Stichprobe; 87 Tests, Typprüfung, Lint und Build."
+        ]
       },
       {
         "id": "56.5",
         "text": "Echte SEO-/GEO-/AEO-Leistungsdaten von technischen Nachweisen trennen und verfügbare Daten auswerten.",
         "status": "in Arbeit",
         "evidence": [
-          "Inhaber nach verfügbaren Google-/Bing-Daten gefragt; kein verbundener Zugriff vorhanden."
+          "Kein Export oder Lesezugriff verfügbar. Messplan mit Exporten, vergleichbaren Zeiträumen und überprüfbaren Antwortfragen in docs/SEO_GEO_AEO_AUDIT.md."
         ]
       }
     ]

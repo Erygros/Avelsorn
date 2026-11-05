@@ -52,16 +52,25 @@ Die Hauptdatei des installierten SEO/GEO-Skills wurde gelesen. Dessen verlinkte 
 
 - [x] Aktuellen Arbeitsbaum und Live-Konfiguration prüfen; vorherige Preview von Live trennen.
 - [x] Quellen abgleichen, fachliche und technische Lücken dokumentieren.
-- [ ] Gesamte Live- und Preview-URL-Struktur mit Headern, Metadaten, Weiterleitungen, strukturierter Auszeichnung und internen Links crawlen.
+- [x] Live-Bestand und vollständigen öffentlichen Preview-Katalog mit Headern, Metadaten, strukturierter Auszeichnung und internen Links crawlen; Weiterleitungen gesondert prüfen.
 - [x] Alle genannten Branchen und Leistungsbereiche durch tatsächlich unterschiedliche Inhalte und passende Querverweise abdecken.
 - [x] Alle neuen Pfade, zentrale Preise, Formular-/Kontoabgrenzung, 404 und CMS-Pfadschutz prüfen.
 - [x] Service-, Artikel-, Breadcrumb- und Unternehmensdaten im HTML sachlich und syntaktisch prüfen.
-- [ ] Sitemap und Crawlerregeln in Produktions- und Preview-Konfiguration prüfen; keine privaten URLs veröffentlichen.
+- [x] Sitemap und Crawlerregeln live, in Preview und mit freigeschalteter Suchrichtlinie auf isoliertem Loopback prüfen.
 - [x] Suchintentionen und Überschneidungen im Inhaltskatalog prüfen; Avelsorn pflegt den Bestand und prüft fachliche Änderungen.
-- [ ] Technik, Responsive-Ansichten, Tastaturbedienung, automatische Barrierefreiheit und Performance prüfen.
+- [x] Technik, Responsive-Ansichten, Tastaturbedienung, automatische Barrierefreiheit und Performance-Stichprobe prüfen.
 - [x] Kontrollierten IndexNow-Prozess und sichere Veröffentlichungsschritte vorbereiten.
 - [x] Fehlende Daten zur tatsächlichen Suchleistung dokumentieren und Auswertung vorbereiten. Kein Export und kein verbundener Lesezugriff lagen für diesen Audit vor.
-- [ ] Dokumentation und prüfbare isolierte Preview aktualisieren; Veröffentlichungsfreigabe separat einholen.
+- [x] Dokumentation und prüfbare isolierte Preview aktualisieren. Produktionsfreigabe steht separat aus.
+
+### Nachweise der Vorschau
+
+- Geprüfter Anwendungsstand `6276abc`, Vercel `dpl_Du7DCuRjoP9NKVXMzyCzUokbXQ7i`, Status Ready. [Geschützte Vorschau](https://avelsorn-git-codex-website-optimierung-erygros-8437.vercel.app/) nur nach Vercel-Anmeldung; nicht angemeldete Anfragen wurden weitergeleitet. Crawl aller 68 öffentlichen Seiten ohne P0/P1/P2-Befunde; jede liefert noindex, robots sperrt alle Crawler und die Sitemap ist leer. Der erste Cloud-Crawl deckte 33 HTTP-500-Fehler wegen des Supabase-Verbindungslimits im Sitzungsmodus auf. Nur die Verbindungsvariable des Preview-Branches wurde auf den [Transaktionspool](https://supabase.com/docs/guides/database/connecting-to-postgres) umgestellt. Lesetest im isolierten Schema erfolgreich; Lese- und Schreibzugriff auf die geprüften Produktionstabellen weiterhin verweigert. Kein produktiver Wert verändert.
+- Isolierter Lauf mit Suchfreigabe auf Loopback: 61 eindeutige kanonische Sitemap-Einträge einschließlich fünf Blogartikeln; Gastbestätigung und private Pfade ausgeschlossen. Lokale HTTP-Prüfung: drei neue ungültige Unterpfade 404, drei öffentliche Aliasse 308, Gast-/Bestätigungsseite noindex und no-store, Bing-XML 200 und Meta-Tag im Head, IndexNow-Schlüsseldatei mit exaktem Inhalt. IndexNow-Trockenlauf: 28 derzeit veröffentlichte Sitemap-URLs; 33 geplante Einträge fehlen dort noch. Kein Versand.
+- Alle 32 neuen Seiten bei drei Breiten geprüft, insgesamt 96 Ansichten ohne horizontalen Überlauf. Automatische WCAG-Prüfung auf Mobilbreite für 32 Seiten ohne gemeldete Verstöße oder offene Prüfpunkte; FAQ mit Enter bedient. Vorschau-Stichproben für Kioske, Website-Briefing und KI-Vorsortierung bei 390, 1440 und 768 Pixeln. LCP in diesen drei Browserläufen 0,39–1,19 Sekunden, keine Layoutverschiebung beobachtet. Diese Stichprobe misst weder Feldwerte noch die Leistung aller Seiten.
+- Startseite, Leistungen und Blog auf der Live-Domain mit vier simulierten User-Agent-Kennungen geprüft: gleiche Hauptüberschrift, Titel und Beschreibung für Browser, Googlebot, Bingbot und OAI-SearchBot. Das simuliert HTTP-Anfragen und beweist keine Aufnahme durch echte Suchdienste.
+- Gastbuchung nach Umstellung des Transaktionspools erneut in der geschützten Vorschau durchlaufen: zwölf öffentliche HTTP-/Aliasprüfungen, parallele Buchungsanfragen mit genau einem Gewinner, Zugriffsgrenzen, Verschiebung und Absage. Testdaten entfernt, kein Mailversand; `tests/output/website-preview-booking.json`.
+- Typprüfung, Lint, 87 Tests und Produktionsbuild erfolgreich. Prüfdaten: `tests/output/search-{production-audit,local-audit,preview-audit,browser-audit,preview-browser,approved-qa,local-http,live-user-agent}.json`.
 
 ## 6. Messung ohne vorgetäuschte Ergebnisse
 
