@@ -154,7 +154,11 @@ try {
     const result = {
         checkedAt: new Date().toISOString(),
         base,
-        layouts: reports.map((record) => Object.fromEntries(Object.entries(record).filter(([key]) => key !== "links"))),
+        layouts: reports.map((record) =>
+            Object.fromEntries(
+                Object.entries(record).filter(([key]) => key !== "links"),
+            ),
+        ),
         http,
         accessibility,
     };
