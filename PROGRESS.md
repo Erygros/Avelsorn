@@ -402,3 +402,8 @@ Abschließender Prüfnachtrag (27.10.2026): `npm run check` vollständig erfolgr
 
 - Stand 7cbe852 über GitHub/Vercel als dpl_CVxm4DbGsFWcr6KcncVQNLBZo8e2 veröffentlicht, Ready/Production und öffentliche Domainzuordnung verifiziert. Zehn produktive Seiten-/Zugriffsprüfungen bestanden. Ersteinrichtungsseite liefert nach echter Inhabereinrichtung 404, erneute Einrichtung wird serverseitig mit 409 abgewiesen. Lokale aktuelle Anwendung erneut erfolgreich gestartet; QA-Server nach den Prüfungen beendet.
 - Kein Testkunde, Testauftrag oder künstlicher Zahlungseingang in Produktion angelegt. Der Inhaberzugang ist ein beauftragtes echtes Konto; die eigene Passwortwahl erfolgt über die geschäftliche E-Mail-Adresse. Gesamtziel bleibt bis zur weiteren Projekt-/Datei-/Datenschutzabnahme in Arbeit.
+
+## Bing-Verifizierung (05.11.2026)
+
+- Auf ausdrücklichen separaten Nutzerauftrag BingSiteAuth.xml bytegetreu aus der bereitgestellten Datei nach public/BingSiteAuth.xml übernommen. XML-Struktur und identischer SHA-256-Hash der Kopie geprüft.
+- Diese einzelne Veröffentlichung ist ausdrücklich angefordert. Die laufende Website-Optimierung verbleibt auf ihrem Entwicklungsbranch und benötigt weiterhin die eigene abschließende Freigabe.
