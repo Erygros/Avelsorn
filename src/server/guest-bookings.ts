@@ -72,7 +72,6 @@ export async function guestNotice(
     token?: string,
     reminderHours?: number,
 ) {
-    const values = await business(database);
     const subject =
         kind === "cancellation"
             ? "Dein Erstgespräch bei Avelsorn – Terminabsage"
@@ -86,11 +85,7 @@ export async function guestNotice(
         `guest:${booking.id}:${booking.sequence}:${kind}${reminderHours ? ":" + reminderHours : ""}`,
         {
             url: token
-                ? (process.env.PLATFORM_ENV === "preview"
-                      ? baseUrl()
-                      : values.public_base_url) +
-                  "/kalender/gast#zugang=" +
-                  token
+                ? baseUrl() + "/kalender/gast#zugang=" + token
                 : undefined,
             calendarEvent: {
                 guestBookingId: booking.id,

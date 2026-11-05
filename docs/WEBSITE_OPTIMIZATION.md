@@ -89,3 +89,6 @@ Abschließende Freigabefrage: Soll dieser geprüfte Stand einschließlich der ad
 ### Rücknahmebuild geprüft
 
 Der gastfähige Rücknahmestand 3653ca7 wurde zusätzlich in einem getrennten lokalen Worktree erfolgreich als Produktionsbuild kompiliert und typgeprüft (website-rollback-build.json). Für die lokal gemeinsam genutzten node_modules wurde ausschließlich dort der Turbopack-Auflösungsroot auf den Projektordner gesetzt; Produktquellen und Daten blieben unverändert. Diese lokale Abhängigkeitsauflösung ist keine Produktionskonfiguration. Die Build-Prüfung umfasst nicht die Veröffentlichung des Rücknahmestands.
+
+
+Gast-Verwaltungslinks verwenden abschließend immer die konfigurierte Laufzeitadresse (PUBLIC_BASE_URL beziehungsweise die Vercel-Preview-Adresse), unabhängig von kopierten Geschäftsangaben. Dadurch bleiben lokale und Preview-Zugänge zuverlässig in ihrer eigenen Umgebung. Die Testkonfiguration prüft diese Trennung; die vollständige Prüfkette wurde nach dieser Anpassung erneut ausgeführt.

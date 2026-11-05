@@ -436,3 +436,5 @@ Abschließender Prüfnachtrag (27.10.2026): `npm run check` vollständig erfolgr
 - Funktionale Entwicklung abgeschlossen. Produktionsfreigabe aus dem neuen Auftrag steht aus; vor genehmigter Migration erneut aktuellen Produktivstand sichern. Bank-/Stamm-/Zugangsdaten der Produktion und bestehende Kundendaten unverändert. Vollständige Nachweise, Grenzen und Rücknahmestand in docs/WEBSITE_OPTIMIZATION.md.
 
 - Gastfähigen Rücknahmestand 3653ca7 zusätzlich in einem separaten lokalen Worktree erfolgreich gebaut und typgeprüft; nur lokale Turbopack-Abhängigkeitsauflösung für die gemeinsame node_modules-Junction angepasst. Keine Produktionsveröffentlichung dieses Stands.
+
+- Gast-Verwaltungslinks abschließend an die Laufzeitadresse der jeweiligen Umgebung gebunden. Keine versehentlichen lokalen Links zur Produktivdomain bei übernommenen Geschäftsdaten. Vollständige Prüfkette nach dieser Anpassung erneut bestanden.

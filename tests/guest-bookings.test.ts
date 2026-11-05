@@ -59,6 +59,7 @@ beforeEach(async () => {
     vi.useFakeTimers({ toFake: ["Date"] });
     vi.setSystemTime(new Date("2030-06-01T00:00:00Z"));
     vi.stubEnv("APP_SECRET", "14".repeat(32));
+    vi.stubEnv("PUBLIC_BASE_URL", "https://example.test");
     vi.stubEnv("BACKUP_KEY", "");
     vi.stubEnv("SMTP_HOST", "");
     vi.stubEnv("INQUIRY_NOTIFICATION_EMAIL", "owner@example.test");
