@@ -12723,7 +12723,7 @@
         ]
       }
     ],
-    "releaseNote": "Entwicklung und Preview-Abnahme abgeschlossen; ausdrückliche Produktionsfreigabe und anschließende Veröffentlichung/Migration stehen aus."
+    "releaseNote": "Produktiv freigegeben und veröffentlicht am 06.11.2026. Migration 0008 nach bestätigter verschlüsselter Sicherung erfolgreich. Siehe docs/WEBSITE_OPTIMIZATION.md."
   },
   {
     "id": 56,
@@ -12736,7 +12736,7 @@
         "text": "Live- und Entwicklungsstand evidenzbasiert auditieren; Quellen und fehlende Leistungsdaten dokumentieren.",
         "status": "erledigt",
         "evidence": [
-          "tests/output/search-production-audit.json: 36 Live-Seiten; search-local-audit.json und search-preview-audit.json: je 68 Seiten. Primärquellen und Datenlücken in docs/SEO_GEO_AEO_AUDIT.md."
+          "Vor Veröffentlichung: 36 Live-Seiten. Nach Veröffentlichung: 68 Live-Seiten ohne Befunde, 61 Sitemap-Adressen in tests/output/search-production-audit.json. Primärquellen und Datenlücken in docs/SEO_GEO_AEO_AUDIT.md."
         ]
       },
       {
@@ -12766,11 +12766,12 @@
       {
         "id": "56.5",
         "text": "Echte SEO-/GEO-/AEO-Leistungsdaten von technischen Nachweisen trennen und verfügbare Daten auswerten.",
-        "status": "in Arbeit",
+        "status": "offen",
         "evidence": [
-          "Kein Export oder Lesezugriff verfügbar. Messplan mit Exporten, vergleichbaren Zeiträumen und überprüfbaren Antwortfragen in docs/SEO_GEO_AEO_AUDIT.md."
+          "Der Inhaber hat Google Search Console und Bing Webmaster Tools am 06.11.2026 auf eine spätere Etappe verschoben. Messplan in docs/SEO_GEO_AEO_AUDIT.md."
         ]
       }
-    ]
+    ],
+    "releaseNote": "Technik und Inhalte sind seit dem 06.11.2026 veröffentlicht und live geprüft. Die Arbeit mit Google Search Console und Bing Webmaster Tools ist auf Wunsch des Inhabers verschoben."
   }
 ]

@@ -43,7 +43,7 @@ Entwicklungs-/Preview-Isolation, Prüfnachweise und Veröffentlichungsgrenze: [d
 Reproduzierbare lokale QA: npm run qa:prepare, npm run build, npm run qa:serve. In einem weiteren Terminal node bin/qa-bootstrap.mjs und node bin/verify-calendar-e2e.mjs ausführen; danach node bin/verify-website-guest.mjs. Das nutzt ausschließlich http://localhost:3011 und getrennte Testdaten. Vorhandene Paket-/Portalprüfungen bleiben erhalten. Die responsive Browserprüfung bin/verify-website-public.mjs nutzt den vorhandenen agent-browser und das gespeicherte Seiteninventar; AGENT_BROWSER_BIN kann dessen Pfad überschreiben. Prüfergebnisse werden unter tests/output abgelegt.
 
 
-Aktuelle Freigabevorschau: https://avelsorn-git-codex-website-optimierung-erygros-8437.vercel.app/ (Vercel-Anmeldung). Lokale laufende Ansicht: http://localhost:3001. Die neue Optimierung ist fertig entwickelt und in der Preview geprüft; die Veröffentlichung benötigt noch die ausdrückliche Freigabe. Lokale Produktionsserver vor einem erneuten Build beenden und anschließend neu starten, damit keine Build-Artefakte verschiedener Stände gemischt werden.
+Der freigegebene Stand ist seit dem 06.11.2026 auf https://www.avelsorn.de veröffentlicht. Die geschützte Entwicklungs-Preview erfordert die Vercel-Anmeldung. Die lokale Ansicht läuft unter http://localhost:3001. Lokale Produktionsserver vor einem erneuten Build beenden und anschließend neu starten, damit keine Build-Artefakte verschiedener Stände gemischt werden.
 
 ## Suchanalyse und Inhaltskatalog
 

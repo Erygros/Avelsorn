@@ -61,7 +61,7 @@ Die Hauptdatei des installierten SEO/GEO-Skills wurde gelesen. Dessen verlinkte 
 - [x] Technik, Responsive-Ansichten, Tastaturbedienung, automatische Barrierefreiheit und Performance-Stichprobe prüfen.
 - [x] Kontrollierten IndexNow-Prozess und sichere Veröffentlichungsschritte vorbereiten.
 - [x] Fehlende Daten zur tatsächlichen Suchleistung dokumentieren und Auswertung vorbereiten. Kein Export und kein verbundener Lesezugriff lagen für diesen Audit vor.
-- [x] Dokumentation und prüfbare isolierte Preview aktualisieren. Produktionsfreigabe steht separat aus.
+- [x] Dokumentation und prüfbare isolierte Preview aktualisieren. Der Inhaber gab die Veröffentlichung am 06.11.2026 frei.
 
 ### Nachweise der Vorschau
 
@@ -95,6 +95,12 @@ Ein technischer Crawl zeigt Erreichbarkeit und Auszeichnung, kein Suchranking. N
 
 ### Veröffentlichungsschritte
 
-1. Vorschau prüfen und ausdrückliche Produktionsfreigabe abwarten. Dieser Ausbau benötigt keine neue Migration; die bislang nur in Preview eingespielte Gastbuchungs-Migration des mitgeführten Optimierungsstands separat nach Sicherung und Freigabe behandeln.
+1. Vorschau prüfen und ausdrückliche Produktionsfreigabe abwarten. Die mitgeführte Gastbuchungsmigration 0008 nach bestätigter Sicherung separat einspielen.
 2. Live-Stand mit `npm run seo:audit -- --base=https://www.avelsorn.de --catalog --expect-indexable` prüfen. Alte Weiterleitungen und Bing-Verifizierung bestätigen. Keine Vorschau- oder Verwaltungsadressen bei Suchdiensten einreichen.
 3. Optional IndexNow nach Freigabe aktivieren: `INDEXNOW_KEY` im Vercel-Produktionsprofil setzen, passenden Build ausliefern und zuerst `npm run seo:indexnow` ohne Versand ausführen. Erst wenn Sitemap, Canonical, öffentlicher Zugriff und Schlüsseldatei geprüft sind, die Übermittlung mit `--submit` auslösen. Erfolgsstatus ist nur eine Empfangsbestätigung.
+
+### Live-Abnahme am 06.11.2026
+
+Der freigegebene Commit `9aee3d8` ist über GitHub `main` und Vercel auf https://www.avelsorn.de veröffentlicht. Der erneute Crawl bestätigte 68 erreichbare öffentliche Seiten ohne gemeldete Befunde, 61 eindeutige Sitemap-Adressen und freigegebenes Crawling. Die technischen Befunde stehen in `tests/output/search-production-audit.json`, die Prüfung der Domain, Weiterleitungen, Terminverfügbarkeit und Zugriffskontrollen in `tests/output/website-production-live.json`. Die Produktionsmigration und Sicherung sind separat dokumentiert.
+
+Google Search Console und Bing Webmaster Tools sind auf Wunsch des Inhabers für später vorgemerkt. Suchleistungsmessung und externe IndexNow-Einreichung sind damit aus dieser Veröffentlichung ausgeklammert.

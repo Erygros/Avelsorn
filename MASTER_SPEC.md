@@ -2182,9 +2182,9 @@ Rechtstexte müssen tatsächliche Anbieter und Datenverarbeitungen beschreiben. 
 
 ## Umsetzung des öffentlichen Optimierungsauftrags
 
-Die neue Positionierung, drei Servicekategorien, sichtbare Paketergebnisse und sichere Gasttelefontermine sind im Entwicklungsbranch umgesetzt. Die unveränderten Paketpreise stammen ausschließlich aus der zentralen Paketquelle. Gasttermine erzeugen keine Kundenkonten und nutzen denselben Kollisionsschutz wie bestehende Kontobuchungen. Details, Migrations-/Rücknahmestand, Prüfnachweise und Grenzen der isolierten Preview sind in docs/WEBSITE_OPTIMIZATION.md dokumentiert. Eine Implementierung oder eine erfolgreiche Preview ist ausdrücklich keine Produktionsfreigabe; die neue ausdrückliche Freigabe nach der vollständigen Abnahme bleibt erforderlich.
+Die neue Positionierung, drei Servicekategorien, sichtbare Paketergebnisse und sichere Gasttelefontermine sind nach ausdrücklicher Freigabe seit 06.11.2026 veröffentlicht. Die unveränderten Paketpreise stammen ausschließlich aus der zentralen Paketquelle. Gasttermine nutzen denselben Kollisionsschutz wie bestehende Kontobuchungen. Details, Migrations- und Rücknahmestand sowie Prüfnachweise stehen in docs/WEBSITE_OPTIMIZATION.md.
 
 
 ## Aktives SEO-/GEO-/AEO-Ziel (05.11.2026)
 
-Vollständige Prüfung und Ausbau der bestehenden Website über alle tatsächlich angebotenen Bereiche und benannten Branchen. Neue nützliche Branchen-, Lösungs- und Wissensseiten ergänzen die vorhandenen Inhalte. Keine Suchvolumen, Platzierungen, Referenzen oder AI-Zitationen erfinden; keine austauschbaren Massen- oder Stadtseiten. Dokumentation, Primärquellen, Inhaltsabdeckung und vollständige Nachweise in docs/SEO_GEO_AEO_AUDIT.md. Die neue ausdrückliche Freigabe für eine Produktionsveröffentlichung bleibt erforderlich.
+Vollständige Prüfung und Ausbau der bestehenden Website über alle tatsächlich angebotenen Bereiche und benannten Branchen. Neue nützliche Branchen-, Lösungs- und Wissensseiten ergänzen die vorhandenen Inhalte. Suchvolumen, Platzierungen, Referenzen und AI-Zitationen erfordern echte Belege. Dokumentation, Primärquellen, Inhaltsabdeckung und Nachweise stehen in docs/SEO_GEO_AEO_AUDIT.md. Der Inhaber hat die Produktion am 06.11.2026 ausdrücklich freigegeben. Die Arbeit mit Google Search Console und Bing Webmaster Tools wurde auf eine spätere Etappe verschoben.

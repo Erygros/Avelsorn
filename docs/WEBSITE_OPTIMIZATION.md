@@ -85,6 +85,8 @@ Die funktionale Optimierung ist im Entwicklungsstand abgeschlossen. Vorschau: ht
 
 Abschließende Freigabefrage: Soll dieser geprüfte Stand einschließlich der additiven Gastbuchungsmigration nach erneuter aktueller Sicherung auf avelsorn.de veröffentlicht werden? Vor Zustimmung kein Push auf main und keine produktive Migration.
 
+Der Inhaber hat am 06.11.2026 zugestimmt. Vor Migration 0008 wurde eine verschlüsselte Produktionssicherung mit 37 Tabellen im privaten Speicher abgelegt, abgerufen und erfolgreich geöffnet. Der freigegebene Commit `9aee3d8` ist seitdem öffentlich. Nachweise: `tests/output/website-production-{pre-migration,migration,deployment,live}.json` sowie `tests/output/calendar-production-scheduler.json`.
+
 
 ### Rücknahmebuild geprüft
 
