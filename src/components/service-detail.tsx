@@ -71,7 +71,7 @@ export function ServiceDetail({ service }: { service: Service }) {
                         <p>{detail.problem}</p>
                     </section>
                     <section>
-                        <h2>Was ich konkret übernehme</h2>
+                        <h2>Was wir konkret übernehmen</h2>
                         <ul className="editorial-list">
                             {service.topics.map((topic) => (
                                 <li key={topic}>{topic}</li>

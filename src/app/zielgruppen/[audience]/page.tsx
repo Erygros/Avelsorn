@@ -46,7 +46,7 @@ export default async function AudiencePage({ params }: Props) {
             {
                 "@type": "ListItem",
                 position: 2,
-                name: "Für wen ich arbeite",
+                name: "Für wen wir arbeiten",
                 item: baseUrl() + "/zielgruppen",
             },
             {
@@ -76,7 +76,7 @@ export default async function AudiencePage({ params }: Props) {
                     >
                         <Link href="/">Startseite</Link>
                         <span aria-hidden="true">/</span>
-                        <Link href="/zielgruppen">Für wen ich arbeite</Link>
+                        <Link href="/zielgruppen">Für wen wir arbeiten</Link>
                         <span aria-hidden="true">/</span>
                         <span aria-current="page">{audience.name}</span>
                     </nav>
@@ -94,7 +94,7 @@ export default async function AudiencePage({ params }: Props) {
                     <div>
                         <section aria-labelledby="audience-topics">
                             <h2 id="audience-topics">
-                                Wobei ich Dich unterstützen kann
+                                Wobei wir Dich unterstützen können
                             </h2>
                             <div className="audience-topics">
                                 {audience.situations.map((s) => (

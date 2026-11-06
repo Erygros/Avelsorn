@@ -132,7 +132,7 @@ it("speichert einen Gast ohne Konto und hält Kontaktdaten aus privaten Ping-Mai
     const mail = await database.select().from(s.outbox);
     const confirmation = mail.find((m) => m.to === "gast@example.test")!;
     expect(decrypt(confirmation.encryptedBody)).toContain(
-        "Ich melde mich zum gebuchten Termin telefonisch bei Dir.",
+        "Wir rufen Dich zum gebuchten Termin an.",
     );
     expect(decrypt(confirmation.encryptedBody)).toContain("+493012345678");
     expect(decrypt(confirmation.ctaUrl!.slice(4))).toBe(

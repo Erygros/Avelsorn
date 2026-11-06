@@ -645,9 +645,7 @@ export async function PortalPage({
                             <div key="title">
                                 {products[b.product as ProductKey]?.name ??
                                     b.product}
-                                <small className="block text-[9px]">
-                                    {b.id}
-                                </small>
+                                <small className="block text-xs">{b.id}</small>
                             </div>,
                             <div key="time">
                                 {date(b.startsAt)}

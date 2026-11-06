@@ -3,7 +3,8 @@ import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { Prices } from "../src/components/prices";
 import { servicePackages } from "../src/content/service-packages";
-import { serviceGroups, serviceExamples } from "../src/content/service-groups";
+import { serviceGroups, workExamples } from "../src/content/service-groups";
+import { publicSitePaths } from "../src/content/search/urls";
 import { serviceDetails } from "../src/content/service-details";
 import { services } from "../src/content/pages";
 import { publicNavigation } from "../src/content/navigation";
@@ -30,8 +31,9 @@ describe("Öffentliche Website", () => {
             for (const key of serviceDetails[service.slug].packages)
                 expect(servicePackages.some((p) => p.key === key)).toBe(true);
         }
-        for (const example of serviceExamples)
-            expect(slugs).toContain(example.slug);
+        for (const example of workExamples)
+            if (example.link)
+                expect(publicSitePaths()).toContain(example.link.href);
     });
     it("zeigt zentrale Preise, Umfang und Ergebnis ohne Aufklappen und erhält die Anfragelinks", () => {
         expect(servicePackages.map((p) => p.fromCents)).toEqual([

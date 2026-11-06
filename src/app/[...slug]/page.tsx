@@ -94,7 +94,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         zielgruppen:
             "Beratung und Projektarbeit für Unternehmen, Selbstständige, Gründer, Freelancer und Creator. Finde die Unterstützung passend zu Deiner Situation.",
         "ueber-mich":
-            "Enrico Gross ist Dein persönlicher Ansprechpartner bei Avelsorn. Erfahre, welche Arbeiten ich übernehme und wie wir Beratung und digitale Umsetzung verbinden.",
+            "Enrico Gross ist Dein persönlicher Ansprechpartner bei Avelsorn. Erfahre, welche Arbeiten wir übernehmen und wie wir Beratung und digitale Umsetzung verbinden.",
         blog: "Praktische Beiträge zu Websites, digitalen Arbeitsabläufen, Social Media, Gründung und Selbstständigkeit von Avelsorn.",
     };
     const [custom] = await db()
@@ -266,7 +266,7 @@ export default async function PublicPage({ params, searchParams }: Props) {
     } else if (path === "erstgespraech" || path === "terminbuchung") {
         title = "Ein kostenloses Erstgespräch buchen";
         intro =
-            "Im 15-minütigen Erstgespräch beschreibst Du Deine Aufgabe. Wir klären, ob ich sie übernehmen kann und was dafür benötigt wird. Das Gespräch kostet nichts; eine weitere Beauftragung entscheidest Du danach.";
+            "Im 15-minütigen Erstgespräch beschreibst Du Deine Aufgabe. Wir klären, ob wir sie übernehmen können und was dafür benötigt wird. Das Gespräch kostet nichts; eine weitere Beauftragung entscheidest Du danach.";
 
         body = (
             <div className="detail-grid">
@@ -298,7 +298,7 @@ export default async function PublicPage({ params, searchParams }: Props) {
                             <h2>Telefonnummer bestätigen</h2>
                             <p>
                                 Prüfe Deine Kontaktdaten und bestätige den
-                                kostenlosen Termin. Ich rufe Dich zur
+                                kostenlosen Termin. Wir rufen Dich zur
                                 vereinbarten Uhrzeit an.
                             </p>
                         </div>
@@ -356,7 +356,7 @@ export default async function PublicPage({ params, searchParams }: Props) {
             </ol>
         );
     } else if (path === "zielgruppen") {
-        title = "Für wen ich arbeite";
+        title = "Für wen wir arbeiten";
         intro =
             "Die Aufgaben unterscheiden sich je nachdem, ob Du einen Betrieb führst, Deine Selbstständigkeit vorbereitest oder projektweise arbeitest. Hier findest Du die Unterstützung passend zu Deiner Situation.";
         body = (
@@ -397,7 +397,7 @@ export default async function PublicPage({ params, searchParams }: Props) {
         const values = await business();
         title = "Über Avelsorn";
         intro =
-            "Ich bin Enrico Gross, Dein Ansprechpartner bei Avelsorn. Ich unterstütze Dich bei unternehmerischen Fragen und übernehme vereinbarte Arbeiten an Websites und digitalen Abläufen persönlich.";
+            "Enrico Gross ist Dein Ansprechpartner bei Avelsorn. Wir beraten Dich zu unternehmerischen Fragen und setzen vereinbarte Arbeiten an Websites und digitalen Abläufen um.";
         body = (
             <div className="prose">
                 {values.about_text && !values.about_text.includes("{{") ? (
@@ -413,21 +413,21 @@ export default async function PublicPage({ params, searchParams }: Props) {
                     </section>
                 ) : (
                     <p>
-                        Bei Avelsorn besprichst Du Dein Vorhaben direkt mit mir.
-                        Wir klären gemeinsam, welche Aufgabe ich für Dich
-                        übernehmen kann und welche Fragen andere Fachpersonen
-                        benötigen.
+                        Bei Avelsorn besprichst Du Dein Vorhaben direkt mit
+                        Enrico Gross. Wir klären gemeinsam, welche Aufgabe wir
+                        für Dich übernehmen können und welche Fragen andere
+                        Fachpersonen benötigen.
                     </p>
                 )}
-                <h2>Was ich persönlich übernehme</h2>
+                <h2>Was wir übernehmen</h2>
                 <p>
                     Du kannst Beratung zu einer Aufgabe buchen oder die
                     Bearbeitung beauftragen. Bei einer Website legen wir
                     beispielsweise Seiten, Inhalte und Funktionen fest. Bei
                     einem Arbeitsablauf beschreiben wir die einzelnen Schritte
                     und prüfen die vorhandenen Werkzeuge. Änderungen am Umfang
-                    und zusätzliche Kosten besprechen wir, bevor ich daran
-                    arbeite.
+                    und zusätzliche Kosten besprechen wir, bevor wir daran
+                    arbeiten.
                 </p>
                 <h2>Wie wir zusammenarbeiten</h2>
                 <p>
@@ -441,8 +441,8 @@ export default async function PublicPage({ params, searchParams }: Props) {
                     Ein Vorschlag hilft erst, wenn er zu Deinem Alltag passt.
                     Deshalb klären wir schon in der Planung, welche Inhalte,
                     Daten und Entscheidungen für die Umsetzung gebraucht werden.
-                    Ich kann die vereinbarten digitalen Arbeiten anschließend
-                    selbst übernehmen.
+                    Anschließend setzen wir die vereinbarten digitalen Arbeiten
+                    um.
                 </p>
                 <ProfessionalNetwork />
                 <Link href="/kalender" className="button">
@@ -529,9 +529,9 @@ export default async function PublicPage({ params, searchParams }: Props) {
                         )}
                     <h2>Kostenloses Erstgespräch</h2>
                     <p>
-                        Wenn Du zunächst klären möchtest, ob ich Deine Aufgabe
-                        übernehmen kann, kannst Du ein kostenloses Erstgespräch
-                        vereinbaren.
+                        Wenn Du zunächst klären möchtest, ob wir Deine Aufgabe
+                        übernehmen können, kannst Du ein kostenloses
+                        Erstgespräch vereinbaren.
                     </p>
                     <Link href="/erstgespraech" className="button">
                         Mehr zum Erstgespräch ↗

@@ -120,7 +120,7 @@ function PageExitBanner() {
             <h2 id="exit-banner-title">Deine Aufgabe kurz besprechen</h2>
             <p>
                 Wenn Du noch Fragen hast: Im kostenlosen Erstgespräch klären
-                wir, wobei ich Dich unterstützen kann. 15 Minuten, ohne
+                wir, wobei wir Dich unterstützen können. 15 Minuten, ohne
                 kostenpflichtige Beauftragung.
             </p>
             <Link

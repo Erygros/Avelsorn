@@ -257,7 +257,7 @@ export async function SearchLanding({ page }: { page: SearchPage }) {
                             <h2>Deine Aufgabe besprechen</h2>
                             <p>
                                 Im kostenlosen Telefon-Erstgespräch klären wir,
-                                ob und wie ich Dich unterstützen kann. Daraus
+                                ob und wie wir Dich unterstützen können. Daraus
                                 entsteht keine kostenpflichtige Beauftragung.
                             </p>
                             <Link className="button primary" href="/kalender">

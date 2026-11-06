@@ -52,9 +52,9 @@ export default async function BookingSuccess({
                         <p>Zu diesem Termin erfolgt kein Anruf.</p>
                     ) : (
                         <p>
-                            Ich melde mich zum gebuchten Termin telefonisch bei
-                            Dir. Hinterlegte Telefonnummer:{" "}
-                            {booking.contactPhone ?? user.phone} an.
+                            Wir rufen Dich zum gebuchten Termin an. Hinterlegte
+                            Telefonnummer: {booking.contactPhone ?? user.phone}{" "}
+                            an.
                         </p>
                     )}
                     <p>

@@ -12772,5 +12772,31 @@
         ]
       }
     ]
+  },
+  {
+    "id": 58,
+    "title": "Arbeitsbeispiele, Kernleistungen, lesbare Schriftgrößen und Wir-Stimme",
+    "status": "erledigt",
+    "source": "Akquise-Änderungen vom 06.11.2026",
+    "acceptance": [
+      {
+        "id": "58.1",
+        "text": "Zwei bis drei echte Arbeitsbeispiele zeigen und Startseite auf Kernleistungen ausrichten.",
+        "status": "erledigt",
+        "evidence": ["Drei bestätigte Tätigkeitsfelder in src/content/service-groups.ts. Einstieg, Arbeitsbeispiele und Leistungslinks in src/components/home.tsx. Browseransichten der Startseite geprüft."]
+      },
+      {
+        "id": "58.2",
+        "text": "Sehr kleine sichtbare UI-Texte vergrößern.",
+        "status": "erledigt",
+        "evidence": ["tests/output/acquisition-browser.json: 52 Ansichten bei vier Breiten. Keine sichtbaren Textknoten unter 13 px in den geprüften Ansichten."]
+      },
+      {
+        "id": "58.3",
+        "text": "Anbietertexte in einheitlicher Wir-Form verfassen.",
+        "status": "erledigt",
+        "evidence": ["Startseite, Leistungen, Zielgruppen, Kontakt- und Buchungsstrecke sowie E-Mail-Formulierungen geprüft. Anbieterangaben im Impressum und Nutzererklärungen behalten ihre Perspektive."]
+      }
+    ]
   }
 ]

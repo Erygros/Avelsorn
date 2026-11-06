@@ -12,8 +12,8 @@ export function BusinessProcesses() {
                 <p>
                     Eine Anfrage wird weitergeleitet, Angaben werden aus einer
                     E-Mail in eine Tabelle kopiert und beim nächsten Übergang
-                    fehlen Unterlagen. Ich gehe solche Abläufe mit Deinem Team
-                    durch und überarbeite Zuständigkeiten, Übergaben und die
+                    fehlen Unterlagen. Wir gehen solche Abläufe mit Deinem Team
+                    durch und überarbeiten Zuständigkeiten, Übergaben und die
                     verwendeten Werkzeuge.
                 </p>
             </div>

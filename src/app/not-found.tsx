@@ -24,7 +24,7 @@ export default function NotFound() {
                     </div>
                     <p className="not-found-contact">
                         Du suchst etwas Bestimmtes?{" "}
-                        <Link href="/kontakt">Schreib mir eine Nachricht.</Link>
+                        <Link href="/kontakt">Schreib uns eine Nachricht.</Link>
                     </p>
                 </div>
             </main>

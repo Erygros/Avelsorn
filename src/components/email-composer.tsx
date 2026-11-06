@@ -173,7 +173,7 @@ export function EmailComposer({
                                         body:
                                             "<p>Hallo " +
                                             name +
-                                            ",</p><p>für den nächsten gemeinsamen Schritt möchte ich eine Frage mit Dir klären:</p><p></p><p>Antworte gern direkt im geschützten Kundenchat.</p>",
+                                            ",</p><p>für den nächsten gemeinsamen Schritt möchten wir eine Frage mit Dir klären:</p><p></p><p>Antworte gern direkt im geschützten Kundenchat.</p>",
                                     },
                                     project: {
                                         subject: "Ein Update zu Deinem Projekt",
@@ -188,7 +188,7 @@ export function EmailComposer({
                                         body:
                                             "<p>Hallo " +
                                             name +
-                                            ",</p><p>zu unserem nächsten Beratungstermin möchte ich Folgendes mit Dir abstimmen:</p><p></p><p>Die bestätigten Termindaten findest Du in Deinem Kundenkonto.</p>",
+                                            ",</p><p>zu unserem nächsten Beratungstermin möchten wir Folgendes mit Dir abstimmen:</p><p></p><p>Die bestätigten Termindaten findest Du in Deinem Kundenkonto.</p>",
                                     },
                                 };
                                 const template = templates[e.target.value];

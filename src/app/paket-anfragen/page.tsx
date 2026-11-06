@@ -98,8 +98,8 @@ export default async function PackageInquiry({
                     <aside className="quiet-panel">
                         <h2>Was nach der Anfrage passiert</h2>
                         <p>
-                            Ich prüfe Deine Angaben und kläre offene Fragen mit
-                            Dir. Wenn der Auftrag passt, erhältst Du ein
+                            Wir prüfen Deine Angaben und klären offene Fragen
+                            mit Dir. Wenn der Auftrag passt, erhältst Du ein
                             konkretes Angebot. Darin stehen die enthaltenen
                             Leistungen, Deine Zuarbeit, der Liefertermin und der
                             verbindliche Gesamtpreis.

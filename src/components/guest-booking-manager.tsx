@@ -176,7 +176,7 @@ export function GuestBookingManager({
                 15 Minuten · Telefonisch · Europe/Berlin · 0 €
             </p>
             {booking.status === "confirmed" && (
-                <p>Ich melde mich zum gebuchten Termin telefonisch bei Dir.</p>
+                <p>Wir rufen Dich zum gebuchten Termin an.</p>
             )}
             <dl>
                 <dt>Name</dt>
@@ -191,7 +191,7 @@ export function GuestBookingManager({
                 <dd>{booking.topic}</dd>
             </dl>
             <p>
-                Du erreichst mich bei Rückfragen unter{" "}
+                Du erreichst uns bei Rückfragen unter{" "}
                 <a href={"tel:" + businessPhone.replace(/[^+\d]/g, "")}>
                     {businessPhone}
                 </a>

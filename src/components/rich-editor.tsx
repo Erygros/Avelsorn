@@ -82,7 +82,7 @@ export function RichEditor({
                 {buttons.map(([label, action, active]) => (
                     <button
                         className={
-                            "px-2 py-2 text-[10px] border border-[#dedfd9] " +
+                            "px-2 py-2 text-xs border border-[#dedfd9] " +
                             (active ? "bg-[#e9eee1]" : "")
                         }
                         type="button"
@@ -95,7 +95,7 @@ export function RichEditor({
                 ))}
                 <button
                     type="button"
-                    className="px-2 py-2 text-[10px] border border-[#dedfd9]"
+                    className="px-2 py-2 text-xs border border-[#dedfd9]"
                     onClick={() => {
                         const url = window.prompt("Linkziel (https:// …)");
                         if (url && /^https:\/\//.test(url))
@@ -106,7 +106,7 @@ export function RichEditor({
                 </button>
                 <button
                     type="button"
-                    className="px-2 py-2 text-[10px] border border-[#dedfd9]"
+                    className="px-2 py-2 text-xs border border-[#dedfd9]"
                     onClick={() => {
                         const url = window.prompt(
                             "Pfad einer freigegebenen Grafik auf dieser Website (/ …)",

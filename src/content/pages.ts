@@ -46,7 +46,7 @@ export const services: Service[] = [
         short: "Profil, Themen und Veröffentlichungstermine für Deine Kanäle festlegen.",
         headline: "Social-Media-Profile und Veröffentlichungen planen",
         description:
-            "Wir prüfen, welche Inhalte Du veröffentlichen möchtest, wen Du damit ansprichst und wie viel Zeit Du dafür hast. Ich unterstütze Dich bei Profiltexten, Themenauswahl und einem Redaktionsplan, den Du regelmäßig pflegen kannst.",
+            "Wir prüfen, welche Inhalte Du veröffentlichen möchtest, wen Du damit ansprichst und wie viel Zeit Du dafür hast. Wir unterstützen Dich bei Profiltexten, Themenauswahl und einem Redaktionsplan, den Du regelmäßig pflegen kannst.",
         topics: [
             "Profiltexte, Kontaktangaben und Verlinkungen überarbeiten",
             "Themen, Beitragsformate und Veröffentlichungstermine planen",
@@ -78,7 +78,7 @@ export const services: Service[] = [
         short: "Webseiten, Kontaktformulare und individuelle Webanwendungen entwickeln.",
         headline: "Websites und Webanwendungen erstellen",
         description:
-            "Ich erstelle Websites und Webanwendungen nach vereinbartem Umfang. Vor der Entwicklung klären wir Seitenstruktur, Inhalte, Funktionen und benötigte Zugänge. Bei einer bestehenden Website prüfen wir, welche Teile weiterverwendet werden können.",
+            "Wir erstellen Websites und Webanwendungen nach vereinbartem Umfang. Vor der Entwicklung klären wir Seitenstruktur, Inhalte, Funktionen und benötigte Zugänge. Bei einer bestehenden Website prüfen wir, welche Teile weiterverwendet werden können.",
         topics: [
             "Websites und Landingpages",
             "Individuelle Webanwendungen und Kundenportale",
@@ -86,7 +86,7 @@ export const services: Service[] = [
             "Technische Einrichtung und Weiterentwicklung",
         ],
         outcome:
-            "Wir legen fest, welche Seiten und Funktionen ich liefere und wie Du sie prüfst. Dazu können ein Kontaktformular, ein geschützter Bereich oder die Überarbeitung vorhandener Seiten gehören. Externe Kosten werden vorab besprochen und entstehen nur mit Deiner Zustimmung.",
+            "Wir legen fest, welche Seiten und Funktionen wir liefern und wie Du sie prüfst. Dazu können ein Kontaktformular, ein geschützter Bereich oder die Überarbeitung vorhandener Seiten gehören. Externe Kosten werden vorab besprochen und entstehen nur mit Deiner Zustimmung.",
     },
     {
         slug: "digitalisierung-ki",
@@ -94,7 +94,7 @@ export const services: Service[] = [
         short: "Formulare, Daten und vorhandene Programme verbinden; KI bei geeigneten Teilaufgaben einbinden.",
         headline: "Wiederkehrende Handgriffe im Betrieb automatisieren",
         description:
-            "Dein Team überträgt dieselben Angaben zwischen Programmen, erinnert an fehlende Unterlagen oder sortiert wiederkehrende Anfragen. Ich prüfe den Ablauf und die vorhandenen Schnittstellen. Anschließend richten wir die vereinbarte Automatisierung ein und testen sie mit typischen Fällen und Fehlern. KI kann etwa Texte vorsortieren oder Antwortentwürfe vorbereiten, wenn Daten und Prüfschritte dafür geeignet sind.",
+            "Dein Team überträgt dieselben Angaben zwischen Programmen, erinnert an fehlende Unterlagen oder sortiert wiederkehrende Anfragen. Wir prüfen den Ablauf und die vorhandenen Schnittstellen. Anschließend richten wir die vereinbarte Automatisierung ein und testen sie mit typischen Fällen und Fehlern. KI kann etwa Texte vorsortieren oder Antwortentwürfe vorbereiten, wenn Daten und Prüfschritte dafür geeignet sind.",
         topics: [
             "Anfragen aus einem Formular an das zuständige Team übergeben",
             "Daten zwischen vorhandenen Werkzeugen übertragen",

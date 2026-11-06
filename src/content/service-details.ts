@@ -61,7 +61,7 @@ export const serviceDetails: Record<
             "Vorhandene Seiten und Markenunterlagen, freigegebene Texte und Bilder sowie eine Beschreibung der gewünschten Funktionen. Zugänge werden erst im vereinbarten, geschützten Projektprozess ausgetauscht.",
         packages: ["website", "digitaler-ablauf"],
         process:
-            "Wir stimmen Struktur, Funktionen und Prüfkriterien ab. Ich entwickle den vereinbarten Umfang, teste typische Abläufe und Fehlerfälle und stelle Dir die Ergebnisse zur Prüfung bereit. Die Übergabe und zusätzliche externe Dienste werden vorher festgelegt.",
+            "Wir stimmen Struktur, Funktionen und Prüfkriterien ab. Wir entwickeln den vereinbarten Umfang, testen typische Abläufe und Fehlerfälle und stellen Dir die Ergebnisse zur Prüfung bereit. Die Übergabe und zusätzliche externe Dienste werden vorher festgelegt.",
     },
     "digitalisierung-ki": {
         audience:

@@ -28,34 +28,27 @@ export const serviceGroups = [
     },
 ];
 
-// General examples, deliberately separate from any future verified case reports.
-export const serviceExamples = [
+export const workExamples = [
     {
-        title: "Digitaler Anfrageprozess",
-        problem:
-            "Kundenanfragen erreichen das Unternehmen über unterschiedliche Kanäle. Informationen müssen mehrfach übertragen werden.",
-        solution:
-            "Ein digitales Anfrageformular erfasst die benötigten Angaben und überträgt sie strukturiert an die zuständige Stelle.",
-        aim: "Weniger manuelle Arbeit und eine übersichtlichere Bearbeitung.",
-        slug: "digitalisierung-ki",
+        title: "Sportverein",
+        work: "Wir haben einen Sportverein bei seiner Arbeit unterstützt.",
+        link: null,
     },
     {
-        title: "Professioneller Webseitenauftritt",
-        problem:
-            "Ein Unternehmen besitzt keine passende Website oder der vorhandene Auftritt erklärt die Leistungen nicht verständlich.",
-        solution:
-            "Entwicklung einer modernen Website mit klarer Leistungsdarstellung, Kontaktmöglichkeiten und responsivem Design.",
-        aim: "Interessenten können sich schneller informieren und einfacher Kontakt aufnehmen.",
-        slug: "websites-software",
+        title: "Kioske und kleine Imbissbetriebe",
+        work: "Wir haben lokale Betriebe zu ihrem Internetauftritt beraten. Dabei ging es darum, ihr Angebot verständlich zu zeigen und die digitale Kontaktaufnahme zu erleichtern.",
+        link: {
+            href: "/loesungen/lokaler-onlineauftritt",
+            label: "Lokalen Onlineauftritt verbessern",
+        },
     },
     {
-        title: "Gründung strukturieren",
-        problem:
-            "Eine Geschäftsidee ist vorhanden, aber Zielgruppe, Leistungsangebot und nächste Schritte sind noch unklar.",
-        solution:
-            "Gemeinsame Ausarbeitung des Angebots, Eingrenzung der Zielgruppe und Entwicklung eines konkreten Maßnahmenplans.",
-        aim: "Eine verständliche Ausgangsbasis für die weiteren Gründungsschritte.",
-        slug: "gruendung",
+        title: "Unternehmen mit vielen Arbeitsabläufen",
+        work: "Wir haben Unternehmen mit vielen Arbeitsabläufen bei der Prozessoptimierung unterstützt. Ziel war, die Abläufe zu vereinfachen und wiederkehrende Arbeit leichter zu organisieren.",
+        link: {
+            href: "/leistungen/digitalisierung-ki",
+            label: "Prozessoptimierung ansehen",
+        },
     },
 ];
 
@@ -70,6 +63,6 @@ export const collaborationSteps = [
     ],
     [
         "Umsetzen",
-        "Ich setze die vereinbarten Aufgaben um. Ergebnisse, Rückfragen und Freigaben werden transparent dokumentiert.",
+        "Wir setzen die vereinbarten Aufgaben um. Ergebnisse, Rückfragen und Freigaben werden transparent dokumentiert.",
     ],
 ] as const;

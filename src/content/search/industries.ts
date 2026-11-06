@@ -122,7 +122,7 @@ export const industryPages: SearchPage[] = [
             },
             {
                 title: "Website und vorhandene Profile abgleichen",
-                text: "Wir vergleichen die von Dir freigegebenen Angaben: Stimmen Name, Anschrift und Kontaktweg überein? Sind Bilder aktuell und verwendbar? Ich kann die technische Website umsetzen. Änderungen an externen Profilen und laufende Pflege werden als eigene Aufgabe besprochen.",
+                text: "Wir vergleichen die von Dir freigegebenen Angaben: Stimmen Name, Anschrift und Kontaktweg überein? Sind Bilder aktuell und verwendbar? Wir können die technische Website umsetzen. Änderungen an externen Profilen und laufende Pflege werden als eigene Aufgabe besprochen.",
                 items: [
                     "Standort und Kontakt ohne lange Suche zeigen",
                     "Freigegebene Bilder des tatsächlichen Betriebs verwenden",
@@ -149,7 +149,7 @@ export const industryPages: SearchPage[] = [
             },
             {
                 question: "Kannst Du mein Unternehmensprofil überarbeiten?",
-                answer: "Das kann gesondert vereinbart werden, wenn Du Rechte und freigegebene Angaben bereitstellst. Eine Verifizierung oder bestimmte Platzierung kann ich nicht zusagen.",
+                answer: "Das kann gesondert vereinbart werden, wenn Du Rechte und freigegebene Angaben bereitstellst. Eine Verifizierung oder bestimmte Platzierung können wir nicht zusagen.",
             },
         ],
         services: ["websites-software", "social-media"],
@@ -222,7 +222,7 @@ export const industryPages: SearchPage[] = [
             },
             {
                 title: "Informationen am tatsächlichen Besuch ausrichten",
-                text: "Speisekarte, besondere Öffnungszeiten und Hinweise zum Besuch sollten zusammenpassen. Veranstaltungen und geschlossene Gesellschaften benötigen einen Pflegeweg, wenn sie regelmäßig wechseln. Ich strukturiere die freigegebenen Angaben so, dass Gäste auf dem Handy nicht zwischen schlecht lesbaren Dateien suchen müssen.",
+                text: "Speisekarte, besondere Öffnungszeiten und Hinweise zum Besuch sollten zusammenpassen. Veranstaltungen und geschlossene Gesellschaften benötigen einen Pflegeweg, wenn sie regelmäßig wechseln. Wir strukturieren die freigegebenen Angaben so, dass Gäste auf dem Handy nicht zwischen schlecht lesbaren Dateien suchen müssen.",
             },
             {
                 title: "Gruppenanfragen im Team weitergeben",

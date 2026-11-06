@@ -58,9 +58,9 @@ export async function guestMessage(booking: GuestBooking, database: Db = db()) {
             ? "Dein kostenloses Erstgespräch wurde abgesagt. Zu diesem Termin erfolgt kein Anruf."
             : "Dein kostenloses und unverbindliches Erstgespräch (15 Minuten):\n" +
               berlin(booking.startsAt) +
-              " Uhr (Europe/Berlin).\nIch melde mich zum gebuchten Termin telefonisch bei Dir.",
+              " Uhr (Europe/Berlin).\nWir rufen Dich zum gebuchten Termin an.",
         "Deine Telefonnummer: " + booking.phone,
-        "Bei Rückfragen erreichst Du mich unter: " + values.public_phone,
+        "Bei Rückfragen erreichst Du uns unter: " + values.public_phone,
         "Verschieben oder absagen kannst Du über den geschützten Link aus Deiner Terminbestätigung. Dieser Link gilt bis 30 Tage nach dem aktuell gebuchten Termin. Gib ihn bitte nicht weiter.",
         "Freundliche Grüße\n" + values.legal_full_name + "\nAvelsorn",
     ].join("\n\n");

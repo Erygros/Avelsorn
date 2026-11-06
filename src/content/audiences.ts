@@ -21,7 +21,7 @@ export const audiences: Audience[] = [
         description:
             "Avelsorn unterstützt kleine Unternehmen bei digitalen Abläufen, Websites und internen Werkzeugen – von der Aufgabenklärung bis zur vereinbarten Umsetzung.",
         heading: "Weniger manuelle Übergaben im Betrieb",
-        intro: "Kundenanfragen landen in mehreren Postfächern, Informationen werden doppelt erfasst und Dein Team fragt fehlenden Unterlagen hinterher. Ich prüfe mit Euch Zuständigkeiten und Arbeitsschritte, vereinfache den Ablauf und setze vereinbarte Automatisierungen um. Ob dadurch Zeit frei wird, vergleichen wir am Ablauf vor und nach einem Testlauf.",
+        intro: "Kundenanfragen landen in mehreren Postfächern, Informationen werden doppelt erfasst und Dein Team fragt fehlenden Unterlagen hinterher. Wir prüfen mit Euch Zuständigkeiten und Arbeitsschritte, vereinfachen den Ablauf und setzen vereinbarte Automatisierungen um. Ob dadurch Zeit frei wird, vergleichen wir am Ablauf vor und nach einem Testlauf.",
         summary:
             "Für kleine Unternehmen, die einzelne Prozesse verbessern oder ein konkretes digitales Projekt bearbeiten lassen möchten.",
         situations: [
@@ -35,12 +35,12 @@ export const audiences: Audience[] = [
             },
             {
                 title: "KI mit einem festen Prüfschritt einsetzen",
-                text: "Für wiederkehrende Texte kann KI eine Zuordnung oder einen Antwortentwurf vorbereiten. Wir bestimmen die zulässigen Daten, testen typische Fehler und legen fest, wer das Ergebnis vor der weiteren Verwendung prüft. Bei Bedarf ergänze ich dafür eine interne Webanwendung.",
+                text: "Für wiederkehrende Texte kann KI eine Zuordnung oder einen Antwortentwurf vorbereiten. Wir bestimmen die zulässigen Daten, testen typische Fehler und legen fest, wer das Ergebnis vor der weiteren Verwendung prüft. Bei Bedarf ergänzen wir dafür eine interne Webanwendung.",
             },
         ],
         example: {
             title: "Beispiel: Vom E-Mail-Postfach zur geordneten Anfrage",
-            text: "Ein möglicher Auftrag beginnt mit einem Blick auf Euren bisherigen Anfrageprozess. Gemeinsam legen wir Pflichtangaben, Zuständigkeiten und Rückmeldungen fest. Anschließend kann ich ein passendes Formular oder eine vereinbarte technische Anbindung umsetzen.",
+            text: "Ein möglicher Auftrag beginnt mit einem Blick auf Euren bisherigen Anfrageprozess. Gemeinsam legen wir Pflichtangaben, Zuständigkeiten und Rückmeldungen fest. Anschließend können wir ein passendes Formular oder eine vereinbarte technische Anbindung umsetzen.",
             result: "Als Arbeitsergebnis vereinbaren wir zum Beispiel ein nutzbares Anfrageformular samt dokumentiertem Ablauf. Welche Technik dafür passt, entscheiden wir nach Prüfung Eurer vorhandenen Systeme.",
         },
         prepare: [
@@ -72,7 +72,7 @@ export const audiences: Audience[] = [
         description:
             "Unterstützung für Selbstständige bei Angebot, Website und wiederkehrenden Aufgaben. Avelsorn berät und übernimmt klar vereinbarte Projektarbeit.",
         heading: "Website und Abläufe für Selbstständige",
-        intro: "Du bearbeitest Aufträge und kümmerst Dich nebenbei um Anfragen, Website und Organisation. Ich helfe Dir, eine dieser Aufgaben anzugehen: das Angebot verständlicher beschreiben, die Website überarbeiten oder einen wiederkehrenden Ablauf vereinfachen.",
+        intro: "Du bearbeitest Aufträge und kümmerst Dich nebenbei um Anfragen, Website und Organisation. Wir helfen Dir, eine dieser Aufgaben anzugehen: das Angebot verständlicher beschreiben, die Website überarbeiten oder einen wiederkehrenden Ablauf vereinfachen.",
         summary:
             "Für Selbstständige mit laufendem Geschäft, die eine konkrete Aufgabe abgeben oder ihren Arbeitsalltag besser organisieren möchten.",
         situations: [
@@ -82,7 +82,7 @@ export const audiences: Audience[] = [
             },
             {
                 title: "Die eigene Website fertigstellen",
-                text: "Vielleicht fehlen Texte, eine klare Seitenstruktur oder ein Kontaktformular. Wir halten fest, welche Bestandteile fehlen und was Du selbst liefern möchtest. Die vereinbarte Gestaltung und technische Umsetzung kann ich übernehmen.",
+                text: "Vielleicht fehlen Texte, eine klare Seitenstruktur oder ein Kontaktformular. Wir halten fest, welche Bestandteile fehlen und was Du selbst liefern möchtest. Die vereinbarte Gestaltung und technische Umsetzung können wir übernehmen.",
             },
             {
                 title: "Wiederkehrende Handgriffe reduzieren",
@@ -124,7 +124,7 @@ export const audiences: Audience[] = [
         description:
             "Du bereitest Deine Selbstständigkeit vor? Mit Avelsorn konkretisierst Du Dein Angebot, planst erste Schritte und entwickelst Deinen digitalen Auftritt.",
         heading: "Angebot und Website vor der Gründung",
-        intro: "Was möchtest Du anbieten, wer braucht es und wie sollen erste Kunden davon erfahren? Wenn Du eine Selbstständigkeit vorbereitest, arbeite ich mit Dir an diesen Fragen und unterstütze Dich bei einem überschaubaren ersten Auftritt.",
+        intro: "Was möchtest Du anbieten, wer braucht es und wie sollen erste Kunden davon erfahren? Wenn Du eine Selbstständigkeit vorbereitest, arbeiten wir mit Dir an diesen Fragen und unterstützen Dich bei einem überschaubaren ersten Auftritt.",
         summary:
             "Für Menschen vor der Gründung oder in der ersten Aufbauphase, die ihr Angebot konkretisieren und erste Aufgaben umsetzen möchten.",
         situations: [
@@ -138,7 +138,7 @@ export const audiences: Audience[] = [
             },
             {
                 title: "Einen ersten digitalen Auftritt erstellen",
-                text: "Eine verständliche Website, ein Kontaktweg und passende Inhalte können zum Start gehören. Ich kann die vereinbarten Seiten und Funktionen umsetzen. Du behältst dabei den Überblick über Umfang und gesondert freizugebende externe Kosten.",
+                text: "Eine verständliche Website, ein Kontaktweg und passende Inhalte können zum Start gehören. Wir können die vereinbarten Seiten und Funktionen umsetzen. Du behältst dabei den Überblick über Umfang und gesondert freizugebende externe Kosten.",
             },
         ],
         example: {
@@ -160,7 +160,7 @@ export const audiences: Audience[] = [
             {
                 question:
                     "Übernimmst Du auch Steuerberatung oder rechtliche Gründungsfragen?",
-                answer: "Mein Angebot auf dieser Seite umfasst die Planung Deines Angebots und praktische digitale Projektarbeit. Für verbindliche steuerliche oder rechtliche Fragen beziehst Du entsprechend qualifizierte Fachleute ein. Benötigte Inhalte für Deine Website stellst Du nach dieser Klärung bereit.",
+                answer: "Unser Angebot auf dieser Seite umfasst die Planung Deines Angebots und praktische digitale Projektarbeit. Für verbindliche steuerliche oder rechtliche Fragen beziehst Du entsprechend qualifizierte Fachleute ein. Benötigte Inhalte für Deine Website stellst Du nach dieser Klärung bereit.",
             },
         ],
     },
@@ -171,13 +171,13 @@ export const audiences: Audience[] = [
         description:
             "Portfolio, Briefings und klare Projektabläufe: Avelsorn unterstützt Freelancer dabei, ihre Leistungen darzustellen und Kundenprojekte zu organisieren.",
         heading: "Portfolio, Briefings und Projektablauf",
-        intro: "Du arbeitest projektweise und wechselst zwischen Akquise, Umsetzung und Abstimmung. Ich unterstütze Dich dabei, Deine Arbeit im Portfolio verständlich zu zeigen und den Weg von der ersten Anfrage bis zur Übergabe besser vorzubereiten.",
+        intro: "Du arbeitest projektweise und wechselst zwischen Akquise, Umsetzung und Abstimmung. Wir unterstützen Dich dabei, Deine Arbeit im Portfolio verständlich zu zeigen und den Weg von der ersten Anfrage bis zur Übergabe besser vorzubereiten.",
         summary:
             "Für projektbasiert arbeitende Freelancer, die ihr Portfolio überarbeiten oder Anfragen, Leistungsumfang und Freigaben klarer organisieren möchten.",
         situations: [
             {
                 title: "Ein Portfolio mit verständlichen Projekten",
-                text: "Gemeinsam wählen wir aus, welche Arbeiten Du zeigen darfst und welche Informationen für Interessenten wichtig sind. Deine eigene Rolle, die Aufgabenstellung und der tatsächlich erbrachte Beitrag stehen dabei im Mittelpunkt. Ich kann den passenden Webauftritt umsetzen.",
+                text: "Gemeinsam wählen wir aus, welche Arbeiten Du zeigen darfst und welche Informationen für Interessenten wichtig sind. Deine eigene Rolle, die Aufgabenstellung und der tatsächlich erbrachte Beitrag stehen dabei im Mittelpunkt. Wir können den passenden Webauftritt umsetzen.",
             },
             {
                 title: "Ein Briefing vorbereiten",
@@ -222,7 +222,7 @@ export const audiences: Audience[] = [
         description:
             "Avelsorn unterstützt Creator bei Contentabläufen, Mediakit und Kooperationsanfragen sowie einer eigenen Website – mit konkret vereinbarter Umsetzung.",
         heading: "Content planen und Anfragen bearbeiten",
-        intro: "Neben Deinen Inhalten fallen Planung, Abstimmungen und Anfragen an. Ich unterstütze Dich beim Aufbau dieser Abläufe und bei digitalen Unterlagen, mit denen Du Deine Arbeit gegenüber möglichen Kooperationspartnern vorstellen kannst.",
+        intro: "Neben Deinen Inhalten fallen Planung, Abstimmungen und Anfragen an. Wir unterstützen Dich beim Aufbau dieser Abläufe und bei digitalen Unterlagen, mit denen Du Deine Arbeit gegenüber möglichen Kooperationspartnern vorstellen kannst.",
         summary:
             "Für Creator und Influencer, die ihre Contentarbeit organisieren, Kooperationen vorbereiten oder eine eigene Anlaufstelle neben ihren Plattformprofilen entwickeln möchten.",
         situations: [
@@ -232,7 +232,7 @@ export const audiences: Audience[] = [
             },
             {
                 title: "Ein Mediakit zusammenstellen",
-                text: "Du stellst aktuelle, belegbare Angaben zu Deinen Kanälen und bisherigen Arbeiten bereit. Ich unterstütze Dich bei Struktur und verständlicher Darstellung. Zahlen, Referenzen und Kooperationen werden ausschließlich aus Deinen tatsächlichen Angaben übernommen.",
+                text: "Du stellst aktuelle, belegbare Angaben zu Deinen Kanälen und bisherigen Arbeiten bereit. Wir unterstützen Dich bei Struktur und verständlicher Darstellung. Zahlen, Referenzen und Kooperationen werden ausschließlich aus Deinen tatsächlichen Angaben übernommen.",
             },
             {
                 title: "Kooperationsanfragen und eigene Website",

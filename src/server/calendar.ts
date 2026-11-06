@@ -918,13 +918,13 @@ export async function bookingMessage(
         "Beratungsart: Telefonisch",
         booking.status === "cancelled"
             ? "Zu diesem Termin erfolgt kein Anruf."
-            : "Du musst uns nicht selbst anrufen. Ich melde mich zum gebuchten Termin telefonisch bei Dir.",
+            : "Du musst uns nicht selbst anrufen. Wir rufen Dich zum gebuchten Termin an.",
         "Deine hinterlegte Telefonnummer: " +
             (booking.contactPhone ?? owner?.phone ?? ""),
         booking.status === "cancelled"
             ? "Einen neuen Termin kannst Du über Deinen Kalender auswählen."
             : "Bitte stelle sicher, dass Du unter dieser Nummer erreichbar bist.",
-        "Du erreichst mich bei Rückfragen unter: " + values.public_phone,
+        "Du erreichst uns bei Rückfragen unter: " + values.public_phone,
         "Du kannst den Termin in Deinem Kundenkonto verschieben oder absagen.",
         "Freundliche Grüße\n" +
             values.legal_full_name +

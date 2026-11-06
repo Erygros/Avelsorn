@@ -40,15 +40,13 @@ export async function SiteShell({
             <footer className="site-footer">
                 <div className="footer-top">
                     <Brand />
-                    <p>
-                        Unternehmensberatung, die weiterdenkt und mit anpackt.
-                    </p>
+                    <p>Websites, Webanwendungen und Prozessoptimierung.</p>
                     <Link href="/erstgespraech" className="arrow-link">
                         Erstgespräch vereinbaren ↗
                     </Link>
                 </div>
                 <div className="footer-links">
-                    <Link href="/zielgruppen">Für wen ich arbeite</Link>
+                    <Link href="/zielgruppen">Für wen wir arbeiten</Link>
                     <Link href="/beruflich-neu-starten">
                         Beruflich neu starten
                     </Link>

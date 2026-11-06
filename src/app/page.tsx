@@ -2,15 +2,15 @@ import type { Metadata } from "next";
 import { heroImage } from "@/content/editorial-images";
 
 export const metadata: Metadata = {
-    title: "Unternehmensberatung und digitale Umsetzung",
+    title: "Websites, Webanwendungen und Prozessoptimierung",
     description:
-        "Avelsorn unterstützt Dich bei Gründung, Unternehmensstrukturen, Websites und digitalen Abläufen. Persönliche Beratung und praktische Umsetzung nach Vereinbarung.",
+        "Avelsorn entwickelt Websites, Formulare und Webanwendungen und hilft Unternehmen, Selbstständigen und Vereinen, wiederkehrende Arbeitsabläufe zu vereinfachen.",
     openGraph: {
         type: "website",
         locale: "de_DE",
         siteName: "Avelsorn",
-        title: "Avelsorn – Unternehmensberatung und digitale Umsetzung",
-        description: "Dein Unternehmen. Klare Strukturen. Digitale Lösungen.",
+        title: "Avelsorn – Websites und Prozessoptimierung",
+        description: "Wir bauen Websites und vereinfachen Arbeitsabläufe.",
         url: "/",
         images: [
             {

@@ -7,7 +7,7 @@ import { audiences, audiencePath } from "@/content/audiences";
 import { money } from "@/server/config";
 import { findServicePackage } from "@/content/service-packages";
 import { ServiceGroups } from "./service-groups";
-import { collaborationSteps, serviceExamples } from "@/content/service-groups";
+import { collaborationSteps, workExamples } from "@/content/service-groups";
 
 export async function Home() {
     return (
@@ -16,33 +16,39 @@ export async function Home() {
                 <section className="hero wrap optimized-hero">
                     <div className="hero-copy">
                         <h1 className="hero-heading">
-                            Dein Unternehmen. Klare Strukturen. Digitale
-                            Lösungen.
+                            Wir bauen Websites und vereinfachen Arbeitsabläufe.
                         </h1>
                         <p className="lead">
-                            Avelsorn unterstützt Gründer, Selbstständige und
-                            Unternehmen dabei, Geschäftsideen zu entwickeln,
-                            Arbeitsabläufe zu verbessern und individuelle
-                            digitale Lösungen umzusetzen.
-                        </p>
-                        <p className="hero-intro-note">
-                            Von der persönlichen Beratung bis zur praktischen
-                            Umsetzung – alles aus einer Hand.
+                            Wir entwickeln Websites, Formulare und interne
+                            Webanwendungen. Mit kleinen Unternehmen,
+                            Selbstständigen und Vereinen klären wir, welche
+                            Arbeitsschritte sich vereinfachen oder
+                            automatisieren lassen.
                         </p>
                         <div className="hero-cta">
                             <Link className="button primary" href="/kalender">
                                 Kostenloses Erstgespräch vereinbaren{" "}
                                 <ArrowUpRight size={18} aria-hidden="true" />
                             </Link>
-                            <Link className="arrow-link" href="/leistungen">
-                                Leistungen entdecken{" "}
+                            <Link
+                                className="arrow-link"
+                                href="#arbeitsbeispiele"
+                            >
+                                Arbeitsbeispiele ansehen{" "}
                                 <ArrowUpRight size={18} aria-hidden="true" />
                             </Link>
                         </div>
                         <ul className="hero-trust">
-                            <li>Kostenloses Erstgespräch</li>
-                            <li>Individuelle Projektpreise</li>
-                            <li>Persönliche Beratung & Umsetzung</li>
+                            <li>
+                                <Link href="/leistungen/websites-software">
+                                    Websites und Webanwendungen
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/leistungen/digitalisierung-ki">
+                                    Prozessoptimierung und Automatisierung
+                                </Link>
+                            </li>
                         </ul>
                     </div>
                     <EditorialPhoto
@@ -57,7 +63,7 @@ export async function Home() {
                     aria-labelledby="audience-strip-title"
                 >
                     <div className="wrap">
-                        <h2 id="audience-strip-title">Für wen ich arbeite</h2>
+                        <h2 id="audience-strip-title">Für wen wir arbeiten</h2>
                         <ul className="audience-links">
                             {audiences.map((audience) => (
                                 <li key={audience.slug}>
@@ -80,14 +86,12 @@ export async function Home() {
                 >
                     <div className="section-heading">
                         <h2 id="home-services-title">
-                            Unternehmensberatung, die weiterdenkt und mit
-                            anpackt.
+                            Was wir für Dich übernehmen
                         </h2>
                         <p>
-                            Eine Geschäftsidee prüfen, einen Ablauf ordnen oder
-                            eine Website entwickeln: Wir klären, welche Aufgabe
-                            ansteht und ob Beratung, Umsetzung oder beides
-                            gebraucht wird.
+                            Wir entwickeln Websites und digitale Abläufe. Wenn
+                            Du noch am Anfang stehst, helfen wir Dir auch, Deine
+                            Geschäftsidee und Dein Angebot auszuarbeiten.
                         </p>
                     </div>
                     <ServiceGroups />
@@ -95,17 +99,11 @@ export async function Home() {
                 <section className="approach-section">
                     <div className="wrap approach">
                         <div>
-                            <h2>Von der Idee bis zur fertigen Lösung.</h2>
+                            <h2>So arbeiten wir an Deiner Aufgabe</h2>
                             <p>
-                                Manche Herausforderungen benötigen zunächst eine
-                                klare Strategie. Andere lassen sich durch eine
-                                konkrete technische Umsetzung lösen.
-                            </p>
-                            <p>
-                                Bei Avelsorn besprechen wir gemeinsam, welche
-                                Schritte sinnvoll sind. Anschließend kann ich
-                                die vereinbarten digitalen Lösungen direkt für
-                                Dich umsetzen.
+                                Zeig uns, wie Du die Aufgabe heute löst. Wir
+                                vereinbaren mit Dir, was sich ändern soll und
+                                woran Du die Umsetzung prüfen kannst.
                             </p>
                             <Link href="/ablauf" className="arrow-link">
                                 So arbeiten wir zusammen{" "}
@@ -129,40 +127,33 @@ export async function Home() {
                 </section>
                 <section
                     className="section wrap"
+                    id="arbeitsbeispiele"
                     aria-labelledby="examples-title"
                 >
                     <div className="section-heading">
-                        <h2 id="examples-title">
-                            So können wir Dein Unternehmen unterstützen.
-                        </h2>
+                        <h2 id="examples-title">Aus unserer Arbeit</h2>
                         <p>
-                            Allgemeine Leistungsbeispiele zur Orientierung. Sie
-                            beschreiben mögliche Aufgaben und sind keine
-                            abgeschlossenen Kundenprojekte oder Referenzen.
+                            Beispiele aus der Zusammenarbeit mit Vereinen,
+                            lokalen Betrieben und Unternehmen.
                         </p>
                     </div>
                     <div className="example-grid">
-                        {serviceExamples.map((example) => (
-                            <article key={example.slug}>
+                        {workExamples.map((example) => (
+                            <article key={example.title}>
                                 <h3>{example.title}</h3>
-                                <dl>
-                                    <dt>Ausgangslage</dt>
-                                    <dd>{example.problem}</dd>
-                                    <dt>Mögliche Lösung</dt>
-                                    <dd>{example.solution}</dd>
-                                    <dt>Ziel</dt>
-                                    <dd>{example.aim}</dd>
-                                </dl>
-                                <Link
-                                    className="arrow-link"
-                                    href={"/leistungen/" + example.slug}
-                                >
-                                    Leistung ansehen{" "}
-                                    <ArrowUpRight
-                                        size={17}
-                                        aria-hidden="true"
-                                    />
-                                </Link>
+                                <p>{example.work}</p>
+                                {example.link && (
+                                    <Link
+                                        className="arrow-link"
+                                        href={example.link.href}
+                                    >
+                                        {example.link.label}{" "}
+                                        <ArrowUpRight
+                                            size={17}
+                                            aria-hidden="true"
+                                        />
+                                    </Link>
+                                )}
                             </article>
                         ))}
                     </div>
@@ -241,7 +232,7 @@ export async function Home() {
                         </div>
                         <p>
                             Du schilderst Deine Aufgabe. Wir besprechen, ob und
-                            wie ich Dich unterstützen kann. Eine
+                            wie wir Dich unterstützen können. Eine
                             kostenpflichtige Beauftragung entsteht daraus nicht.
                         </p>
                         <Link href="/kalender" className="button primary">

@@ -195,7 +195,7 @@ export const solutionPages: SearchPage[] = [
             },
             {
                 title: "Betrieb und Übergabe gehören zum Umfang",
-                text: "Eine Webanwendung benötigt eine geeignete Datenbank, Speicher, Sicherungen und einen geklärten Pflegeweg. Externe Dienste werden ausdrücklich abgestimmt. Ich entwickle keine eigene Hostinginfrastruktur. Tests sollten neben dem normalen Ablauf insbesondere fremde Datensätze, abgelaufene Sitzungen und unterbrochene Uploads berücksichtigen.",
+                text: "Eine Webanwendung benötigt eine geeignete Datenbank, Speicher, Sicherungen und einen geklärten Pflegeweg. Externe Dienste werden ausdrücklich abgestimmt. Wir entwickeln keine eigene Hostinginfrastruktur. Tests sollten neben dem normalen Ablauf insbesondere fremde Datensätze, abgelaufene Sitzungen und unterbrochene Uploads berücksichtigen.",
             },
         ],
         prepare: [

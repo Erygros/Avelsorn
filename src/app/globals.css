@@ -16,6 +16,8 @@
     --color-background: var(--paper);
     --color-foreground: var(--ink);
     --font-sans: var(--sans);
+    --text-xs: 0.8125rem;
+    --text-xs--line-height: 1.45;
 }
 * {
     box-sizing: border-box;
@@ -31,6 +33,9 @@ body {
     font-size: 14px;
     line-height: 1.7;
     -webkit-font-smoothing: antialiased;
+}
+small {
+    font-size: max(0.8125rem, 0.85em);
 }
 a {
     color: inherit;
@@ -131,7 +136,7 @@ svg {
     border: 1px solid #c6c9c0;
     background: transparent;
     color: var(--ink);
-    font-size: 12px;
+    font-size: 0.8125rem;
     font-weight: 650;
     line-height: 1.5;
     transition:
@@ -153,13 +158,13 @@ svg {
 .button.small {
     min-height: 41px;
     padding: 10px 16px;
-    font-size: 11px;
+    font-size: 0.8125rem;
 }
 .arrow-link {
     display: inline-flex;
     align-items: center;
     gap: 18px;
-    font-size: 12px;
+    font-size: 0.8125rem;
     font-weight: 650;
     border-bottom: 1px solid var(--line);
     padding-bottom: 8px;
@@ -182,7 +187,7 @@ svg {
 .preview-note {
     background: #f1f2ee;
     padding: 5px 20px;
-    font-size: 10px;
+    font-size: 0.8125rem;
     line-height: 1.5;
     text-align: center;
     color: #62665d;
@@ -216,7 +221,7 @@ svg {
     display: flex;
     gap: 27px;
     margin: auto;
-    font-size: 11px;
+    font-size: 0.8125rem;
     font-weight: 550;
 }
 .site-header > nav a:hover {
@@ -230,7 +235,7 @@ svg {
     gap: 24px;
 }
 .login-link {
-    font-size: 10px;
+    font-size: 0.8125rem;
     font-weight: 600;
 }
 .mobile-menu {
@@ -268,7 +273,7 @@ svg {
 }
 .editorial-photo figcaption {
     margin-top: 8px;
-    font-size: 10px;
+    font-size: 0.8125rem;
     line-height: 1.5;
     color: var(--muted);
     text-align: right;
@@ -293,7 +298,7 @@ svg {
     margin-top: 30px;
 }
 .hero-cta > span {
-    font-size: 9px;
+    font-size: 0.8125rem;
     max-width: 120px;
     color: var(--muted);
     line-height: 1.7;
@@ -302,7 +307,7 @@ svg {
     display: flex;
     gap: 25px;
     margin-top: 46px;
-    font-size: 9px;
+    font-size: 0.8125rem;
     color: var(--muted);
 }
 .hero-detail span:before {
@@ -310,7 +315,7 @@ svg {
     margin-right: 8px;
 }
 .micro-label {
-    font-size: 8px;
+    font-size: 0.8125rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: var(--muted);
@@ -373,7 +378,7 @@ svg {
     flex-wrap: wrap;
     gap: 8px 12px;
     align-items: center;
-    font-size: 12px;
+    font-size: 0.8125rem;
     color: var(--muted);
     margin-bottom: 48px;
 }
@@ -397,7 +402,7 @@ svg {
 }
 .audience-booking-note {
     margin-top: 12px;
-    font-size: 12px;
+    font-size: 0.8125rem;
 }
 .audience-layout {
     display: grid;
@@ -623,7 +628,7 @@ svg {
     margin-bottom: 8px;
 }
 .service-card p {
-    font-size: 11px;
+    font-size: 0.8125rem;
     line-height: 1.9;
 }
 .service-card h2 {
@@ -653,7 +658,7 @@ svg {
     font-size: 34px;
 }
 .approach p {
-    font-size: 12px;
+    font-size: 0.8125rem;
     max-width: 455px;
     line-height: 1.95;
 }
@@ -690,7 +695,7 @@ svg {
     margin-bottom: 7px;
 }
 .process-list p {
-    font-size: 12px;
+    font-size: 0.8125rem;
     line-height: 1.9;
 }
 .price-preview {
@@ -725,7 +730,7 @@ svg {
 }
 .price-amount > span {
     font-family: var(--sans);
-    font-size: 10px;
+    font-size: 0.8125rem;
     letter-spacing: 0;
     color: var(--muted);
     margin-left: 10px;
@@ -736,7 +741,7 @@ svg {
     margin-bottom: 12px;
 }
 .price-preview-card > p {
-    font-size: 12px;
+    font-size: 0.8125rem;
 }
 .check-list {
     list-style: none;
@@ -748,7 +753,7 @@ svg {
     align-items: flex-start;
     gap: 9px;
     margin: 10px 0;
-    font-size: 11px;
+    font-size: 0.8125rem;
     color: #53594c;
 }
 .check-list svg {
@@ -772,7 +777,7 @@ svg {
     padding-bottom: 40px;
 }
 .footer-top > p {
-    font-size: 12px;
+    font-size: 0.8125rem;
 }
 .footer-links {
     display: flex;
@@ -780,7 +785,7 @@ svg {
     gap: 22px;
     border-block: 1px solid var(--line);
     padding: 22px 0;
-    font-size: 10px;
+    font-size: 0.8125rem;
     color: var(--muted);
 }
 .text-button {
@@ -798,7 +803,7 @@ svg {
     justify-content: space-between;
     gap: 20px;
     padding-top: 20px;
-    font-size: 9px;
+    font-size: 0.8125rem;
     color: #62665d;
 }
 .page-heading {
@@ -889,7 +894,7 @@ svg {
     margin-top: 0;
 }
 .pricing-card > p {
-    font-size: 12px;
+    font-size: 0.8125rem;
     line-height: 1.9;
 }
 .pricing-card .button {
@@ -911,7 +916,7 @@ svg {
     margin-bottom: 14px;
 }
 .information-grid p {
-    font-size: 12px;
+    font-size: 0.8125rem;
     line-height: 1.9;
 }
 .prose {
@@ -949,7 +954,7 @@ svg {
 .prose table {
     border-collapse: collapse;
     width: 100%;
-    font-size: 12px;
+    font-size: 0.8125rem;
 }
 .prose td,
 .prose th {
@@ -960,7 +965,7 @@ svg {
     padding: 16px 20px;
     border: 1px solid var(--line);
     background: var(--wash);
-    font-size: 12px;
+    font-size: 0.8125rem;
 }
 .wide-process {
     max-width: 800px;
@@ -985,7 +990,7 @@ svg {
     margin: 15px 0;
 }
 .article-card p {
-    font-size: 12px;
+    font-size: 0.8125rem;
 }
 
 .article-card .arrow-link {
@@ -1027,7 +1032,7 @@ svg {
 }
 .field label,
 legend {
-    font-size: 12px;
+    font-size: 0.8125rem;
     font-weight: 600;
 }
 .field input,
@@ -1047,7 +1052,7 @@ legend {
 }
 .field small {
     color: var(--muted);
-    font-size: 10px;
+    font-size: 0.8125rem;
     line-height: 1.7;
 }
 .field input:focus,
@@ -1059,7 +1064,7 @@ legend {
     display: flex;
     gap: 10px;
     align-items: flex-start;
-    font-size: 11px;
+    font-size: 0.8125rem;
     line-height: 1.8;
     color: #555c4c;
     font-weight: 400;
@@ -1077,7 +1082,7 @@ legend {
     text-underline-offset: 3px;
 }
 .form-links {
-    font-size: 11px;
+    font-size: 0.8125rem;
     margin-top: 25px;
     display: flex;
     flex-direction: column;
@@ -1089,17 +1094,17 @@ legend {
     text-underline-offset: 4px;
 }
 .small-note {
-    font-size: 11px;
+    font-size: 0.8125rem;
     margin-top: 18px;
 }
 .form-error {
-    font-size: 12px;
+    font-size: 0.8125rem;
     color: #9b3024;
     background: #fcf3f1;
     padding: 12px;
 }
 .form-success {
-    font-size: 12px;
+    font-size: 0.8125rem;
     color: #34532a;
     background: #f0f5eb;
     padding: 12px;
@@ -1149,14 +1154,14 @@ legend {
     margin: 0 0 10px;
 }
 .consent p {
-    font-size: 11px;
+    font-size: 0.8125rem;
     line-height: 1.8;
 }
 .consent .check {
     margin: 15px 0 8px;
 }
 .consent a {
-    font-size: 10px;
+    font-size: 0.8125rem;
     text-decoration: underline;
 }
 .consent-actions {
@@ -1166,7 +1171,7 @@ legend {
     flex-wrap: wrap;
 }
 .consent-actions .button {
-    font-size: 10px;
+    font-size: 0.8125rem;
     padding: 10px 13px;
     min-height: 41px;
 }
@@ -1201,7 +1206,7 @@ legend {
     margin: 20px 0;
 }
 .booking-summary p {
-    font-size: 12px;
+    font-size: 0.8125rem;
 }
 .booking-summary .check {
     margin-top: 18px;
@@ -1221,7 +1226,7 @@ legend {
     border: 1px solid var(--line);
     padding: 10px 7px;
     text-align: center;
-    font-size: 12px;
+    font-size: 0.8125rem;
     cursor: pointer;
 }
 .slot input {
@@ -1278,7 +1283,7 @@ legend {
     gap: 3px;
 }
 .portal-sidebar nav a {
-    font-size: 11px;
+    font-size: 0.8125rem;
     padding: 10px 12px;
     border-radius: 3px;
     display: flex;
@@ -1297,11 +1302,11 @@ legend {
 .portal-sidebar > .sidebar-footer {
     margin-top: auto;
     padding-top: 25px;
-    font-size: 10px;
+    font-size: 0.8125rem;
     color: var(--muted);
 }
 .sidebar-footer .button {
-    font-size: 10px;
+    font-size: 0.8125rem;
     min-height: 35px;
     padding: 7px 12px;
     width: 100%;
@@ -1317,7 +1322,7 @@ legend {
     justify-content: space-between;
     align-items: center;
     background: white;
-    font-size: 11px;
+    font-size: 0.8125rem;
 }
 .portal-user {
     display: flex;
@@ -1333,7 +1338,7 @@ legend {
     border: 1px solid var(--line);
     background: var(--wash);
     border-radius: 50%;
-    font-size: 10px;
+    font-size: 0.8125rem;
     font-weight: 650;
 }
 .portal-content {
@@ -1355,7 +1360,7 @@ legend {
     margin: 0 0 8px;
 }
 .portal-heading p {
-    font-size: 12px;
+    font-size: 0.8125rem;
 }
 .stat-grid {
     display: grid;
@@ -1369,7 +1374,7 @@ legend {
     padding: 22px;
 }
 .stat-card > span {
-    font-size: 10px;
+    font-size: 0.8125rem;
     color: var(--muted);
 }
 .stat-card strong {
@@ -1380,7 +1385,7 @@ legend {
     margin: 8px 0;
 }
 .stat-card p {
-    font-size: 10px;
+    font-size: 0.8125rem;
 }
 .portal-grid {
     display: grid;
@@ -1407,14 +1412,14 @@ legend {
     letter-spacing: -0.02em;
 }
 .panel-header a {
-    font-size: 10px;
+    font-size: 0.8125rem;
     color: var(--muted);
 }
 .panel h3 {
     font-size: 15px;
 }
 .panel p {
-    font-size: 12px;
+    font-size: 0.8125rem;
 }
 .panel + .panel {
     margin-top: 24px;
@@ -1428,13 +1433,13 @@ legend {
 .data-table {
     border-collapse: collapse;
     width: 100%;
-    font-size: 11px;
+    font-size: 0.8125rem;
     white-space: nowrap;
 }
 .data-table th {
     text-align: left;
     font-weight: 550;
-    font-size: 9px;
+    font-size: 0.8125rem;
     text-transform: uppercase;
     letter-spacing: 0.06em;
     padding: 16px 20px;
@@ -1460,7 +1465,7 @@ legend {
     padding: 3px 8px;
     background: #edf1e8;
     color: #4c5d3e;
-    font-size: 9px;
+    font-size: 0.8125rem;
     border: 1px solid #dce4d4;
     white-space: nowrap;
 }
@@ -1493,7 +1498,7 @@ legend {
     margin: 18px 0 12px;
 }
 .project-card p {
-    font-size: 12px;
+    font-size: 0.8125rem;
 }
 .project-card .status {
     margin-bottom: 10px;
@@ -1517,7 +1522,7 @@ legend {
     margin-top: 15px;
 }
 .record-actions .button {
-    font-size: 10px;
+    font-size: 0.8125rem;
     padding: 8px 12px;
     min-height: 34px;
 }
@@ -1546,12 +1551,12 @@ legend {
     background: #e9eee1;
 }
 .message p {
-    font-size: 12px;
+    font-size: 0.8125rem;
     white-space: pre-wrap;
     overflow-wrap: anywhere;
 }
 .message small {
-    font-size: 9px;
+    font-size: 0.8125rem;
     color: var(--muted);
 }
 .chat-compose {
@@ -1579,7 +1584,7 @@ legend {
     border: 0;
 }
 .row-list small {
-    font-size: 10px;
+    font-size: 0.8125rem;
     color: var(--muted);
 }
 .mobile-portal-menu {
@@ -1593,7 +1598,7 @@ legend {
 .plain-list {
     padding-left: 20px;
     color: var(--muted);
-    font-size: 12px;
+    font-size: 0.8125rem;
 }
 .plain-list li {
     margin: 12px 0;
@@ -1692,7 +1697,7 @@ address {
         position: relative;
     }
     .mobile-menu summary {
-        font-size: 12px;
+        font-size: 0.8125rem;
         cursor: pointer;
         padding: 10px;
     }
@@ -1708,20 +1713,20 @@ address {
         display: flex;
         flex-direction: column;
         gap: 14px;
-        font-size: 12px;
+        font-size: 0.8125rem;
     }
     .hero {
         grid-template-columns: 1.1fr 1fr;
     }
     .hero .lead {
-        font-size: 12px;
+        font-size: 0.8125rem;
     }
     .micro-label {
-        font-size: 6px;
+        font-size: 0.8125rem;
     }
     .hero-detail {
         gap: 15px;
-        font-size: 8px;
+        font-size: 0.8125rem;
     }
     .service-card {
         padding: 23px;
@@ -1799,7 +1804,7 @@ address {
     }
     .mobile-portal-menu > summary {
         cursor: pointer;
-        font-size: 12px;
+        font-size: 0.8125rem;
     }
     .mobile-portal-menu nav {
         margin-top: 12px;
@@ -1821,7 +1826,7 @@ address {
         width: calc(100% - 40px);
     }
     .preview-note {
-        font-size: 8px;
+        font-size: 0.8125rem;
         padding: 6px 15px;
     }
     .site-header {
@@ -1844,21 +1849,21 @@ address {
         margin-top: 24px;
     }
     .hero-cta .button {
-        font-size: 11px;
+        font-size: 0.8125rem;
         padding: 13px 17px;
         gap: 14px;
     }
     .hero-cta > span {
         max-width: 100px;
-        font-size: 8px;
+        font-size: 0.8125rem;
     }
     .hero-detail {
         margin-top: 25px;
-        font-size: 9px;
+        font-size: 0.8125rem;
         gap: 20px;
     }
     .micro-label {
-        font-size: 7px;
+        font-size: 0.8125rem;
     }
     .audience-strip {
         padding-block: 22px;
@@ -1875,7 +1880,7 @@ address {
         font-size: 38px;
     }
     .section-heading > p {
-        font-size: 12px;
+        font-size: 0.8125rem;
     }
     .service-grid {
         grid-template-columns: 1fr 1fr;
@@ -1893,7 +1898,7 @@ address {
         font-size: 14px;
     }
     .service-card p {
-        font-size: 10px;
+        font-size: 0.8125rem;
     }
     .service-card h2 {
         font-size: 27px;
@@ -1907,7 +1912,7 @@ address {
         font-size: 36px;
     }
     .approach p {
-        font-size: 12px;
+        font-size: 0.8125rem;
     }
     .process-list li {
         padding-block: 22px;
@@ -1934,19 +1939,19 @@ address {
         grid-template-columns: 1fr;
     }
     .footer-top > p {
-        font-size: 10px;
+        font-size: 0.8125rem;
     }
     .footer-top > .arrow-link {
         margin: 0;
         grid-column: 1/-1;
-        font-size: 11px;
+        font-size: 0.8125rem;
     }
     .footer-links {
         gap: 15px 20px;
-        font-size: 10px;
+        font-size: 0.8125rem;
     }
     .footer-bottom {
-        font-size: 8px;
+        font-size: 0.8125rem;
         flex-direction: column;
         gap: 5px;
     }
@@ -2032,7 +2037,7 @@ address {
     }
     .consent-actions .button {
         padding: 10px 12px;
-        font-size: 9px;
+        font-size: 0.8125rem;
         flex: 1;
         justify-content: center;
         white-space: nowrap;
@@ -2042,7 +2047,7 @@ address {
     }
     .portal-topbar {
         padding-inline: 20px;
-        font-size: 10px;
+        font-size: 0.8125rem;
     }
     .portal-content {
         padding: 26px 20px;
@@ -2066,10 +2071,10 @@ address {
         font-size: 29px;
     }
     .stat-card > span {
-        font-size: 9px;
+        font-size: 0.8125rem;
     }
     .stat-card p {
-        font-size: 9px;
+        font-size: 0.8125rem;
     }
     .portal-grid,
     .project-list {
@@ -2096,7 +2101,7 @@ address {
         grid-template-columns: repeat(4, 1fr);
     }
     .slot {
-        font-size: 11px;
+        font-size: 0.8125rem;
     }
     .mobile-portal-menu nav {
         grid-template-columns: repeat(2, 1fr);
@@ -2138,7 +2143,7 @@ address {
         font-size: 16px;
     }
     .check {
-        font-size: 12px;
+        font-size: 0.8125rem;
     }
     .slot {
         min-height: 44px;
@@ -2148,10 +2153,10 @@ address {
     }
     .mobile-portal-menu nav a {
         min-height: 44px;
-        font-size: 12px;
+        font-size: 0.8125rem;
     }
     .service-card p {
-        font-size: 12px;
+        font-size: 0.8125rem;
     }
     .service-card h3 {
         font-size: 16px;
@@ -2172,7 +2177,7 @@ address {
     text-underline-offset: 4px;
 }
 .footer-links a[href="/widerruf"] {
-    font-size: 12px;
+    font-size: 0.8125rem;
     font-weight: 650;
     color: var(--ink);
     border-bottom: 1px solid var(--ink);
@@ -2181,7 +2186,7 @@ address {
 .record-meta {
     display: block;
     color: var(--muted);
-    font-size: 12px;
+    font-size: 0.8125rem;
     line-height: 1.6;
     margin-block: 8px;
 }
@@ -2207,7 +2212,7 @@ address {
 .service-package-grid .price-amount > span:last-child {
     display: block;
     margin: 6px 0 0;
-    font-size: 12px;
+    font-size: 0.8125rem;
 }
 .package-scope {
     margin: 6px 0 25px;
@@ -2509,7 +2514,7 @@ address {
     gap: 7px;
     align-items: center;
     min-height: 44px;
-    font-size: 12px;
+    font-size: 0.8125rem;
     padding: 8px 2px;
     color: var(--muted);
     border-bottom: 2px solid transparent;
@@ -2558,7 +2563,7 @@ address {
 }
 .portal-overview-list .admin-sender {
     color: var(--muted);
-    font-size: 12px;
+    font-size: 0.8125rem;
     margin-bottom: 12px;
 }
 .portal-overview-list a {
@@ -2567,10 +2572,10 @@ address {
     padding-top: 12px;
     text-decoration: underline;
     text-underline-offset: 4px;
-    font-size: 12px;
+    font-size: 0.8125rem;
 }
 .portal-overview-list time {
-    font-size: 11px;
+    font-size: 0.8125rem;
     color: var(--muted);
 }
 .admin-record-heading {
@@ -2640,7 +2645,7 @@ address {
         gap: 3px;
         min-height: 48px;
         padding: 4px 2px;
-        font-size: 10px;
+        font-size: 0.8125rem;
         justify-content: center;
     }
     .portal-compact .portal-main {
@@ -2671,7 +2676,7 @@ address {
         gap: 12px;
     }
     .portal-section-select label {
-        font-size: 11px;
+        font-size: 0.8125rem;
         color: var(--muted);
     }
     .portal-section-select select {
@@ -2689,7 +2694,7 @@ address {
     .portal-mobile-logout .button {
         min-height: 36px;
         padding: 7px 10px;
-        font-size: 10px;
+        font-size: 0.8125rem;
     }
     .admin-record-heading {
         display: block;
@@ -2720,9 +2725,9 @@ address {
 .month-picker button { min-width:0; min-height:44px; background:#fff; border:1px solid transparent; color:var(--ink); cursor:pointer; font:inherit; }
 .month-picker button:hover:not(:disabled) { border-color:var(--ink); }
 .month-picker button:disabled { color:#92968c; cursor:default; }
-.weekday-label { text-align:center; color:var(--muted); font-size:12px; padding:8px 0; }
+.weekday-label { text-align:center; color:var(--muted); font-size:0.8125rem; padding:8px 0; }
 .month-picker [aria-pressed=true],.slot-grid [aria-pressed=true],.calendar-view-tabs [aria-pressed=true],.calendar-auth-tabs [aria-pressed=true] { color:#fff; background:var(--ink); }
-.calendar-timezone { font-size:12px; color:var(--muted); margin:0 0 18px; }
+.calendar-timezone { font-size:0.8125rem; color:var(--muted); margin:0 0 18px; }
 .slot-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; }
 .slot-grid .button { padding:10px 4px; min-width:0; min-height:44px; justify-content:center; }
 .slot-grid p { grid-column:1/-1; }
@@ -2731,7 +2736,7 @@ address {
 .calendar-page label:not(.check),.calendar-date-controls label { display:flex; flex-direction:column; gap:8px; font-size:13px; min-width:0; }
 .calendar-page input:not([type=checkbox]),.calendar-page textarea,.calendar-date-controls input { width:100%; max-width:100%; min-width:0; border:1px solid var(--line); border-radius:0; padding:12px; background:#fff; font:inherit; color:var(--ink); }
 .calendar-page input[type=checkbox] { flex-shrink:0; }
-.calendar-page .check { flex-wrap:wrap; font-size:12px; line-height:1.6; }
+.calendar-page .check { flex-wrap:wrap; font-size:0.8125rem; line-height:1.6; }
 .calendar-page .check a { text-decoration:underline; }
 .calendar-page .form-row { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
 .calendar-auth-tabs,.calendar-view-tabs { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
@@ -2749,9 +2754,9 @@ address {
 .crm-grid.crm-day { display:block; padding:0; }
 .crm-day.is-today { background:#f4f6f2; }
 .calendar-day-label { display:block; width:100%; text-align:left; background:transparent; border:0; font:inherit; padding:4px; min-height:36px; cursor:pointer; }
-.calendar-event { display:flex; flex-direction:column; align-items:flex-start; text-align:left; gap:3px; width:100%; min-width:0; padding:8px; margin-top:6px; border:1px solid var(--line); background:#f1f3ee; border-left:3px solid var(--ink); color:var(--ink); font:inherit; font-size:12px; cursor:pointer; overflow-wrap:anywhere; }
+.calendar-event { display:flex; flex-direction:column; align-items:flex-start; text-align:left; gap:3px; width:100%; min-width:0; padding:8px; margin-top:6px; border:1px solid var(--line); background:#f1f3ee; border-left:3px solid var(--ink); color:var(--ink); font:inherit; font-size:0.8125rem; cursor:pointer; overflow-wrap:anywhere; }
 .calendar-event time { font-weight:600; }
-.calendar-event small { color:var(--muted); font-size:10px; }
+.calendar-event small { color:var(--muted); font-size:0.8125rem; }
 .event-cancelled,.event-expired { opacity:.6; background:#fff; border-left-style:dotted; }
 .event-completed { background:#fff; }
 .calendar-agenda { display:grid; gap:10px; }
@@ -2766,7 +2771,7 @@ address {
 .calendar-dialog details { width:100%; }
 .calendar-intervals { display:grid; gap:16px; margin-top:24px; }
 .calendar-intervals article { border-top:1px solid var(--line); padding-top:16px; overflow-wrap:anywhere; }
-.calendar-empty { font-size:12px; color:var(--muted); }
+.calendar-empty { font-size:0.8125rem; color:var(--muted); }
 .legal-prose,.page-body,.portal-main,.portal-content,.auth-layout>* { min-width:0; }
 .legal-prose { max-width:850px; font-size:15px; line-height:1.8; overflow-wrap:anywhere; }
 .legal-prose address { font-style:normal; padding-block:8px 24px; }
@@ -2790,7 +2795,7 @@ address {
  .calendar-page input:not([type=checkbox]),.calendar-page textarea { font-size:16px; }
  .crm-month .crm-day { padding:3px; min-height:76px; }
  .crm-month .calendar-day-label { text-align:center; padding:2px; }
- .crm-month .calendar-event { padding:4px 1px; border-left-width:2px; font-size:10px; align-items:center; min-height:30px; }
+ .crm-month .calendar-event { padding:4px 1px; border-left-width:2px; font-size:0.8125rem; align-items:center; min-height:30px; }
  .crm-month .calendar-event span,.crm-month .calendar-event small { display:none; }
  .calendar-agenda>button { grid-template-columns:minmax(0,1fr); gap:6px; }
  .calendar-dialog { padding:20px; }
@@ -2839,7 +2844,7 @@ address {
     padding: 0;
     margin: 24px 0 0;
     color: var(--muted);
-    font-size: 11px;
+    font-size: 0.8125rem;
     line-height: 1.6;
 }
 .service-category-grid,
@@ -2867,7 +2872,7 @@ address {
 }
 .service-category .service-subjects {
     color: var(--muted);
-    font-size: 12px;
+    font-size: 0.8125rem;
     margin: 14px 0 22px;
 }
 .service-category ul {
@@ -2896,7 +2901,7 @@ address {
 }
 .service-category small {
     display: block;
-    font-size: 12px;
+    font-size: 0.8125rem;
     margin-top: 8px;
     color: var(--muted);
 }
@@ -2904,26 +2909,23 @@ address {
     border: 1px solid var(--line);
     padding: 26px;
     min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 .example-grid h3 {
     font-size: 21px;
     line-height: 1.4;
-    margin: 0 0 24px;
+    margin: 0 0 16px;
 }
-.example-grid dl {
-    font-size: 13px;
-    line-height: 1.8;
-}
-.example-grid dt {
-    font-weight: 600;
-    margin-top: 20px;
-}
-.example-grid dd {
-    margin: 5px 0 0;
-    color: var(--muted);
+.example-grid p {
+    font-size: 0.9375rem;
+    line-height: 1.7;
 }
 .example-grid .arrow-link {
     font-size: 13px;
+    margin-top: auto;
+    padding-top: 16px;
 }
 .portal-benefits-section {
     background: var(--wash);
@@ -3030,10 +3032,10 @@ address {
     }
     .site-header > nav {
         gap: 12px;
-        font-size: 10px;
+        font-size: 0.8125rem;
     }
     .header-actions .button {
-        font-size: 10px;
+        font-size: 0.8125rem;
         padding-inline: 12px;
     }
 }
@@ -3204,7 +3206,7 @@ address {
 .search-question { border-top:1px solid var(--line); }
 .search-question summary { cursor:pointer; padding:18px 0; min-height:48px; font-size:16px; line-height:1.65; }
 .search-question p { padding:0 0 22px; }
-.search-editorial { border-top:1px solid var(--line); padding-top:24px; font-size:12px; }
+.search-editorial { border-top:1px solid var(--line); padding-top:24px; font-size:0.8125rem; }
 .search-editorial a { text-decoration:underline; }
 .search-related { padding-block:32px 64px; border-top:1px solid var(--line); }
 .search-related h2 { font-size:28px; margin-bottom:20px; }
