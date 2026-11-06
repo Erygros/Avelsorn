@@ -360,6 +360,16 @@ export async function PortalShell({
                 </header>
                 <main id="main" className="portal-content">
                     {children}
+                    {!admin && (
+                        <div className="portal-withdrawal">
+                            <Link
+                                className="button withdrawal-link"
+                                href="/widerruf"
+                            >
+                                Vertrag widerrufen
+                            </Link>
+                        </div>
+                    )}
                 </main>
             </div>
         </div>

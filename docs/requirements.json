@@ -12773,5 +12773,19 @@
       }
     ],
     "releaseNote": "Technik und Inhalte sind seit dem 06.11.2026 veröffentlicht und live geprüft. Die Arbeit mit Google Search Console und Bing Webmaster Tools ist auf Wunsch des Inhabers verschoben."
+  },
+  {
+    "id": 57,
+    "title": "Widerruf, Angebotsannahme, Datenschutz, Altersregeln und Preishinweis",
+    "status": "erledigt",
+    "source": "Nutzerziel vom 06.11.2026",
+    "acceptance": [
+      { "id": "57.1", "text": "Widerruf hervorheben und Bestätigungs-E-Mail testen.", "status": "erledigt", "evidence": ["tests/output/legal-enhancements-qa.json und legal-enhancements-browser.json."] },
+      { "id": "57.2", "text": "Zahlungspflichtige Angebotsannahme rechtlich und technisch prüfen.", "status": "erledigt", "evidence": ["Amtlicher Abgleich in docs/WITHDRAWAL_CHECKOUT_PRIVACY.md; HTTP-Annahme, Ablehnung fehlerhafter Erklärung und Vertragsbestätigung in legal-enhancements-qa.json."] },
+      { "id": "57.3", "text": "Datenschutzhinweise mit der tatsächlichen Backend-Verarbeitung abgleichen.", "status": "erledigt", "evidence": ["Datenflussmatrix in docs/WITHDRAWAL_CHECKOUT_PRIVACY.md; Backendfelder und Statistikfilter; keine produktiven CMS-Überschreibungen laut legal-production-inventory.json."] },
+      { "id": "57.4", "text": "Altersregeln und Beratungszeiten vereinheitlichen.", "status": "erledigt", "evidence": ["Gemeinsame Texte in booking-policy.ts; Altersgrenze und Berliner Stichtag in tests/platform.test.ts; Gastprüfung und Kalendertext im HTTP-Test."] },
+      { "id": "57.5", "text": "Kleinunternehmer-Hinweis direkt auf der Preisseite.", "status": "erledigt", "evidence": ["Reihenfolge im Preisseiten-Rendering und Abruf bei zwei Breiten geprüft."] }
+    ],
+    "releaseNote": "Implementiert und isoliert geprüft. Die Freigabe für eine produktive Veröffentlichung steht aus."
   }
 ]

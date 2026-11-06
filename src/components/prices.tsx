@@ -9,6 +9,11 @@ import {
 export function Prices() {
     return (
         <>
+            <p className="quiet-panel price-tax-note">
+                Für diese Leistungen gilt die Steuerbefreiung für
+                Kleinunternehmer gemäß § 19 UStG. Umsatzsteuer wird nicht
+                gesondert ausgewiesen.
+            </p>
             <div className="pricing-grid service-package-grid">
                 {servicePackages.map((p) => (
                     <article

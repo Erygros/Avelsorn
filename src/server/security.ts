@@ -174,16 +174,30 @@ export async function requireUser(admin = false) {
         );
     return user;
 }
-export function isMinor(
+function ageReached(
     user: Pick<User, "birthDate">,
-    at = new Date(),
+    years: number,
+    at: Date,
 ): boolean {
-    const birth = new Date(user.birthDate + "T00:00:00Z");
-    const adult = new Date(birth);
-    adult.setUTCFullYear(adult.getUTCFullYear() + 18);
-    return adult > at;
+    const birthday = new Date(user.birthDate + "T00:00:00Z");
+    birthday.setUTCFullYear(birthday.getUTCFullYear() + years);
+    const berlinDay = new Intl.DateTimeFormat("en-CA", {
+        timeZone: "Europe/Berlin",
+    }).format(at);
+    return birthday.toISOString().slice(0, 10) <= berlinDay;
+}
+export function isMinor(user: Pick<User, "birthDate">, at = new Date()) {
+    return !ageReached(user, 18, at);
+}
+export function assertAccountAge(user: Pick<User, "birthDate">) {
+    assert(
+        ageReached(user, 7, new Date()),
+        "Für Kinder unter sieben Jahren handelt die gesetzliche Vertretung über die eigenen Kontaktdaten.",
+        422,
+    );
 }
 export function readyCustomer(user: User, paid = false) {
+    assertAccountAge(user);
     assert(user.verifiedAt, "Bestätige zuerst Deine E-Mail-Adresse.", 403);
     assert(user.onboardingAt, "Schließe zuerst Deinen Fragebogen ab.", 422);
     if (isMinor(user))

@@ -24,6 +24,7 @@ export function ActionForm({
     success = "Gespeichert.",
     redirect,
     children,
+    exactSubmit = false,
 }: {
     action: string;
     fields?: Field[];
@@ -32,6 +33,7 @@ export function ActionForm({
     success?: string;
     redirect?: string;
     children?: React.ReactNode;
+    exactSubmit?: boolean;
 }) {
     const [busy, setBusy] = useState(false);
     const [message, setMessage] = useState("");
@@ -183,9 +185,14 @@ export function ActionForm({
                 </div>
             ))}
             {children}
-            <button className="button primary" disabled={busy} type="submit">
-                {busy ? "Wird verarbeitet …" : submit}
-                <span aria-hidden="true">↗</span>
+            <button
+                className="button primary"
+                disabled={busy}
+                aria-busy={busy}
+                type="submit"
+            >
+                {busy && !exactSubmit ? "Wird verarbeitet …" : submit}
+                {!exactSubmit && <span aria-hidden="true">↗</span>}
             </button>
             {message && (
                 <p

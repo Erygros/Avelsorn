@@ -13,6 +13,7 @@ export const guestInput = introDetails.omit({ company: true }).extend({
     topic: z.string().trim().min(3, "Beschreibe Dein Anliegen kurz.").max(2000),
     startsAt: z.iso.datetime(),
     terms: z.literal(true),
+    adultOrRepresentative: z.literal(true),
     requestId: z.uuid(),
     website: z.string().max(0).optional(),
 });

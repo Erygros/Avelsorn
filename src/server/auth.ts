@@ -4,6 +4,7 @@ import { db, type Db } from "./db";
 import { users, sessions, tokens, guardianConsents } from "./schema";
 import {
     assert,
+    assertAccountAge,
     audit,
     digest,
     isMinor,
@@ -140,6 +141,7 @@ export async function register(input: unknown) {
         new Date(data.birthDate) < new Date(),
         "Bitte prüfe Dein Geburtsdatum.",
     );
+    assertAccountAge(data);
     await limit("register:" + data.email, 5, 3600);
     return db().transaction(async (tx) => {
         await lock("identity", tx);

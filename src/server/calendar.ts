@@ -16,7 +16,15 @@ import {
     notifications,
     type User,
 } from "./schema";
-import { assert, audit, lock, readyCustomer, owns, isMinor } from "./security";
+import {
+    assert,
+    assertAccountAge,
+    audit,
+    lock,
+    readyCustomer,
+    owns,
+    isMinor,
+} from "./security";
 import { products, price, type ProductKey, berlin } from "./config";
 import { notify, notifyAdmin, queueMail } from "./events";
 import { randomUUID } from "node:crypto";
@@ -246,6 +254,7 @@ export async function book(user: User, input: BookingInput, actorId = user.id) {
         "Pakete werden als eigenständige Leistung bestellt. Buche einen Beratungstermin anschließend aus Deinem aktiven Paket.",
     );
     if (input.product === "intro") {
+        assertAccountAge(user);
         assert(user.verifiedAt, "Bestätige zuerst Deine E-Mail-Adresse.", 403);
         assert(
             !isMinor(user) || user.guardianApprovedAt,

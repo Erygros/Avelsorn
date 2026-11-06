@@ -4,7 +4,7 @@ import { db, type Db } from "./db";
 import { pages, orders, outbox, type User, type DocumentItem } from "./schema";
 import { business } from "./settings";
 import { legal } from "../content/legal";
-import { money, berlin } from "./config";
+import { baseUrl, money, berlin } from "./config";
 import { digest, assert } from "./security";
 import { notify } from "./events";
 import { fromZonedTime, formatInTimeZone } from "date-fns-tz";
@@ -148,7 +148,10 @@ export async function captureContractTerms(
                   .join("\n\n");
     };
     const terms = await text("agb");
-    const withdrawal = await text("widerrufsbelehrung");
+    const withdrawal =
+        (await text("widerrufsbelehrung")) +
+        "\n\nElektronische Widerrufsfunktion: " +
+        new URL("/widerruf", baseUrl()).href;
     const withdrawalForm = `Muster-Widerrufsformular\nAn ${provider.legal_full_name} (Avelsorn), ${provider.business_street}, ${provider.business_postcode} ${provider.business_city}, ${provider.contact_email}.\nHiermit widerrufe ich den von mir abgeschlossenen Vertrag über die Erbringung der folgenden Dienstleistung:\nBezeichnung der Dienstleistung und gegebenenfalls Bestellnummer:\nBestellt am:\nName und Anschrift des Verbrauchers:\nDatum und Unterschrift des Verbrauchers (nur bei Mitteilung auf Papier).`;
     return {
         capturedAt: new Date().toISOString(),

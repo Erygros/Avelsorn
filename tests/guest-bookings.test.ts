@@ -43,6 +43,7 @@ const input = (
     topic: "Eine Website für meinen Betrieb",
     startsAt,
     terms: true,
+    adultOrRepresentative: true,
     requestId: randomUUID(),
 });
 beforeAll(async () => {

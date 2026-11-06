@@ -2167,15 +2167,26 @@ address {
 }
 
 .withdrawal-link {
-    font-weight: 650 !important;
-    text-decoration: underline !important;
-    text-underline-offset: 4px;
-}
-.footer-links a[href="/widerruf"] {
-    font-size: 12px;
     font-weight: 650;
-    color: var(--ink);
-    border-bottom: 1px solid var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    min-height: 44px;
+}
+.footer-withdrawal,
+.portal-withdrawal {
+    margin-block: 16px;
+}
+.offer-review {
+    min-width: 0;
+    max-width: 34rem;
+    overflow-wrap: anywhere;
+}
+.offer-review ul {
+    padding-inline-start: 1.25rem;
+    list-style: disc;
+}
+.price-tax-note {
+    margin-bottom: 24px;
 }
 
 .record-meta {

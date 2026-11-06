@@ -1,3 +1,9 @@
+import {
+    consultationHours,
+    minorAccountPolicy,
+    minorGuestPolicy,
+} from "./booking-policy";
+
 export const legal: Record<
     string,
     {
@@ -39,15 +45,19 @@ export const legal: Record<
             },
             {
                 title: "Erstgespräch ohne Kundenkonto",
-                text: "Für eine Gastbuchung verarbeiten wir Vorname, Nachname, E-Mail-Adresse, Telefonnummer, Dein Anliegen und den ausgewählten Termin, um das angeforderte Erstgespräch durchzuführen, Änderungen zu ermöglichen und Bestätigungen sowie Erinnerungen per E-Mail zu versenden. Es entsteht kein Kundenkonto. Grundlage ist die Bearbeitung Deiner Anfrage nach Art. 6 Abs. 1 Buchst. b DSGVO. Die Administration sieht den Termin im geschützten Kalender; der separate private E-Mail-Hinweis enthält nur den Eingang einer Anfrage. Der persönliche Zugangslink berechtigt zur Einsicht, Verschiebung und Absage dieses Termins und gilt bis 30 Tage nach dem aktuell gebuchten Termin. Gib ihn nicht weiter. Für Auskunft, Berichtigung oder Löschung kannst Du Dich an die hier genannten Kontaktdaten wenden. Die allgemeinen Aufbewahrungskriterien für Anfragen gelten auch für Gastbuchungen.",
+                text: "Für die Gastbuchung benötigen wir Vorname, Nachname, E-Mail-Adresse, Telefonnummer, eine kurze Beschreibung des Anliegens und den gewünschten Termin. Die Buchung setzt die Bestätigung voraus, dass die buchende Person volljährig ist und für sich selbst oder als gesetzliche Vertretung handelt. Gib im Anliegen keine vertraulichen Daten Dritter an. Wir nutzen die Angaben für das Erstgespräch, Terminänderungen, Bestätigung und Erinnerungen (Art. 6 Abs. 1 Buchst. b DSGVO). Es entsteht kein Kundenkonto. Die Administration sieht den Termin im geschützten Kalender. Der private E-Mail-Hinweis meldet nur den Eingang. Der persönliche Link ermöglicht Einsicht, Verschiebung und Absage und ist bis 30 Tage nach dem aktuell gebuchten Termin gültig. Gib ihn nicht weiter. Der Ablauf des Links beendet den Zugriff. Für die Daten gelten die unten genannten Aufbewahrungskriterien für Anfragen.",
             },
             {
                 title: "Konto und Sicherheit",
-                text: "Zur Kontoführung verarbeiten wir Name, E-Mail-Adresse, Geburtsdatum, Passwort-Hash und erforderliche Zustimmungsnachweise. Sitzungen, Einmalcodes und Sicherheitsprotokolle schützen Deinen Zugang. Das Geburtsdatum dient der Altersprüfung; bei Minderjährigen wird die erforderliche Zustimmung oder Vertretung gesondert geprüft.",
+                text: "Zur Kontoführung verarbeiten wir Name, E-Mail-Adresse, Geburtsdatum, Passwort-Hash und Zustimmungsnachweise (Art. 6 Abs. 1 Buchst. b DSGVO). Für Minderjährige verarbeiten wir außerdem Name, E-Mail-Adresse und Bestätigungen der gesetzlichen Vertretung. Unser berechtigtes Interesse ist die nachvollziehbare Prüfung der Vertretung und der Zustimmung zum konkreten Vertrag (Art. 6 Abs. 1 Buchst. f DSGVO). Sitzungsdaten, Einmalcodes, Zugriffslimits und Protokolle dienen nach derselben Vorschrift der Abwehr von Missbrauch und der Nachvollziehbarkeit sicherheitsrelevanter Vorgänge.",
             },
             {
                 title: "Beratung und Vertragsabwicklung",
-                text: "Fragebogen, Termine, Nachrichten, Projekte, Zeitnachweise, Dateien, Angebote, Bestellungen und Rechnungsdaten dienen der Vorbereitung und Durchführung der vereinbarten Leistungen. Für telefonische Termine benötigen wir Deine Rufnummer. Die Angabe eines Unternehmens und eine Beschreibung Deines Anliegens sind bei der Erstgesprächsbuchung freiwillig. Rechtsgrundlage ist Art. 6 Abs. 1 Buchst. b DSGVO; gesetzliche Dokumentationspflichten beruhen auf Art. 6 Abs. 1 Buchst. c DSGVO. Ohne die jeweils als erforderlich gekennzeichneten Angaben können wir das Konto, den Termin oder den Vertrag nicht bearbeiten. Es findet keine ausschließlich automatisierte Entscheidung mit rechtlicher oder ähnlich erheblicher Wirkung statt.",
+                text: "Fragebogen, Termine, Nachrichten, Projekte, Zeitnachweise, Dateien, Angebote, Bestellungen, Zahlungseingänge und Rechnungsdaten dienen der Vorbereitung und Durchführung der vereinbarten Leistungen. Für telefonische Termine benötigen wir Deine Rufnummer. Eine Unternehmensangabe ist freiwillig, sofern sie für den konkreten Vertrag nicht erforderlich ist. Rechtsgrundlage ist Art. 6 Abs. 1 Buchst. b DSGVO. Gesetzliche Dokumentationspflichten beruhen auf Art. 6 Abs. 1 Buchst. c DSGVO. Ohne die jeweils als erforderlich gekennzeichneten Angaben können wir das Konto, den Termin oder den Vertrag nicht bearbeiten. Es findet keine ausschließlich automatisierte Entscheidung mit rechtlicher oder ähnlich erheblicher Wirkung statt.",
+            },
+            {
+                title: "Vertragswiderruf",
+                text: "Für den elektronischen Widerruf erfassen wir Deinen Namen, die zur Bestätigung angegebene E-Mail-Adresse, die Vertragszuordnung, den Inhalt Deiner Erklärung sowie Datum und Uhrzeit des Eingangs. Wir senden Dir eine Bestätigung und bearbeiten den Widerruf in der geschützten Administration. Die Verarbeitung dient den gesetzlichen Pflichten nach § 356a BGB (Art. 6 Abs. 1 Buchst. c DSGVO) und der Abwicklung des Vertrags (Art. 6 Abs. 1 Buchst. b DSGVO). Wir speichern den Nachweis nach den unten genannten Aufbewahrungskriterien.",
             },
             {
                 title: "Empfänger und technische Dienste",
@@ -134,9 +144,10 @@ export const legal: Record<
                 title: "Terminänderung und Ausfall",
                 text: "Termine können im Kundenkonto oder bei einer Gastbuchung über den persönlichen Zugangslink bis zu ihrem Beginn verschoben werden, sofern ein passender Termin verfügbar ist. Absagen werden dokumentiert. Gesetzliche Rechte bleiben unberührt; individuelle Vergütungs- oder Erstattungsfragen werden anhand des konkreten Vertrags und anwendbaren Rechts geklärt.",
             },
+            { title: "Beratungszeiten", text: consultationHours },
             {
                 title: "Minderjährige",
-                text: "Soweit Registrierung, Einwilligung oder Vertrag eine Zustimmung beziehungsweise Vertretung durch Erziehungsberechtigte erfordern, wird diese überprüfbar eingeholt. Ohne erforderliche Zustimmung wird keine kostenpflichtige Bestellung freigegeben.",
+                text: minorAccountPolicy + " " + minorGuestPolicy,
             },
             {
                 title: "Finanzbildung und Fachgrenzen",
@@ -201,7 +212,7 @@ export const legal: Record<
             },
             {
                 title: "Optionale Statistiken",
-                text: "Besucherstatistiken werden nur nach aktiver Zustimmung nach § 25 Abs. 1 TDDDG und Art. 6 Abs. 1 Buchst. a DSGVO erhoben. Gespeichert werden die Anzahl von Seitenaufrufen pro Tag und öffentlichem Seitenpfad, ohne individuelles Bewegungsprofil in der Statistik. Konto-, Admin- und Anmeldeseiten werden nicht gezählt. Es gibt keine externe Google-Analytics-Integration. Ablehnung und Zustimmung sind direkt erreichbar.",
+                text: "Besucherstatistiken werden nur nach aktiver Zustimmung nach § 25 Abs. 1 TDDDG und Art. 6 Abs. 1 Buchst. a DSGVO erhoben. Gespeichert werden die Anzahl von Seitenaufrufen pro Tag und öffentlichem Seitenpfad, ohne individuelles Bewegungsprofil in der Statistik. Konto-, Admin- und Anmeldeseiten sowie Gast-Terminverwaltung und Terminbestätigung werden nicht gezählt. Es gibt keine externe Google-Analytics-Integration. Ablehnung und Zustimmung sind direkt erreichbar.",
             },
             {
                 title: "Lokale Speicherung im Browser",

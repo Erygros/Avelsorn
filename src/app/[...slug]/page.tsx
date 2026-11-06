@@ -27,6 +27,8 @@ import { searchMetadata } from "@/content/search/structured";
 import { articleSearchLinks } from "@/content/search/service-links";
 import { SearchLanding, SearchHub } from "@/components/search-content";
 import { JsonLd } from "@/components/json-ld";
+import { withdrawalDeclaration } from "@/content/withdrawal";
+import { consultationHours, minorGuestPolicy } from "@/content/booking-policy";
 
 const authTitles: Record<string, string> = {
     anmelden: "Anmelden",
@@ -290,6 +292,7 @@ export default async function PublicPage({ params, searchParams }: Props) {
                                 Telefonnummer und Dein Anliegen an. Ein
                                 Kundenkonto ist dafür nicht erforderlich.
                             </p>
+                            <p>{minorGuestPolicy}</p>
                         </div>
                     </li>
                     <li>
@@ -307,6 +310,7 @@ export default async function PublicPage({ params, searchParams }: Props) {
                 <aside className="quiet-panel">
                     <h2>Termin auswählen</h2>
                     <p className="offer-facts">15 Minuten · 0 €</p>
+                    <p>{consultationHours}</p>
                     <p>
                         Eine kurze Beschreibung Deiner Aufgabe reicht für das
                         Gespräch. Notiere gern, welche Fragen Du klären
@@ -525,8 +529,15 @@ export default async function PublicPage({ params, searchParams }: Props) {
                         )}
                     {values.contact_hours &&
                         !values.contact_hours.includes("{{") && (
-                            <p className="mt-4 mb-8">{values.contact_hours}</p>
+                            <p className="mt-4 mb-8">
+                                Telefonische Erreichbarkeit:{" "}
+                                {values.contact_hours}
+                            </p>
                         )}
+                    <p>
+                        {consultationHours}{" "}
+                        <Link href="/kalender">Freie Termine ansehen</Link>
+                    </p>
                     <h2>Kostenloses Erstgespräch</h2>
                     <p>
                         Wenn Du zunächst klären möchtest, ob ich Deine Aufgabe
@@ -578,6 +589,7 @@ export default async function PublicPage({ params, searchParams }: Props) {
                             !values.contact_hours.includes("{{") && (
                                 <>
                                     <br />
+                                    Telefonische Erreichbarkeit:{" "}
                                     {values.contact_hours}
                                 </>
                             )}
@@ -654,14 +666,14 @@ export default async function PublicPage({ params, searchParams }: Props) {
                     </section>
                 )}
                 {["widerrufsbelehrung", "agb"].includes(path) && (
-                    <Link className="button" href="/widerruf">
-                        Vertrag widerrufen ↗
+                    <Link className="button withdrawal-link" href="/widerruf">
+                        Vertrag widerrufen
                     </Link>
                 )}
             </div>
         );
     } else if (path === "widerruf" || path === "widerrufsformular") {
-        title = "Vertrag widerrufen.";
+        title = "Vertrag widerrufen";
         intro =
             "Du kannst Deinen Widerruf hier elektronisch erklären. Prüfe Deine Angaben, bevor Du die eindeutige Erklärung absendest.";
 
@@ -689,14 +701,20 @@ export default async function PublicPage({ params, searchParams }: Props) {
                         },
                         {
                             name: "statement",
-                            label: "Ergänzende Erklärung (optional)",
+                            label: "Ergänzung zu Deinem Widerruf (optional)",
                             type: "textarea",
-                            value: "Hiermit widerrufe ich den von mir abgeschlossenen Vertrag über die oben bezeichnete Dienstleistung.",
                         },
                     ]}
                     submit="Widerruf bestätigen"
+                    exactSubmit
                     success="Dein Widerruf wurde dokumentiert. Die Eingangsbestätigung wurde für den Versand bereitgestellt."
-                />
+                >
+                    <p>
+                        <strong>Deine Widerrufserklärung</strong>
+                        <br />
+                        {withdrawalDeclaration}
+                    </p>
+                </ActionForm>
                 <Link href="/widerrufsbelehrung" className="button mt-6">
                     Widerrufsbelehrung lesen
                 </Link>

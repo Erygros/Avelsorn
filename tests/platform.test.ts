@@ -12,6 +12,7 @@ import {
     passwordHash,
     passwordMatches,
     owns,
+    isMinor,
 } from "../src/server/security";
 import { book, slots, changeBooking, ics } from "../src/server/calendar";
 import {
@@ -75,6 +76,33 @@ import { verifyMeetingToken } from "../src/server/video";
 const local = new PGlite();
 const database = drizzle(local, { schema });
 let customer: schema.User, other: schema.User, admin: schema.User;
+it("verwendet für den 18. Geburtstag den Berliner Kalendertag", () => {
+    const person = { birthDate: "2008-06-01" };
+    expect(isMinor(person, new Date("2026-05-31T21:59:59Z"))).toBe(true);
+    expect(isMinor(person, new Date("2026-05-31T22:00:00Z"))).toBe(false);
+});
+it("lehnt eine eigene Registrierung unter sieben Jahren vor dem Speichern ab", async () => {
+    const child = new Date();
+    child.setUTCFullYear(child.getUTCFullYear() - 5);
+    const email = "unter-sieben@example.test";
+    await expect(
+        register({
+            name: "QA Kind",
+            email,
+            birthDate: child.toISOString().slice(0, 10),
+            password: "Test-Passwort-fuer-Kind",
+            terms: true,
+            guardianEmail: "vertretung@example.test",
+            guardianName: "QA Vertretung",
+        }),
+    ).rejects.toMatchObject({ status: 422 });
+    expect(
+        await database
+            .select()
+            .from(schema.users)
+            .where(eq(schema.users.email, email)),
+    ).toHaveLength(0);
+});
 beforeAll(async () => {
     process.env.APP_SECRET = "12".repeat(32);
     process.env.PUBLIC_BASE_URL = "http://localhost:3001";

@@ -42,6 +42,7 @@ const input = {
     topic: "Isolierte Prüfung eines Anfrageprozesses",
     startsAt: slots[0].value,
     terms: true,
+    adultOrRepresentative: true,
     requestId: randomUUID(),
 };
 await post(input, null, 403, "https://foreign.example.test");

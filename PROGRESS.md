@@ -456,3 +456,9 @@ Abschließender Prüfnachtrag (27.10.2026): `npm run check` vollständig erfolgr
 - Vor Migration 0008 die verschlüsselte Produktionssicherung mit 37 Tabellen im privaten Speicher abgelegt, wieder abgerufen und authentifiziert entschlüsselt. Migration erfolgreich. RLS aktiv und direkter Lesezugriff für anonyme und regulär authentifizierte Supabase-Rollen verweigert.
 - Live-Crawl: 68 öffentliche Seiten ohne gemeldete Befunde und 61 eindeutige kanonische Sitemap-Adressen. Kontaktformular, Rufnummer, Mail-Link, Bing-Verifizierung, öffentliche Kalenderverfügbarkeit, private API-Zugriffe und alte Weiterleitungen geprüft. SMTP-Anmeldung erfolgreich, Minutentakt und Aufgaben-Endpunkt bestätigt.
 - Live-Browserprobe für Startseite und Kalender bei 390 Pixeln sowie Branche und Kontakt bei 1440 Pixeln erfolgreich. Einen freien Termin ausgewählt und das Gastformular geöffnet. Die vollständige Testbuchung bis zur Bestätigungs-Outbox lief im isolierten Prüfstand. In der Live-Datenbank wurde kein Testtermin angelegt.
+
+## Widerruf, Angebotsannahme und Datenschutz (06.11.2026)
+
+- Eigenständiger Widerrufsbutton im öffentlichen Fußbereich und im Kundenportal. Pflichtangaben und sichtbare Erklärung, Zusatz freiwillig. Bestätigungsversand startet unmittelbar nach dem Speichern. TLS-SMTP-Senke bestätigte die Übergabe samt Inhalt, Berliner Zeit und Referenz. Eingangsdatensatz in der Administration geprüft.
+- Bestellübersicht mit Leistung, Positionen, einmaligem Gesamtpreis und Zahlungsart direkt vor der eindeutigen Schaltfläche. Annahme und Vertragsbestätigung im Kundenkonto getestet. Datenschutzhinweise an Backend-Felder, Datenflüsse und Aufbewahrung angeglichen. Beratungszeiten, Altersregeln und Steuerhinweis vereinheitlicht.
+- 89 Tests, Typprüfung, Lint, Produktionsbuild und zehn Browseransichten bei zwei Breiten erfolgreich. Nachweis und amtliche Quellen in docs/WITHDRAWAL_CHECKOUT_PRIVACY.md. Produktionsfreigabe für diese Etappe steht aus.

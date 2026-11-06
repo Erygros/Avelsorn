@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { minorGuestPolicy } from "@/content/booking-policy";
 
 type Contact = {
     name: string;
@@ -144,6 +145,11 @@ export function PublicCalendar({ user }: { user: Contact | null }) {
                             topic: val("topic"),
                             startsAt: selected,
                             terms: form.has("terms"),
+                            ...(!user && {
+                                adultOrRepresentative: form.has(
+                                    "adultOrRepresentative",
+                                ),
+                            }),
                             details: {
                                 firstName: val("firstName"),
                                 lastName: val("lastName"),
@@ -394,17 +400,30 @@ export function PublicCalendar({ user }: { user: Contact | null }) {
                                     />
                                 </label>
                                 {!user && (
-                                    <label
-                                        className="guest-honeypot"
-                                        aria-hidden="true"
-                                    >
-                                        Website
-                                        <input
-                                            name="website"
-                                            tabIndex={-1}
-                                            autoComplete="off"
-                                        />
-                                    </label>
+                                    <>
+                                        <label
+                                            className="guest-honeypot"
+                                            aria-hidden="true"
+                                        >
+                                            Website
+                                            <input
+                                                name="website"
+                                                tabIndex={-1}
+                                                autoComplete="off"
+                                            />
+                                        </label>
+                                        <p>{minorGuestPolicy}</p>
+                                        <label className="check">
+                                            <input
+                                                name="adultOrRepresentative"
+                                                type="checkbox"
+                                                required
+                                            />
+                                            Ich bin volljährig und buche für
+                                            mich selbst oder als gesetzliche
+                                            Vertretung.
+                                        </label>
+                                    </>
                                 )}
                                 <label className="check">
                                     <input

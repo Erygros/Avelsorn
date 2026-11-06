@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { currentUser } from "@/server/security";
 import { SiteShell } from "@/components/site-shell";
 import { PublicCalendar } from "@/components/public-calendar";
+import { consultationHours } from "@/content/booking-policy";
 
 export const metadata: Metadata = {
     title: "Kostenloses Erstgespräch vereinbaren",
@@ -31,6 +32,7 @@ export default async function CalendarPage() {
                         Dein kostenloses und unverbindliches 15-minütiges
                         Erstgespräch.
                     </p>
+                    <p>{consultationHours}</p>
                 </header>
                 <PublicCalendar
                     user={

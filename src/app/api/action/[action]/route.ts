@@ -23,7 +23,8 @@ import {
 import { changeGuest } from "@/server/guest-bookings";
 import { register, login, consumeToken, issueToken } from "@/server/auth";
 import { setSetting, getSetting } from "@/server/settings";
-import { productKey, publicKeys } from "@/server/config";
+import { berlin, productKey, publicKeys } from "@/server/config";
+import { withdrawalDeclaration } from "@/content/withdrawal";
 import { book, changeBooking, introDetails } from "@/server/calendar";
 import {
     confirmPayment,
@@ -359,22 +360,26 @@ async function dispatch(action: string, input: unknown): Promise<unknown> {
                 name: str.max(100),
                 email: z.email(),
                 contractReference: str.max(500),
-                statement: str.max(5000),
+                statement: z.string().trim().max(5000).default(""),
                 confirmed: z.literal(true),
             })
             .parse(input);
         await limit("withdrawal:" + data.email, 10, 3600);
         const reference = "WI-" + secretToken().slice(0, 16);
-        await db().transaction(async (tx) => {
+        const receiptKey = await db().transaction(async (tx) => {
+            const statement = data.statement
+                ? withdrawalDeclaration + "\n\n" + data.statement
+                : withdrawalDeclaration;
             const [row] = await tx
                 .insert(s.withdrawals)
-                .values({ ...data, reference })
+                .values({ ...data, statement, reference })
                 .returning();
+            const eventKey = "withdrawal:" + row.id;
             await queueMail(
                 data.email,
                 "Eingangsbestätigung Deines Widerrufs",
-                `Dein Widerruf ist am ${row.createdAt.toISOString()} eingegangen.\n\nReferenz: ${reference}\nName: ${data.name}\nE-Mail für die Bestätigung: ${data.email}\nVertrag: ${data.contractReference}\nErklärung: ${data.statement}`,
-                "withdrawal:" + row.id,
+                `Dein Widerruf ist am ${berlin(row.createdAt)} Uhr (Europe/Berlin) eingegangen.\n\nReferenz: ${reference}\nName: ${data.name}\nE-Mail für die Bestätigung: ${data.email}\nVertrag: ${data.contractReference}\nErklärung: ${statement}`,
+                eventKey,
                 {},
                 tx,
             );
@@ -394,6 +399,10 @@ async function dispatch(action: string, input: unknown): Promise<unknown> {
                 { reference },
                 tx,
             );
+            return eventKey;
+        });
+        after(async () => {
+            await sendOutboxBatch(1, receiptKey);
         });
         return {
             message: `Dein Widerruf wurde gespeichert. Eingangsreferenz: ${reference}. Die Eingangsbestätigung wurde für den Versand bereitgestellt.`,

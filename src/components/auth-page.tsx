@@ -8,6 +8,7 @@ import { digest } from "@/server/security";
 import { products, money, type ProductKey } from "@/server/config";
 import { getSetting } from "@/server/settings";
 import { notFound } from "next/navigation";
+import { minorAccountPolicy } from "@/content/booking-policy";
 const field = (
     name: string,
     label: string,
@@ -77,7 +78,7 @@ export async function AuthPage({
                         "Ich akzeptiere die AGB und habe die Datenschutzhinweise gelesen.",
                         "checkbox",
                     ),
-                    hint: "Unter 18 Jahren benötigen wir eine überprüfte Zustimmung beziehungsweise Vertretung.",
+                    hint: minorAccountPolicy,
                 },
             ],
             submit: "Konto erstellen",

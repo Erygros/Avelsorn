@@ -25,7 +25,8 @@ export async function POST(request: Request) {
             !/^\/[a-z0-9/-]*$/.test(path) ||
             /^\/(konto|admin|api|entwicklung|anmelden|registrieren|passwort|email|otp|zustimmung|vertragszustimmung|einrichtung)/.test(
                 path,
-            )
+            ) ||
+            /^\/kalender\/(gast|bestaetigt)(\/|$)/.test(path)
         )
             return new Response(null, { status: 204 });
         const day = new Intl.DateTimeFormat("en-CA", {

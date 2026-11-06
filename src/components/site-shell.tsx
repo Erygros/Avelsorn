@@ -47,6 +47,11 @@ export async function SiteShell({
                         Erstgespräch vereinbaren ↗
                     </Link>
                 </div>
+                <div className="footer-withdrawal">
+                    <Link className="button withdrawal-link" href="/widerruf">
+                        Vertrag widerrufen
+                    </Link>
+                </div>
                 <div className="footer-links">
                     <Link href="/zielgruppen">Für wen ich arbeite</Link>
                     <Link href="/beruflich-neu-starten">
@@ -65,7 +70,6 @@ export async function SiteShell({
                     <Link href="/impressum">Impressum</Link>
                     <Link href="/datenschutz">Datenschutz</Link>
                     <Link href="/agb">AGB</Link>
-                    <Link href="/widerruf">Vertrag widerrufen</Link>
                     <Link href="/barrierefreiheit">Barrierefreiheit</Link>
                     <ConsentButton />
                 </div>

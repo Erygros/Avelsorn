@@ -1702,6 +1702,8 @@ export async function PortalPage({
                             )}
                             {kind === "offer" &&
                                 d.status === "sent" &&
+                                d.validUntil &&
+                                d.validUntil > new Date() &&
                                 !admin && (
                                     <div className="mt-4">
                                         {isMinor(user) && (
@@ -1733,8 +1735,52 @@ export async function PortalPage({
                                                     required: false,
                                                 },
                                             ]}
-                                            submit="Zahlungspflichtig annehmen"
-                                        />
+                                            submit="Zahlungspflichtig bestellen"
+                                            exactSubmit
+                                        >
+                                            <section
+                                                className="quiet-panel offer-review"
+                                                aria-label="Verbindliche Bestellübersicht"
+                                            >
+                                                <h3>
+                                                    Deine Bestellung im
+                                                    Überblick
+                                                </h3>
+                                                <p className="whitespace-pre-line">
+                                                    {d.description}
+                                                </p>
+                                                <ul>
+                                                    {d.items.map(
+                                                        (item, index) => (
+                                                            <li key={index}>
+                                                                {item.quantity}{" "}
+                                                                ×{" "}
+                                                                {
+                                                                    item.description
+                                                                }{" "}
+                                                                ·{" "}
+                                                                {money(
+                                                                    item.quantity *
+                                                                        item.unitCents,
+                                                                )}
+                                                            </li>
+                                                        ),
+                                                    )}
+                                                </ul>
+                                                <p>
+                                                    <strong>
+                                                        Einmaliger Gesamtpreis:{" "}
+                                                        {money(d.amountCents)}
+                                                    </strong>
+                                                </p>
+                                                <p>
+                                                    Banküberweisung.
+                                                    Umsatzsteuer wird gemäß § 19
+                                                    UStG nicht gesondert
+                                                    ausgewiesen.
+                                                </p>
+                                            </section>
+                                        </ActionForm>
                                         <div className="mt-2">
                                             <ActionForm
                                                 action="offer-response"
